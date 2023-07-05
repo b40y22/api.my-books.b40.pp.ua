@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth;
 
+use App\Src\Dto\Auth\RegisterDto;
 use App\Src\Traits\ValidationJsonResponseTrait;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
 class RegisterRequest extends FormRequest
@@ -56,5 +58,13 @@ class RegisterRequest extends FormRequest
     protected function failedValidation(Validator $validator): void
     {
         $this->makeJsonResponse($validator);
+    }
+
+    /**
+     * @return RegisterDto
+     */
+    public function validatedDTO(): RegisterDto
+    {
+        return new RegisterDto($this->validated());
     }
 }

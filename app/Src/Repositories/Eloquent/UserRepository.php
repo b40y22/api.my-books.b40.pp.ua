@@ -1,8 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Src\Repositories\Eloquent;
 
 use App\Models\User;
+use App\Src\Dto\Auth\RegisterDto;
 use App\Src\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -16,16 +18,16 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     }
 
     /**
-     * @param array $userValidatedData
+     * @param RegisterDto $registerDto
      * @return User|null
      */
-    public function store(array $userValidatedData): ?User
+    public function store(RegisterDto $registerDto): ?User
     {
         try {
             return User::create([
-                'name' => $userValidatedData['name'],
-                'email' => $userValidatedData['email'],
-                'password' => Hash::make($userValidatedData['password']),
+                'name' => $registerDto->getName(),
+                'email' => $registerDto->getEmail(),
+                'password' => Hash::make($registerDto->getPassword()),
             ]);
         } catch (Throwable $e) {
             Log::error(__FUNCTION__, ['message' => $e->getMessage()]);

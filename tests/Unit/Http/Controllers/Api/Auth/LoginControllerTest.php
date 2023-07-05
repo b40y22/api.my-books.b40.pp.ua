@@ -12,7 +12,7 @@ class LoginControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->post(route('auth:login'), [
+        $response = $this->post(route('auth.login'), [
             'email' => $user->email,
             'password' => "password",
         ], [
@@ -27,7 +27,7 @@ class LoginControllerTest extends TestCase
 
     public function testLoginWithoutEmail()
     {
-        $response = $this->post(route('auth:login'), [
+        $response = $this->post(route('auth.login'), [
             'password' => "password",
         ], [
             'Accept' => 'application/json',
@@ -44,7 +44,7 @@ class LoginControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->post(route('auth:login'), [
+        $response = $this->post(route('auth.login'), [
             'email' => $user->email
         ], [
             'Accept' => 'application/json',

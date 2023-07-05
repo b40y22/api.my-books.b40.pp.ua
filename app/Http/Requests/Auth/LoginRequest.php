@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth;
 
+use App\Src\Dto\Auth\LoginDto;
 use App\Src\Traits\ValidationJsonResponseTrait;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -55,5 +57,13 @@ class LoginRequest extends FormRequest
     protected function failedValidation(Validator $validator): void
     {
         $this->makeJsonResponse($validator);
+    }
+
+    /**
+     * @return LoginDto
+     */
+    public function validatedDTO(): LoginDto
+    {
+        return new LoginDto($this->validated());
     }
 }

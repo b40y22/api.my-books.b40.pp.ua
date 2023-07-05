@@ -11,7 +11,7 @@ class RegistrationControllerTest extends TestCase
     {
         $user = User::factory()->make();
 
-        $response = $this->post(route('auth:register'), [
+        $response = $this->post(route('auth.register'), [
             'name' => $user->name,
             'email' => $user->email,
             'password' => $user->password,
@@ -30,7 +30,7 @@ class RegistrationControllerTest extends TestCase
     {
         $user = User::factory()->make();
 
-        $response = $this->post(route('auth:register'), [
+        $response = $this->post(route('auth.register'), [
             'name' => $user->name,
             'email' => $user->email,
             'password' => $user->password,
@@ -50,7 +50,7 @@ class RegistrationControllerTest extends TestCase
     {
         $user = User::factory()->make();
 
-        $response = $this->post(route('auth:register'), [
+        $response = $this->post(route('auth.register'), [
             'name' => $user->name,
             'email' => $user->email,
             'password' => $user->password,
@@ -70,7 +70,7 @@ class RegistrationControllerTest extends TestCase
     {
         $user = User::factory()->make();
 
-        $response = $this->post(route('auth:register'), [
+        $response = $this->post(route('auth.register'), [
             'name' => $user->name,
             'email' => $user->email,
             'password' => '',
@@ -90,7 +90,7 @@ class RegistrationControllerTest extends TestCase
     {
         $user = User::factory()->make();
 
-        $response = $this->post(route('auth:register'), [
+        $response = $this->post(route('auth.register'), [
             'name' => $user->name,
             'password' => $user->password,
             'password_confirmation' => $user->password
@@ -109,7 +109,7 @@ class RegistrationControllerTest extends TestCase
     {
         $user = User::factory()->make();
 
-        $response = $this->post(route('auth:register'), [
+        $response = $this->post(route('auth.register'), [
             'email' => $user->email,
             'password' => $user->password,
             'password_confirmation' => $user->password
