@@ -33,4 +33,14 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
 
         return null;
     }
+
+    /**
+     * @param string $column
+     * @param string $values
+     * @return mixed
+     */
+    public function getUserByColumn(string $column, string $values): mixed
+    {
+        return $this->model::where($column, $values)->first();
+    }
 }

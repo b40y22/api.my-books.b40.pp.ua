@@ -19,14 +19,17 @@ class RegisterController extends Controller
      */
     public function __invoke(RegisterRequest $request): JsonResponse
     {
-        $user = $this->userRepository->store($request->validated());
+        $User = $this->userRepository->store($request->validated());
 
-        if ($user) {
-            $token = $user->createToken('authToken')->plainTextToken;
-
-            return response()->json(['token' => $token], 201);
+        if ($User) {
+            return response()->json([
+                'data' => [
+                    'token' => $User->createToken('authToken')->plainTextToken
+                ],
+                'errors' => []
+            ], 201);
         }
 
-        return response()->json();
+        return $this->responseError([trans('auth.register.failed')]);
     }
 }

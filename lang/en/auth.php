@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'login.failed' => 'these credentials do not match our records',
+    'register.failed' => 'registration failed. Details in the log files',
     'name.required' => 'name is required field',
     'name.min' => 'name should be more then 3 symbols',
     'email.required' => 'email is required field',

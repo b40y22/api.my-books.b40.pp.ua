@@ -9,7 +9,7 @@ class AbstractRepository implements AbstractRepositoryInterface
     /**
      * @var string
      */
-    protected string $model;
+    protected $model;
 
     /**
      * @param string $model
