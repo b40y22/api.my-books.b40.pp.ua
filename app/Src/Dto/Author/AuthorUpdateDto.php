@@ -8,6 +8,7 @@ class AuthorUpdateDto
      * @var int
      */
     protected int $id;
+
     /**
      * @var string
      */

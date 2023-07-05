@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Author\AuthorGetController;
+use App\Http\Controllers\Api\Author\AuthorRemoveController;
 use App\Http\Controllers\Api\Author\AuthorStoreController;
 use App\Http\Controllers\Api\Author\AuthorUpdateController;
 use App\Http\Controllers\Api\Book\BookStoreController;
@@ -24,7 +25,8 @@ Route::namespace('api')->group(function () {
     Route::prefix('/author')->group(function () {
         Route::post('/store',   [AuthorStoreController::class, '__invoke'])->name('author.store');
         Route::post('/update',  [AuthorUpdateController::class, '__invoke'])->name('author.update');
-        Route::get('/{author}', [AuthorGetController::class, '__invoke'])->name('author.get');
+        Route::post('/remove',  [AuthorRemoveController::class, '__invoke'])->name('author.remove');
+        Route::get('/{id}',     [AuthorGetController::class, '__invoke'])->name('author.get');
     });
 
     // Book

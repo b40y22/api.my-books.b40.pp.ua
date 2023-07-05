@@ -4,22 +4,19 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Author;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Author\AuthorRemoveRequest;
 use App\Src\Repositories\Interfaces\AuthorRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
-class AuthorGetController extends Controller
+class AuthorRemoveController extends Controller
 {
     public function __construct(
         protected AuthorRepositoryInterface $authorRepository
     ) {}
 
-    /**
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function __invoke(int $id): JsonResponse
+    public function __invoke(AuthorRemoveRequest $authorRemoveRequest): JsonResponse
     {
-        $Author = $this->authorRepository->get($id);
+        $Author = $this->authorRepository->remove($authorRemoveRequest->validatedDTO());
 
         if (!$Author) {
             return $this->responseError([trans('api.general.failed')]);

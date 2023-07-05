@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Src\Repositories\Eloquent;
 
 use App\Models\Author;
+use App\Src\Dto\Author\AuthorRemoveDto;
 use App\Src\Dto\Author\AuthorStoreDto;
 use App\Src\Dto\Author\AuthorUpdateDto;
 use App\Src\Repositories\Interfaces\AuthorRepositoryInterface;
@@ -48,5 +49,31 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
         }
 
         return $Author->update($registerDto->toArray());
+    }
+
+    /**
+     * @param AuthorRemoveDto $authorRemoveDto
+     * @return Author|null
+     */
+    public function remove(AuthorRemoveDto $authorRemoveDto): ?Author
+    {
+        $Author = $this->model::find($authorRemoveDto->getId());
+
+        if (!$Author) {
+            return null;
+        }
+
+        $Author->delete();
+
+        return $Author;
+    }
+
+    /**
+     * @param int $id
+     * @return Author|null
+     */
+    public function get(int $id): ?Author
+    {
+        return $this->model::find($id) ?? null;
     }
 }
