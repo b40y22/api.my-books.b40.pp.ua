@@ -2,7 +2,10 @@
 
 namespace App\Src\Dto\Auth;
 
-class RegisterDto
+use App\Src\Dto\AbstractDto;
+use Illuminate\Support\Facades\Hash;
+
+class RegisterDto extends AbstractDto
 {
     /**
      * @var string
@@ -26,7 +29,7 @@ class RegisterDto
     {
         $this->name = $request['name'];
         $this->email = $request['email'];
-        $this->password = $request['password'];
+        $this->password = Hash::make($request['password']);
     }
 
     /**

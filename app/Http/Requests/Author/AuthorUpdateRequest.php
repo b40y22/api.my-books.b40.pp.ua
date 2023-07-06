@@ -42,7 +42,7 @@ class AuthorUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id.required' => __('api.id.required'),
+            'id.required' => trans('api.id.required'),
             'firstname.required' => trans('api.firstname.required'),
             'firstname.min' => trans('api.firstname.min'),
             'lastname.required' => trans('api.lastname.required'),

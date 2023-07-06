@@ -2,9 +2,7 @@
 
 namespace App\Src\Dto\Author;
 
-use App\Src\Dto\AbstractDto;
-
-class AuthorRemoveDto extends AbstractDto
+class AuthorFromBookStoreDto extends AuthorStoreDto
 {
     /**
      * @var int
@@ -12,11 +10,15 @@ class AuthorRemoveDto extends AbstractDto
     protected int $id;
 
     /**
-     * @param array $author
+     * @var bool
      */
+    protected bool $new;
+
     public function __construct(array $author)
     {
+        parent::__construct($author);
         $this->id = $author['id'];
+        $this->new = $author['new'];
     }
 
     /**
@@ -25,5 +27,13 @@ class AuthorRemoveDto extends AbstractDto
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getNew(): bool
+    {
+        return $this->new;
     }
 }

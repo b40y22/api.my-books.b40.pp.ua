@@ -2,7 +2,9 @@
 
 namespace App\Src\Dto\Author;
 
-class AuthorStoreDto
+use App\Src\Dto\AbstractDto;
+
+class AuthorStoreDto extends AbstractDto
 {
     /**
      * @var string
@@ -15,12 +17,12 @@ class AuthorStoreDto
     protected string $lastname;
 
     /**
-     * @param array $request
+     * @param array $author
      */
-    public function __construct(array $request)
+    public function __construct(array $author)
     {
-        $this->firstname = $request['firstname'];
-        $this->lastname = $request['lastname'];
+        $this->firstname = $author['firstname'] ?? '';
+        $this->lastname = $author['lastname'] ?? '';
     }
 
     /**

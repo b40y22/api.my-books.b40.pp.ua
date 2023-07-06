@@ -3,13 +3,14 @@
 namespace App\Http\Requests\Book;
 
 use App\Src\Dto\Book\BookStoreDto;
+use App\Src\Dto\Book\BookUpdateDto;
 use App\Src\Traits\ValidationJsonResponseTrait;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class BookStoreRequest extends FormRequest
+class BookUpdateRequest extends FormRequest
 {
     use ValidationJsonResponseTrait;
 
@@ -29,6 +30,7 @@ class BookStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => 'required|numeric',
             'authors' => 'required|array',
             'description' => 'nullable|string',
             'title' => 'required|string|min:2',
@@ -43,6 +45,7 @@ class BookStoreRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'id.required' => trans('api.id.required'),
             'authors.required' => trans('api.authors.required'),
             'firstname.required' => trans('api.firstname.required'),
             'firstname.min' => trans('api.firstname.min'),
@@ -62,10 +65,10 @@ class BookStoreRequest extends FormRequest
     }
 
     /**
-     * @return BookStoreDto
+     * @return BookUpdateDto
      */
-    public function validatedDTO(): BookStoreDto
+    public function validatedDTO(): BookUpdateDto
     {
-        return new BookStoreDto($this->validated());
+        return new BookUpdateDto($this->validated());
     }
 }

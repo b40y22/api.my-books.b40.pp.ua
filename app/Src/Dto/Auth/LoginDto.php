@@ -2,7 +2,9 @@
 
 namespace App\Src\Dto\Auth;
 
-class LoginDto
+use App\Src\Dto\AbstractDto;
+
+class LoginDto extends AbstractDto
 {
     /**
      * @var string

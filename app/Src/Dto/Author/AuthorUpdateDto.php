@@ -2,7 +2,9 @@
 
 namespace App\Src\Dto\Author;
 
-class AuthorUpdateDto
+use App\Src\Dto\AbstractDto;
+
+class AuthorUpdateDto extends AbstractDto
 {
     /**
      * @var int
@@ -20,13 +22,13 @@ class AuthorUpdateDto
     protected string $lastname;
 
     /**
-     * @param array $request
+     * @param array $author
      */
-    public function __construct(array $request)
+    public function __construct(array $author)
     {
-        $this->id = $request['id'];
-        $this->firstname = $request['firstname'];
-        $this->lastname = $request['lastname'];
+        $this->id = $author['id'];
+        $this->firstname = $author['firstname'];
+        $this->lastname = $author['lastname'];
     }
 
     /**
@@ -51,13 +53,5 @@ class AuthorUpdateDto
     public function getLastname(): string
     {
         return $this->lastname;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray(): array
-    {
-        return get_object_vars($this);
     }
 }

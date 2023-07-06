@@ -40,7 +40,7 @@ class AuthorRemoveRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id.required' => __('api.id.required'),
+            'id.required' => trans('api.id.required'),
         ];
     }
 

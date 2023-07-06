@@ -8,8 +8,6 @@ use App\Src\Dto\Author\AuthorRemoveDto;
 use App\Src\Dto\Author\AuthorStoreDto;
 use App\Src\Dto\Author\AuthorUpdateDto;
 use App\Src\Repositories\Interfaces\AuthorRepositoryInterface;
-use Illuminate\Support\Facades\Log;
-use Throwable;
 
 class AuthorRepository extends AbstractRepository implements AuthorRepositoryInterface
 {
@@ -19,36 +17,27 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
     }
 
     /**
-     * @param AuthorStoreDto $registerDto
-     * @return Author|null
+     * @param AuthorStoreDto $authorStoreDto
+     * @return Author
      */
-    public function store(AuthorStoreDto $registerDto): ?Author
+    public function store(AuthorStoreDto $authorStoreDto): Author
     {
-        try {
-            return Author::create([
-                'firstname' => $registerDto->getFirstname(),
-                'lastname' => $registerDto->getLastname(),
-            ]);
-        } catch (Throwable $e) {
-            Log::error(__FUNCTION__, ['message' => $e->getMessage()]);
-        }
-
-        return null;
+        return $this->model::create($authorStoreDto->toArray());
     }
 
     /**
-     * @param AuthorUpdateDto $registerDto
+     * @param AuthorUpdateDto $authorUpdateDto
      * @return bool|null
      */
-    public function update(AuthorUpdateDto $registerDto): ?bool
+    public function update(AuthorUpdateDto $authorUpdateDto): ?bool
     {
-        $Author = $this->model::find($registerDto->getId());
+        $Author = $this->model::find($authorUpdateDto->getId());
 
         if (!$Author) {
             return null;
         }
 
-        return $Author->update($registerDto->toArray());
+        return $Author->update($authorUpdateDto->toArray());
     }
 
     /**
@@ -75,5 +64,19 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
     public function get(int $id): ?Author
     {
         return $this->model::find($id) ?? null;
+    }
+
+    /**
+     * @param AuthorStoreDto $authorStoreDto
+     * @return Author|null
+     */
+    public function createIfNotExist(AuthorStoreDto $authorStoreDto): ?Author
+    {
+        $author = $authorStoreDto->toArray();
+
+        return $this->model::firstOrCreate([
+            'firstname' => $author['firstname'],
+            'lastname' => $author['lastname'],
+        ]);
     }
 }

@@ -24,11 +24,7 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
     public function store(RegisterDto $registerDto): ?User
     {
         try {
-            return User::create([
-                'name' => $registerDto->getName(),
-                'email' => $registerDto->getEmail(),
-                'password' => Hash::make($registerDto->getPassword()),
-            ]);
+            return $this->model::create($registerDto->toArray());
         } catch (Throwable $e) {
             Log::error(__FUNCTION__, ['message' => $e->getMessage()]);
         }

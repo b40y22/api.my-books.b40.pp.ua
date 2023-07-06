@@ -5,8 +5,13 @@ namespace App\Src\Dto\Book;
 use App\Src\Dto\AbstractDto;
 use App\Src\Dto\Author\AuthorFromBookStoreDto;
 
-class BookStoreDto extends AbstractDto
+class BookUpdateDto extends AbstractDto
 {
+    /**
+     * @var int
+     */
+    protected int $id;
+
     /**
      * @var array
      */
@@ -36,13 +41,22 @@ class BookStoreDto extends AbstractDto
      */
     public function __construct(array $book)
     {
-        foreach ($book['authors'] as $author) {
+        $this->id = $book['id'];
+         foreach ($book['authors'] as $author) {
             $this->authors[] = new AuthorFromBookStoreDto($author);
         }
         $this->description = $book['description'];
         $this->title = $book['title'];
         $this->pages = $book['pages'];
         $this->year = $book['year'];
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     /**

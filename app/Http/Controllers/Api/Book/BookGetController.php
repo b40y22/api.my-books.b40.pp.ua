@@ -1,16 +1,18 @@
 <?php
-declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\Author;
+namespace App\Http\Controllers\Api\Book;
 
 use App\Http\Controllers\Controller;
-use App\Src\Repositories\Interfaces\AuthorRepositoryInterface;
+use App\Src\Repositories\Interfaces\BookRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
-class AuthorGetController extends Controller
+class BookGetController extends Controller
 {
+    /**
+     * @param BookRepositoryInterface $bookRepository
+     */
     public function __construct(
-        protected AuthorRepositoryInterface $authorRepository
+        protected BookRepositoryInterface $bookRepository
     ) {}
 
     /**
@@ -19,15 +21,15 @@ class AuthorGetController extends Controller
      */
     public function __invoke(int $id): JsonResponse
     {
-        $Author = $this->authorRepository->get($id);
+        $Book = $this->bookRepository->get($id);
 
-        if (!$Author) {
+        if (!$Book) {
             return $this->responseError([trans('api.general.notFound')], 404);
         }
 
         return response()->json([
             'data' => [
-                'author' => $Author
+                'book' => $Book
             ],
             'errors' => []
         ]);
