@@ -5,15 +5,22 @@ namespace App\Http\Controllers\Api\Book;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\BookStoreRequest;
-use App\Src\Services\Book\BookServiceInterface;
+use App\Src\Services\Book\Interfaces\BookStoreServiceInterface;
 use Illuminate\Http\JsonResponse;
 
 class BookStoreController extends Controller
 {
+    /**
+     * @param BookStoreServiceInterface $bookService
+     */
     public function __construct(
-        protected BookServiceInterface $bookService
+        protected BookStoreServiceInterface $bookService
     ) {}
 
+    /**
+     * @param BookStoreRequest $bookStoreRequest
+     * @return JsonResponse
+     */
     public function __invoke(BookStoreRequest $bookStoreRequest): JsonResponse
     {
         $Book = $this->bookService->store($bookStoreRequest->validatedDTO())->toArray();

@@ -1,15 +1,14 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Src\Services\Book;
 
 use App\Models\Book;
-use App\Src\Dto\Book\BookStoreDto;
+use App\Src\Dto\Book\BookUpdateDto;
 use App\Src\Repositories\Interfaces\AuthorRepositoryInterface;
 use App\Src\Repositories\Interfaces\BookRepositoryInterface;
-use App\Src\Services\Book\Interfaces\BookStoreServiceInterface;
+use App\Src\Services\Book\Interfaces\BookUpdateServiceInterface;
 
-class BookStoreService extends AbstractBookService implements BookStoreServiceInterface
+class BookUpdateService extends AbstractBookService implements BookUpdateServiceInterface
 {
     /**
      * @param BookRepositoryInterface $bookRepository
@@ -21,14 +20,15 @@ class BookStoreService extends AbstractBookService implements BookStoreServiceIn
     ) {}
 
     /**
-     * @param BookStoreDto $bookStoreDto
+     * @param BookUpdateDto $bookUpdateDto
      * @return Book|null
      */
-    public function store(BookStoreDto $bookStoreDto): ?Book
+    public function update(BookUpdateDto $bookUpdateDto): ?Book
     {
-        $Book = $this->bookRepository->store($bookStoreDto);
+        $this->bookRepository->update($bookUpdateDto);
+        $Book = $this->bookRepository->get($bookUpdateDto->getId());
 
-        $Book['authors'] = $this->formatAuthorsArray($bookStoreDto->getAuthors(), $Book);
+        $Book['authors'] = $this->formatAuthorsArray($bookUpdateDto->getAuthors(), $Book);
 
         return $Book;
     }
