@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Author\AuthorRemoveController;
 use App\Http\Controllers\Api\Author\AuthorStoreController;
 use App\Http\Controllers\Api\Author\AuthorUpdateController;
 use App\Http\Controllers\Api\Book\BookGetController;
+use App\Http\Controllers\Api\Book\BookRemoveController;
 use App\Http\Controllers\Api\Book\BookStoreController;
 use App\Http\Controllers\Api\Book\BookUpdateController;
 use Illuminate\Http\Request;
@@ -35,6 +36,7 @@ Route::namespace('api')->group(function () {
     Route::prefix('/book')->group(function () {
         Route::post('/store',   [BookStoreController::class, '__invoke'])->name('book.store');
         Route::post('/update',  [BookUpdateController::class, '__invoke'])->name('book.update');
+        Route::post('/remove',  [BookRemoveController::class, '__invoke'])->name('book.remove');
         Route::get('/{id}',     [BookGetController::class, '__invoke'])->name('book.get');
     });
 });

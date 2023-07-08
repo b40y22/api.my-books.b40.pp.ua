@@ -10,10 +10,17 @@ use Illuminate\Http\JsonResponse;
 
 class AuthorRemoveController extends Controller
 {
+    /**
+     * @param AuthorRepositoryInterface $authorRepository
+     */
     public function __construct(
         protected AuthorRepositoryInterface $authorRepository
     ) {}
 
+    /**
+     * @param AuthorRemoveRequest $authorRemoveRequest
+     * @return JsonResponse
+     */
     public function __invoke(AuthorRemoveRequest $authorRemoveRequest): JsonResponse
     {
         $Author = $this->authorRepository->remove($authorRemoveRequest->validatedDTO());

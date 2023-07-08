@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Src\Repositories\Eloquent;
 
 use App\Models\Book;
+use App\Src\Dto\Book\BookRemoveDto;
 use App\Src\Dto\Book\BookStoreDto;
 use App\Src\Dto\Book\BookUpdateDto;
 use App\Src\Repositories\Interfaces\BookRepositoryInterface;
@@ -46,5 +47,22 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
         }
 
         return $Book->update($bookUpdateDto->toArray());
+    }
+
+    /**
+     * @param BookRemoveDto $bookRemoveDto
+     * @return Book|null
+     */
+    public function remove(BookRemoveDto $bookRemoveDto): ?Book
+    {
+        $Book = $this->model::find($bookRemoveDto->getId());
+
+        if (!$Book) {
+            return null;
+        }
+
+        $Book->delete();
+
+        return $Book;
     }
 }

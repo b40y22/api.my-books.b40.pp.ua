@@ -10,10 +10,17 @@ use Illuminate\Http\JsonResponse;
 
 class AuthorStoreController extends Controller
 {
+    /**
+     * @param AuthorRepositoryInterface $authorRepository
+     */
     public function __construct(
         protected AuthorRepositoryInterface $authorRepository
     ) {}
 
+    /**
+     * @param AuthorStoreRequest $authorStoreRequest
+     * @return JsonResponse
+     */
     public function __invoke(AuthorStoreRequest $authorStoreRequest): JsonResponse
     {
         return response()->json([

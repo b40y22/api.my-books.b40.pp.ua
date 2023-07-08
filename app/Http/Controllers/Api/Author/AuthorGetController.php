@@ -9,6 +9,9 @@ use Illuminate\Http\JsonResponse;
 
 class AuthorGetController extends Controller
 {
+    /**
+     * @param AuthorRepositoryInterface $authorRepository
+     */
     public function __construct(
         protected AuthorRepositoryInterface $authorRepository
     ) {}
