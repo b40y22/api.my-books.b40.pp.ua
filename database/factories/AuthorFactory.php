@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Author;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Auth;
 
 class AuthorFactory extends Factory
 {
@@ -22,6 +23,7 @@ class AuthorFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => Auth::id(),
             'firstname' => $this->faker->firstName(),
             'lastname' => $this->faker->lastName(),
         ];

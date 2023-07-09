@@ -10,29 +10,31 @@ use Tests\TestCase;
 class AuthorGetControllerTest extends TestCase
 {
     /**
-     * @var string
+     * @var User
      */
-    protected string $token;
+    protected User $User;
 
     /**
      * @var Author
      */
-    protected $author;
+    protected $Author;
 
     protected function setUp():void
     {
         parent::setUp();
-        $this->token = User::factory()->create()->createToken('list')->accessToken;
-        $this->author = Author::factory()->create();
+        $this->User = User::factory()->create();
+        $this->Author = Author::factory()->create([
+            'user_id' => $this->User->id
+        ]);
     }
 
     public function testAuthorGetValid(): void
     {
         $response = $this->getJson(route("author.get", [
-            'id' => $this->author->id,
+            'id' => $this->Author->id,
         ]), [
             'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $this->token
+            'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
         ]);
 
         $response->assertStatus(200);
@@ -52,10 +54,10 @@ class AuthorGetControllerTest extends TestCase
             'id' => 100500,
         ]), [
             'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $this->token
+            'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
         ]);
 
-        $response->assertStatus(500);
+        $response->assertStatus(404);
 
         $content = json_decode($response->getContent(), true);
 

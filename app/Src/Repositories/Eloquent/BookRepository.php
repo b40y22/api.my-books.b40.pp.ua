@@ -8,6 +8,7 @@ use App\Src\Dto\Book\BookRemoveDto;
 use App\Src\Dto\Book\BookStoreDto;
 use App\Src\Dto\Book\BookUpdateDto;
 use App\Src\Repositories\Interfaces\BookRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class BookRepository extends AbstractRepository implements BookRepositoryInterface
 {
@@ -22,7 +23,7 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
      */
     public function store(BookStoreDto $bookStoreDto): Book
     {
-        return $this->model::create($bookStoreDto->toArray());
+        return $this->model::create(array_merge($bookStoreDto->toArray(), ['user_id' => Auth::id()]));
      }
 
     /**

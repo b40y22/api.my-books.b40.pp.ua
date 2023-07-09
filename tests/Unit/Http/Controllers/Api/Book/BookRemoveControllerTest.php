@@ -1,13 +1,13 @@
 <?php
 
-namespace Unit\Http\Controllers\Api\Author;
+namespace Unit\Http\Controllers\Api\Book;
 
 
-use App\Models\Author;
+use App\Models\Book;
 use App\Models\User;
 use Tests\TestCase;
 
-class AuthorRemoveControllerTest extends TestCase
+class BookRemoveControllerTest extends TestCase
 {
     /**
      * @var User
@@ -15,23 +15,23 @@ class AuthorRemoveControllerTest extends TestCase
     protected User $User;
 
     /**
-     * @var Author
+     * @var Book
      */
-    protected $Author;
+    protected $Book;
 
     protected function setUp():void
     {
         parent::setUp();
         $this->User = User::factory()->create();
-        $this->Author = Author::factory()->create([
+        $this->Book = Book::factory()->create([
             'user_id' => $this->User->id
         ]);
     }
 
-    public function testAuthorRemoveValid(): void
+    public function testBookRemoveValid(): void
     {
-        $response = $this->postJson(route('author.remove'), [
-            'id' => $this->Author->id,
+        $response = $this->postJson(route('book.remove'), [
+            'id' => $this->Book->id,
         ], [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
@@ -40,30 +40,30 @@ class AuthorRemoveControllerTest extends TestCase
         $response->assertStatus(200);
 
         $content = json_decode($response->getContent(), true);
-
         $this->assertArrayHasKey('data', $content);
-        $this->assertArrayHasKey('id', $content['data']['author']);
-        $this->assertArrayHasKey('firstname', $content['data']['author']);
-        $this->assertArrayHasKey('lastname', $content['data']['author']);
     }
 
-    public function testAuthorRemoveWithoutId(): void
+    public function testBookRemoveWithoutId(): void
     {
-        $response = $this->postJson(route('author.remove'), [], [
+        $response = $this->postJson(route('book.remove'), [], [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
         ]);
         $response->assertStatus(422);
+        $content = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('errors', $content);
     }
 
-    public function testAuthorRemoveWithEmptyId(): void
+    public function testBookRemoveWithEmptyId(): void
     {
-        $response = $this->postJson(route('author.remove'), [
+        $response = $this->postJson(route('book.remove'), [
             'id' => '',
         ], [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
         ]);
         $response->assertStatus(422);
+        $content = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('errors', $content);
     }
 }

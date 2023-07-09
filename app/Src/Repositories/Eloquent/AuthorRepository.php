@@ -8,6 +8,7 @@ use App\Src\Dto\Author\AuthorRemoveDto;
 use App\Src\Dto\Author\AuthorStoreDto;
 use App\Src\Dto\Author\AuthorUpdateDto;
 use App\Src\Repositories\Interfaces\AuthorRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class AuthorRepository extends AbstractRepository implements AuthorRepositoryInterface
 {
@@ -22,7 +23,7 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
      */
     public function store(AuthorStoreDto $authorStoreDto): Author
     {
-        return $this->model::create($authorStoreDto->toArray());
+        return $this->model::create(array_merge($authorStoreDto->toArray(), ['user_id' => Auth::id()]));
     }
 
     /**
@@ -75,6 +76,7 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
         $author = $authorStoreDto->toArray();
 
         return $this->model::firstOrCreate([
+            'user_id' => Auth::id(),
             'firstname' => $author['firstname'],
             'lastname' => $author['lastname'],
         ]);

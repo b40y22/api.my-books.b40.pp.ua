@@ -22,7 +22,7 @@ Route::prefix('/auth')->group(function () {
     Route::post('/register',    [RegisterController::class, '__invoke'])->name('auth.register');
 });
 
-Route::namespace('api')->group(function () {
+Route::middleware('auth:sanctum')->namespace('api')->group(function () {
 
     // Author
     Route::prefix('/author')->group(function () {

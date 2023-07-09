@@ -23,7 +23,7 @@ class BookStoreController extends Controller
      */
     public function __invoke(BookStoreRequest $bookStoreRequest): JsonResponse
     {
-        $Book = $this->bookService->store($bookStoreRequest->validatedDTO())->toArray();
+        $Book = $this->bookService->store($bookStoreRequest->validatedDTO())?->toArray();
 
         if (!$Book) {
             return $this->responseError([trans('api.general.failed')]);

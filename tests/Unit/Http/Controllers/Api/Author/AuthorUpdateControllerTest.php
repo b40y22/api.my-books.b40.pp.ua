@@ -10,31 +10,33 @@ use Tests\TestCase;
 class AuthorUpdateControllerTest extends TestCase
 {
     /**
-     * @var string
+     * @var User
      */
-    protected string $token;
+    protected User $User;
 
     /**
      * @var Author
      */
-    protected $author;
+    protected $Author;
 
     protected function setUp():void
     {
         parent::setUp();
-        $this->token = User::factory()->create()->createToken('list')->accessToken;
-        $this->author = Author::factory()->create();
+        $this->User = User::factory()->create();
+        $this->Author = Author::factory()->create([
+            'user_id' => $this->User->id
+        ]);
     }
 
     public function testAuthorUpdateWithValidData(): void
     {
         $response = $this->postJson(route("author.update"), [
-            'id' => $this->author->id,
-            'firstname' => $this->author->firstname . 'Test',
-            'lastname' => $this->author->lastname . 'Test'
+            'id' => $this->Author->id,
+            'firstname' => $this->Author->firstname . 'Test',
+            'lastname' => $this->Author->lastname . 'Test'
         ], [
             'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $this->token
+            'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
         ]);
 
         $response->assertStatus(200);
@@ -42,21 +44,21 @@ class AuthorUpdateControllerTest extends TestCase
         $content = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('data', $content);
 
-        $author = Author::find($this->author->id);
+        $author = Author::find($this->Author->id);
         $this->assertNotNull($author);
-        $this->assertEquals($this->author->firstname . 'Test', $author->firstname);
-        $this->assertEquals($this->author->lastname . 'Test', $author->lastname);
+        $this->assertEquals($this->Author->firstname . 'Test', $author->firstname);
+        $this->assertEquals($this->Author->lastname . 'Test', $author->lastname);
     }
 
     public function testAuthorUpdateWithInvalidId()
     {
         $response = $this->postJson(route("author.update"), [
             'id' => 100500,
-            'firstname' => $this->author->firstname . 'Test',
-            'lastname' => $this->author->lastname . 'Test'
+            'firstname' => $this->Author->firstname . 'Test',
+            'lastname' => $this->Author->lastname . 'Test'
         ], [
             'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $this->token
+            'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
         ]);
 
         $response->assertStatus(500);

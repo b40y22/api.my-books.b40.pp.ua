@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Book;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Auth;
 
 class BookFactory extends Factory
 {
@@ -22,6 +23,7 @@ class BookFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => Auth::id(),
             "description" => $this->faker->text(),
             "title" => $this->faker->word,
             "pages" => $this->faker->numberBetween(1, 900),

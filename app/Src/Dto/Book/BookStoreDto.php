@@ -10,11 +10,12 @@ class BookStoreDto extends AbstractDto
     /**
      * @var array
      */
-    protected array $authors;
+    protected array $authors = [];
+
     /**
-     * @var string
+     * @var string|mixed|null
      */
-    protected string $description;
+    protected ?string $description;
 
     /**
      * @var string
@@ -22,14 +23,14 @@ class BookStoreDto extends AbstractDto
     protected string $title;
 
     /**
-     * @var string
+     * @var string|mixed|null
      */
-    protected string $pages;
+    protected ?string $pages;
 
     /**
-     * @var string
+     * @var string|mixed|null
      */
-    protected string $year;
+    protected ?string $year;
 
     /**
      * @param array $book
@@ -39,10 +40,10 @@ class BookStoreDto extends AbstractDto
         foreach ($book['authors'] as $author) {
             $this->authors[] = new AuthorFromBookStoreDto($author);
         }
-        $this->description = $book['description'];
+        $this->description = $book['description'] ?? null;
         $this->title = $book['title'];
-        $this->pages = $book['pages'];
-        $this->year = $book['year'];
+        $this->pages = $book['pages'] ?? null;
+        $this->year = $book['year'] ?? null;
     }
 
     /**
@@ -54,9 +55,9 @@ class BookStoreDto extends AbstractDto
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -70,17 +71,17 @@ class BookStoreDto extends AbstractDto
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPages(): string
+    public function getPages(): ?string
     {
         return $this->pages;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getYear(): string
+    public function getYear(): ?string
     {
         return $this->year;
     }

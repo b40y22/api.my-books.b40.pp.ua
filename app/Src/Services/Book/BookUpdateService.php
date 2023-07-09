@@ -28,8 +28,12 @@ class BookUpdateService extends AbstractBookService implements BookUpdateService
         $this->bookRepository->update($bookUpdateDto);
         $Book = $this->bookRepository->get($bookUpdateDto->getId());
 
-        $Book['authors'] = $this->formatAuthorsArray($bookUpdateDto->getAuthors(), $Book);
+        if ($Book) {
+            $Book['authors'] = $this->formatAuthorsArray($bookUpdateDto->getAuthors(), $Book);
 
-        return $Book;
+            return $Book;
+        }
+
+        return null;
     }
 }

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id')->unsigned();
             $table->string('firstname');
             $table->string('lastname');
             $table->timestamps();

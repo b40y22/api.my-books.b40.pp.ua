@@ -5,6 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 
@@ -25,8 +26,16 @@ class Author extends Model
      * @var string[]
      */
     protected $fillable = [
+        'user_id',
         'firstname',
         'lastname',
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected $hidden = [
+        'user_id',
     ];
 
     /**
@@ -35,5 +44,13 @@ class Author extends Model
     public function books(): BelongsToMany
     {
         return $this->belongsToMany(Book::class, 'author_book')->withTimestamps();
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

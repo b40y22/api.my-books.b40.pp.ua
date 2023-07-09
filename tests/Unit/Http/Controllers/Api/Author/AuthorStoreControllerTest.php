@@ -11,46 +11,48 @@ use Tests\TestCase;
 class AuthorStoreControllerTest extends TestCase
 {
     /**
-     * @var string
+     * @var User
      */
-    protected string $token;
+    protected User $User;
 
     /**
      * @var Author
      */
-    protected $author;
+    protected $Author;
 
     protected function setUp():void
     {
         parent::setUp();
-        $this->token = User::factory()->create()->createToken('client')->accessToken;
-        $this->author = Author::factory()->makeOne();
+        $this->User = User::factory()->create();
+        $this->Author = Author::factory()->create([
+            'user_id' => $this->User->id
+        ]);
     }
 
     public function testAuthorStoreValid(): void
     {
         $response = $this->postJson(route('author.store'), [
-            'firstname' => $this->author->firstname,
-            'lastname' => $this->author->lastname
+            'firstname' => $this->Author->firstname,
+            'lastname' => $this->Author->lastname
         ], [
             'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $this->token
+            'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
         ]);
 
         $response->assertStatus(201);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertEquals($content['data']['author']['firstname'], $this->author->firstname);
-        $this->assertEquals($content['data']['author']['lastname'], $this->author->lastname);
+        $this->assertEquals($content['data']['author']['firstname'], $this->Author->firstname);
+        $this->assertEquals($content['data']['author']['lastname'], $this->Author->lastname);
     }
 
     public function testAuthorStoreWithoutFirstname(): void
     {
         $response = $this->postJson(route('author.store'), [
-            'lastname' => $this->author->lastname
+            'lastname' => $this->Author->lastname
         ], [
             'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $this->token
+            'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
         ]);
         $response->assertStatus(422);
         $content = json_decode($response->getContent(), true);
