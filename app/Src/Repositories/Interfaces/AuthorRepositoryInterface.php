@@ -7,7 +7,6 @@ use App\Models\Author;
 use App\Src\Dto\Author\AuthorRemoveDto;
 use App\Src\Dto\Author\AuthorStoreDto;
 use App\Src\Dto\Author\AuthorUpdateDto;
-use Symfony\Component\HttpFoundation\Request;
 
 interface AuthorRepositoryInterface extends AbstractRepositoryInterface
 {

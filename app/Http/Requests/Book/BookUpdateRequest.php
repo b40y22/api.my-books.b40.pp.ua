@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Book;
 
-use App\Src\Dto\Book\BookStoreDto;
 use App\Src\Dto\Book\BookUpdateDto;
 use App\Src\Traits\ValidationJsonResponseTrait;
 use Illuminate\Contracts\Validation\ValidationRule;

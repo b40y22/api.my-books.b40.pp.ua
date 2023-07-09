@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Book;
 
-use App\Src\Dto\Author\AuthorRemoveDto;
 use App\Src\Dto\Book\BookRemoveDto;
 use App\Src\Traits\ValidationJsonResponseTrait;
 use Illuminate\Contracts\Validation\ValidationRule;

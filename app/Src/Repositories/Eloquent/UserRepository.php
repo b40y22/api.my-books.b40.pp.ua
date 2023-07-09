@@ -6,7 +6,6 @@ namespace App\Src\Repositories\Eloquent;
 use App\Models\User;
 use App\Src\Dto\Auth\RegisterDto;
 use App\Src\Repositories\Interfaces\UserRepositoryInterface;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
