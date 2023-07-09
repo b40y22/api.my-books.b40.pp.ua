@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Book;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Book\BookRemoveRequest;
 use App\Src\Repositories\Interfaces\BookRepositoryInterface;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
-class BookRemoveController extends Controller
+class BookListController extends Controller
 {
     /**
      * @param BookRepositoryInterface $bookRepository
@@ -18,20 +18,14 @@ class BookRemoveController extends Controller
     ) {}
 
     /**
-     * @param BookRemoveRequest $bookRemoveRequest
+     * @param Request $request
      * @return JsonResponse
      */
-    public function __invoke(BookRemoveRequest $bookRemoveRequest): JsonResponse
+    public function __invoke(Request $request): JsonResponse
     {
-        $Book = $this->bookRepository->remove($bookRemoveRequest->validatedDTO());
-
-        if (!$Book) {
-            return $this->responseError([trans('api.general.failed')]);
-        }
-
         return response()->json([
             'data' => [
-                'book' => $Book
+                'authors' => $this->bookRepository->list($request->all())
             ],
             'errors' => []
         ]);

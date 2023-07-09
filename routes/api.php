@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Author\AuthorRemoveController;
 use App\Http\Controllers\Api\Author\AuthorStoreController;
 use App\Http\Controllers\Api\Author\AuthorUpdateController;
 use App\Http\Controllers\Api\Book\BookGetController;
+use App\Http\Controllers\Api\Book\BookListController;
 use App\Http\Controllers\Api\Book\BookRemoveController;
 use App\Http\Controllers\Api\Book\BookStoreController;
 use App\Http\Controllers\Api\Book\BookUpdateController;
@@ -36,6 +37,7 @@ Route::middleware('auth:sanctum')->namespace('api')->group(function () {
 
     // Book
     Route::prefix('/book')->group(function () {
+        Route::get('/list',     [BookListController::class, '__invoke'])->name('author.list');
         Route::post('/store',   [BookStoreController::class, '__invoke'])->name('book.store');
         Route::post('/update',  [BookUpdateController::class, '__invoke'])->name('book.update');
         Route::post('/remove',  [BookRemoveController::class, '__invoke'])->name('book.remove');

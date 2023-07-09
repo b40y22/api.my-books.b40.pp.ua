@@ -33,4 +33,10 @@ interface BookRepositoryInterface extends AbstractRepositoryInterface
      * @return Book|null
      */
     public function remove(BookRemoveDto $bookRemoveDto): ?Book;
+
+    /**
+     * @param array $request
+     * @return array|null
+     */
+    public function list(array $request): ?array;
 }

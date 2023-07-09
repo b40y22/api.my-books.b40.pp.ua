@@ -36,6 +36,7 @@ class Author extends Model
      */
     protected $hidden = [
         'user_id',
+        'pivot',
     ];
 
     /**
