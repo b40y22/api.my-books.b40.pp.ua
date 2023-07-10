@@ -113,7 +113,8 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
                     'direction' => $orderByArray[1],
                 ];
 
-                $value = $this->model::orderBy($pagination->orderBy['column'], $pagination->orderBy['direction'])->paginate($pagination->perPage);
+                $value = $this->model::orderBy($pagination->orderBy['column'], $pagination->orderBy['direction'])
+                    ->paginate($pagination->perPage);
             } catch (Throwable) {
                 throw new ApiArgumentsException(trans('api.argument.failed'));
             }
@@ -123,7 +124,7 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
 
         $pagination->total = $value->total();
         $pagination->lastPage = $value->lastPage();
-        $pagination->list = $value->items();
+        $pagination->items = $value->items();
 
         return $pagination->toArray();
     }

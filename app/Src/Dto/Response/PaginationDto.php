@@ -35,5 +35,5 @@ class PaginationDto extends AbstractDto
     /**
      * @var array
      */
-    public array $list = [];
+    public array $items = [];
 }

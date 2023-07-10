@@ -111,7 +111,7 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
 
         $pagination->total = $value->total();
         $pagination->lastPage = $value->lastPage();
-        $pagination->list = $value->items();
+        $pagination->items = $value->items();
 
         return $pagination->toArray();
     }
