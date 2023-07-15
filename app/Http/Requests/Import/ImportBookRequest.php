@@ -1,15 +1,14 @@
 <?php
-declare(strict_types=1);
 
-namespace App\Http\Requests\Author;
+namespace App\Http\Requests\Import;
 
-use App\Src\Dto\Author\AuthorRemoveDto;
+use App\Src\Dto\Import\ImportBookDto;
 use App\Src\Traits\ValidationJsonResponseTrait;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 
-class AuthorRemoveRequest extends FormRequest
+class ImportBookRequest extends FormRequest
 {
     use ValidationJsonResponseTrait;
 
@@ -27,7 +26,8 @@ class AuthorRemoveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|numeric',
+            'link' => 'required|string|url',
+            'type' => 'required|string',
         ];
     }
 
@@ -37,7 +37,9 @@ class AuthorRemoveRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id.required' => trans('api.id.required'),
+            'link.required' => trans('api.import.required'),
+            'link.url' => trans('api.import.url'),
+            'type.required' => trans('api.import.url'),
         ];
     }
 
@@ -52,10 +54,10 @@ class AuthorRemoveRequest extends FormRequest
     }
 
     /**
-     * @return AuthorRemoveDto
+     * @return ImportBookDto
      */
-    public function validatedDTO(): AuthorRemoveDto
+    public function validatedDTO(): ImportBookDto
     {
-        return new AuthorRemoveDto($this->validated());
+        return new ImportBookDto($this->validated());
     }
 }

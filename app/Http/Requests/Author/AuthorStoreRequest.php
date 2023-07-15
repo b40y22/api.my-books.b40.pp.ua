@@ -5,7 +5,6 @@ namespace App\Http\Requests\Author;
 
 use App\Src\Dto\Author\AuthorStoreDto;
 use App\Src\Traits\ValidationJsonResponseTrait;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
@@ -15,7 +14,7 @@ class AuthorStoreRequest extends FormRequest
     use ValidationJsonResponseTrait;
 
     /**
-     * Determine if the user is authorized to make this request.
+     * @return bool
      */
     public function authorize(): bool
     {
@@ -23,9 +22,7 @@ class AuthorStoreRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array|string>
+     * @return string[]
      */
     public function rules(): array
     {

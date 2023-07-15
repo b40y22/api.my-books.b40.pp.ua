@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\Book\BookListController;
 use App\Http\Controllers\Api\Book\BookRemoveController;
 use App\Http\Controllers\Api\Book\BookStoreController;
 use App\Http\Controllers\Api\Book\BookUpdateController;
+use App\Http\Controllers\Api\Import\ImportBookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -42,5 +43,10 @@ Route::middleware('auth:sanctum')->namespace('api')->group(function () {
         Route::post('/update',  [BookUpdateController::class, '__invoke'])->name('book.update');
         Route::post('/remove',  [BookRemoveController::class, '__invoke'])->name('book.remove');
         Route::get('/{id}',     [BookGetController::class, '__invoke'])->name('book.get');
+    });
+
+    // Import
+    Route::prefix('/import')->group(function () {
+        Route::post('/',        [ImportBookController::class, '__invoke'])->name('import.book');
     });
 });

@@ -12,6 +12,8 @@ use App\Src\Services\Book\BookUpdateService;
 use App\Src\Services\Book\Interfaces\BookListServiceInterface;
 use App\Src\Services\Book\Interfaces\BookStoreServiceInterface;
 use App\Src\Services\Book\Interfaces\BookUpdateServiceInterface;
+use App\Src\Services\Import\Parser\ImportService;
+use App\Src\Services\Import\Parser\ImportServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(BookStoreServiceInterface::class, BookStoreService::class);
         $this->app->bind(BookUpdateServiceInterface::class, BookUpdateService::class);
         $this->app->bind(BookListServiceInterface::class, BookListService::class);
+        $this->app->bind(ImportServiceInterface::class, ImportService::class);
     }
 
     /**
