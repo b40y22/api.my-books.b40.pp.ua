@@ -11,7 +11,7 @@ use Crwlr\Crawler\Steps\Html;
 use Crwlr\Crawler\Steps\Loading\Http;
 use Exception;
 
-class Loveread implements SourceInterface
+final class Loveread implements SourceInterface
 {
     /**
      * Here MUST be all variants information about book
@@ -120,7 +120,17 @@ class Loveread implements SourceInterface
      */
     private function explodeAuthors(string $authors): array
     {
-        return explode(',', $authors);
+        $result = [];
+        $authorsArray = explode(',', $authors);
+        foreach ($authorsArray as $rawAuthor) {
+            $result[] = [
+                'id' => 0,
+                'new' => false,
+                ''
+            ];
+        }
+
+        return [];
     }
 
     /**

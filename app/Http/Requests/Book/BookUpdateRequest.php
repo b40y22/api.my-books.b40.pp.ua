@@ -42,11 +42,11 @@ class BookUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id.required' => trans('api.id.required'),
-            'authors.required' => trans('api.authors.required'),
-            'firstname.required' => trans('api.firstname.required'),
+            'id.required' => trans('api.field.required'),
+            'authors.required' => trans('api.field.required'),
+            'firstname.required' => trans('api.field.required'),
             'firstname.min' => trans('api.firstname.min'),
-            'lastname.required' => trans('api.lastname.required'),
+            'lastname.required' => trans('api.field.required'),
             'lastname.min' => trans('api.lastname.min'),
         ];
     }

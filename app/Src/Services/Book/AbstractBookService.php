@@ -3,29 +3,33 @@ declare(strict_types=1);
 
 namespace App\Src\Services\Book;
 
-use App\Models\Book;
+use App\Exceptions\ApiArgumentsException;
+use App\Src\Dto\Book\Author\AuthorFromBookDto;
+use Illuminate\Support\Facades\Log;
 
 abstract class AbstractBookService
 {
     /**
-     * @param array $authors
-     * @param Book $Book
-     * @return array
+     * @throws ApiArgumentsException
      */
-    public function formatAuthorsArray(array $authors, Book $Book): array
+    public function formatAuthorsArray(array $requestAuthors): array
     {
-        $authorsArray = [];
+        $authors = [];
 
-        foreach ($authors as $Author) {
-            $SavedAuthor = $this->authorRepository->createIfNotExist($Author);
-            $Book->authors()->attach($SavedAuthor['id']);
+        /** @var AuthorFromBookDto $Author */
+        foreach ($requestAuthors as $Author) {
+            if ($Author->isNew()) {
+                $authors[] = $this->authorRepository->store($Author)->toArray();
+            } else {
+                if ($Author->getId() < 1) {
+                    Log::error('Author ID cannot be less than 1', $Author->toArray());
 
-            $Author = $SavedAuthor->toArray();
-            ksort($Author);
-
-            $authorsArray[] = $Author;
+                    throw new ApiArgumentsException(trans('api.general.failed'), 400);
+                }
+                $authors[] = $this->authorRepository->get($Author->getId())->toArray();
+            }
         }
 
-        return $authorsArray;
+        return $authors;
     }
 }

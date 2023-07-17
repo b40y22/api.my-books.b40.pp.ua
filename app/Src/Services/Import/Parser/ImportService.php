@@ -8,7 +8,7 @@ use App\Src\Services\Import\ContextLocation\ContextLocationInterface;
 use App\Src\Services\Import\Parser\Sources\SourceInterface;
 use App\Src\Traits\HttpTrait;
 
-class ImportService implements ImportServiceInterface
+final class ImportService implements ImportServiceInterface
 {
     use HttpTrait;
 

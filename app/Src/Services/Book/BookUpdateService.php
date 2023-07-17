@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Src\Services\Book;
 
+use App\Exceptions\ApiArgumentsException;
 use App\Models\Book;
 use App\Src\Dto\Book\BookUpdateDto;
 use App\Src\Repositories\Interfaces\AuthorRepositoryInterface;
@@ -23,6 +24,7 @@ class BookUpdateService extends AbstractBookService implements BookUpdateService
     /**
      * @param BookUpdateDto $bookUpdateDto
      * @return Book|null
+     * @throws ApiArgumentsException
      */
     public function update(BookUpdateDto $bookUpdateDto): ?Book
     {
@@ -30,7 +32,11 @@ class BookUpdateService extends AbstractBookService implements BookUpdateService
         $Book = $this->bookRepository->get($bookUpdateDto->getId());
 
         if ($Book) {
-            $Book['authors'] = $this->formatAuthorsArray($bookUpdateDto->getAuthors(), $Book);
+            $authors = $this->formatAuthorsArray($bookUpdateDto->getAuthors());
+
+            $Book->authors()->sync(array_column($authors, 'id'));
+
+            $Book['authors'] = $authors;
 
             return $Book;
         }

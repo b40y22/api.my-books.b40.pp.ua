@@ -38,9 +38,9 @@ class AuthorStoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'firstname.required' => trans('api.firstname.required'),
+            'firstname.required' => trans('api.field.required'),
             'firstname.min' => trans('api.firstname.min'),
-            'lastname.required' => trans('api.lastname.required'),
+            'lastname.required' => trans('api.field.required'),
             'lastname.min' => trans('api.lastname.min'),
         ];
     }

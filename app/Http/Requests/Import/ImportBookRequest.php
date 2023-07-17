@@ -37,7 +37,7 @@ class ImportBookRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'link.required' => trans('api.import.required'),
+            'link.required' => trans('api.field.required'),
             'link.url' => trans('api.import.url'),
             'type.required' => trans('api.import.url'),
         ];

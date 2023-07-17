@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Src\Dto\Book;
 
 use App\Src\Dto\AbstractDto;
-use App\Src\Dto\Author\AuthorFromBookStoreDto;
+use App\Src\Dto\Author\AuthorUpdateDto;
+use App\Src\Dto\Book\Author\AuthorFromBookDto;
 
 class BookUpdateDto extends AbstractDto
 {
@@ -28,14 +30,14 @@ class BookUpdateDto extends AbstractDto
     protected string $title;
 
     /**
-     * @var string|mixed|null
+     * @var int|mixed|null
      */
-    protected ?string $pages;
+    protected ?int $pages;
 
     /**
-     * @var string|mixed|null
+     * @var int|mixed|null
      */
-    protected ?string $year;
+    protected ?int $year;
 
     /**
      * @param array $book
@@ -44,7 +46,7 @@ class BookUpdateDto extends AbstractDto
     {
         $this->id = $book['id'];
          foreach ($book['authors'] as $author) {
-            $this->authors[] = new AuthorFromBookStoreDto($author);
+            $this->authors[] = new AuthorFromBookDto($author);
         }
         $this->description = $book['description'] ?? null;
         $this->title = $book['title'];
