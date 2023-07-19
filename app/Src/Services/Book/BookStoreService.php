@@ -5,12 +5,10 @@ namespace App\Src\Services\Book;
 
 use App\Exceptions\ApiArgumentsException;
 use App\Models\Book;
-use App\Src\Dto\Book\Author\AuthorFromBookDto;
 use App\Src\Dto\Book\BookStoreDto;
 use App\Src\Repositories\Interfaces\AuthorRepositoryInterface;
 use App\Src\Repositories\Interfaces\BookRepositoryInterface;
 use App\Src\Services\Book\Interfaces\BookStoreServiceInterface;
-use Illuminate\Support\Facades\Log;
 
 class BookStoreService extends AbstractBookService implements BookStoreServiceInterface
 {

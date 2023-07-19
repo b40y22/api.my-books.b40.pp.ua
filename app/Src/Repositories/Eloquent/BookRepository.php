@@ -38,7 +38,7 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
      */
     public function get(int $id): ?Book
     {
-        return $this->model::find($id) ?? null;
+        return $this->model::where(['id' => $id, 'user_id' => Auth::id()])->with('authors')->first() ?? null;
     }
 
     /**
