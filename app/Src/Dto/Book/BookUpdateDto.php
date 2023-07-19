@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace App\Src\Dto\Book;
 
 use App\Src\Dto\AbstractDto;
-use App\Src\Dto\Author\AuthorUpdateDto;
-use App\Src\Dto\Book\Author\AuthorFromBookDto;
 
 class BookUpdateDto extends AbstractDto
 {
@@ -13,11 +11,6 @@ class BookUpdateDto extends AbstractDto
      * @var int
      */
     protected int $id;
-
-    /**
-     * @var array
-     */
-    protected array $authors = [];
 
     /**
      * @var string|mixed|null
@@ -45,9 +38,6 @@ class BookUpdateDto extends AbstractDto
     public function __construct(array $book)
     {
         $this->id = $book['id'];
-         foreach ($book['authors'] as $author) {
-            $this->authors[] = new AuthorFromBookDto($author);
-        }
         $this->description = $book['description'] ?? null;
         $this->title = $book['title'];
         $this->pages = $book['pages'] ?? null;
@@ -60,14 +50,6 @@ class BookUpdateDto extends AbstractDto
     public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * @return array
-     */
-    public function getAuthors(): array
-    {
-        return $this->authors;
     }
 
     /**

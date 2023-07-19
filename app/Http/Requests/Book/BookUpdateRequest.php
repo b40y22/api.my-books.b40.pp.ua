@@ -4,7 +4,6 @@ namespace App\Http\Requests\Book;
 
 use App\Src\Dto\Book\BookUpdateDto;
 use App\Src\Traits\ValidationJsonResponseTrait;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
@@ -28,7 +27,6 @@ class BookUpdateRequest extends FormRequest
     {
         return [
             'id' => 'required|numeric',
-            'authors' => 'required|array',
             'description' => 'nullable|string',
             'title' => 'required|string|min:2',
             'pages' => 'nullable|integer',
@@ -43,7 +41,6 @@ class BookUpdateRequest extends FormRequest
     {
         return [
             'id.required' => trans('api.field.required'),
-            'authors.required' => trans('api.field.required'),
             'firstname.required' => trans('api.field.required'),
             'firstname.min' => trans('api.firstname.min'),
             'lastname.required' => trans('api.field.required'),

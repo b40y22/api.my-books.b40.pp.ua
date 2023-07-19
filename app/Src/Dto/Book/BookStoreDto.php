@@ -21,8 +21,8 @@ class BookStoreDto extends AbstractDto
         }
         $this->description = $book['description'] ?? null;
         $this->title = $book['title'];
-        $this->pages = $book['pages'] ?? null;
-        $this->year = $book['year'] ?? null;
+        $this->pages = isset($book['pages']) ? (int) $book['pages'] : null;
+        $this->year = isset($book['year']) ? (int) $book['year'] : null;
     }
 
     public function getAuthors(): array

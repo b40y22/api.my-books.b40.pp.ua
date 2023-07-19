@@ -47,7 +47,7 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
      */
     public function update(BookUpdateDto $bookUpdateDto): ?bool
     {
-        $Book = $this->model::find($bookUpdateDto->getId());
+        $Book = $this->model::where('id', $bookUpdateDto->getId())->first();
 
         if (!$Book) {
             return null;

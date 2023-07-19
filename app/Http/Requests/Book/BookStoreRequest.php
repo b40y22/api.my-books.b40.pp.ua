@@ -4,7 +4,6 @@ namespace App\Http\Requests\Book;
 
 use App\Src\Dto\Book\BookStoreDto;
 use App\Src\Traits\ValidationJsonResponseTrait;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
@@ -42,10 +41,6 @@ class BookStoreRequest extends FormRequest
     {
         return [
             'authors.required' => trans('api.field.required'),
-            'firstname.required' => trans('api.field.required'),
-            'firstname.min' => trans('api.firstname.min'),
-            'lastname.required' => trans('api.field.required'),
-            'lastname.min' => trans('api.lastname.min'),
         ];
     }
 

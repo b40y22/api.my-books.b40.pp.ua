@@ -18,7 +18,7 @@ class BookUpdateControllerTest extends TestCase
     /**
      * @var Book
      */
-    protected $Book;
+    protected Book $Book;
 
     /**
      * @var Author
@@ -40,14 +40,6 @@ class BookUpdateControllerTest extends TestCase
     public function testBookUpdateWithValidData(): void
     {
         $response = $this->postJson(route("book.update"), [
-            'authors' => [
-                [
-                    'id' => $this->Author->id,
-                    'new' => false,
-                    'firstname' => $this->Author->firstname,
-                    'lastname' => $this->Author->lastname,
-                ],
-            ],
             'id' => $this->Book->id,
             'title' => $this->Book->title . 'Test',
         ], [
@@ -68,14 +60,6 @@ class BookUpdateControllerTest extends TestCase
     public function testBookUpdateWithInvalidId()
     {
         $response = $this->postJson(route("book.update"), [
-            'authors' => [
-                [
-                    'id' => $this->Author->id,
-                    'new' => false,
-                    'firstname' => $this->Author->firstname,
-                    'lastname' => $this->Author->lastname,
-                ],
-            ],
             'id' => 100500,
             'title' => $this->Book->title . 'Test'
         ], [
