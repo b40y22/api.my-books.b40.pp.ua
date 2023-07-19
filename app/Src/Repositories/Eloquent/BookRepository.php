@@ -34,11 +34,20 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
 
     /**
      * @param int $id
-     * @return Book|null
+     * @param array $options
+     * @return array|null
      */
-    public function get(int $id): ?Book
+    public function get(int $id, array $options = []): ?array
     {
-        return $this->model::where(['id' => $id, 'user_id' => Auth::id()])->with('authors')->first() ?? null;
+         if (isset($options['with'])) {
+             $Book = $this->model::where(['id' => $id, 'user_id' => Auth::id()])->with($options['with'])?->first()->toArray();
+
+             ksort($Book);
+
+             return $Book;
+         } else {
+             return $this->model::where(['id' => $id, 'user_id' => Auth::id()])->first()->toArray() ?? null;
+         }
     }
 
     /**
@@ -47,7 +56,7 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
      */
     public function update(BookUpdateDto $bookUpdateDto): ?bool
     {
-        $Book = $this->model::where('id', $bookUpdateDto->getId())->first();
+        $Book = $this->model::where(['id' => $bookUpdateDto->getId(), 'user_id' => Auth::id()])->first();
 
         if (!$Book) {
             return null;
@@ -62,7 +71,7 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
      */
     public function remove(BookRemoveDto $bookRemoveDto): ?Book
     {
-        $Book = $this->model::find($bookRemoveDto->getId());
+        $Book = $this->model::where(['id' => $bookRemoveDto->getId(), 'user_id' => Auth::id()])->first();
 
         if (!$Book) {
             return null;
@@ -98,7 +107,8 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
                     'direction' => $orderByArray[1],
                 ];
 
-                $value = $this->model::orderBy($pagination->orderBy['column'], $pagination->orderBy['direction'])
+                $value = $this->model::where('user_id', Auth::id())
+                    ->orderBy($pagination->orderBy['column'], $pagination->orderBy['direction'])
                     ->with('authors')
                     ->paginate($pagination->perPage);
 
@@ -106,7 +116,9 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
                 throw new ApiArgumentsException(trans('api.argument.failed'));
             }
         } else {
-            $value = $this->model::with('authors')->paginate($pagination->perPage);
+            $value = $this->model::where('user_id', Auth::id())
+                ->with('authors')
+                ->paginate($pagination->perPage);
         }
 
         $pagination->total = $value->total();

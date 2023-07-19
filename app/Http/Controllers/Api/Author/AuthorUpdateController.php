@@ -26,7 +26,7 @@ class AuthorUpdateController extends Controller
         $Author = $this->authorRepository->update($authorUpdateRequest->validatedDTO());
 
         if (!$Author) {
-            return $this->responseError([trans('api.general.failed')]);
+            return $this->responseError([trans('api.general.notFound')]);
         }
 
         return response()->json([

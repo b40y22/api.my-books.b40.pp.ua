@@ -22,7 +22,7 @@ class BookGetController extends Controller
      */
     public function __invoke(int $id): JsonResponse
     {
-        $Book = $this->bookRepository->get($id);
+        $Book = $this->bookRepository->get($id, ['with' => 'authors']);
 
         if (!$Book) {
             return $this->responseError([trans('api.general.notFound')], 404);

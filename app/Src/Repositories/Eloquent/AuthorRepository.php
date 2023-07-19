@@ -38,7 +38,7 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
      */
     public function update(AuthorUpdateDto $authorUpdateDto): ?bool
     {
-        $Author = $this->model::find($authorUpdateDto->getId());
+        $Author = $this->model::where(['id' => $authorUpdateDto->getId(), 'user_id' => Auth::id()])->first();
 
         if (!$Author) {
             return null;
@@ -53,7 +53,7 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
      */
     public function remove(AuthorRemoveDto $authorRemoveDto): ?Author
     {
-        $Author = $this->model::find($authorRemoveDto->getId());
+        $Author = $this->model::where(['id' => $authorRemoveDto->getId(), 'user_id' => Auth::id()])->first();
 
         if (!$Author) {
             return null;
@@ -70,7 +70,7 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
      */
     public function get(int $id): ?Author
     {
-        return $this->model::find($id) ?? null;
+        return $this->model::where(['id' => $id, 'user_id' => Auth::id()])->first() ?? null;
     }
 
     /**
@@ -113,13 +113,15 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
                     'direction' => $orderByArray[1],
                 ];
 
-                $value = $this->model::orderBy($pagination->orderBy['column'], $pagination->orderBy['direction'])
+                $value = $this->model::where('user_id', Auth::id())
+                    ->orderBy($pagination->orderBy['column'], $pagination->orderBy['direction'])
                     ->paginate($pagination->perPage);
             } catch (Throwable) {
                 throw new ApiArgumentsException(trans('api.argument.failed'));
             }
         } else {
-            $value = $this->model::paginate($pagination->perPage);
+            $value = $this->model::where('user_id', Auth::id())
+                ->paginate($pagination->perPage);
         }
 
         $pagination->total = $value->total();

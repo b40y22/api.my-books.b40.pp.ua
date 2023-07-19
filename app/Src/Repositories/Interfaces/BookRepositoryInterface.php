@@ -12,9 +12,10 @@ interface BookRepositoryInterface extends AbstractRepositoryInterface
 {
     /**
      * @param int $id
+     * @param array $options
      * @return Book|null
      */
-    public function get(int $id): ?Book;
+    public function get(int $id, array $options): ?array;
 
     /**
      * @param BookStoreDto $bookStoreDto

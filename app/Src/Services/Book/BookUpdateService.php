@@ -19,9 +19,9 @@ class BookUpdateService extends AbstractBookService implements BookUpdateService
 
     /**
      * @param BookUpdateDto $bookUpdateDto
-     * @return Book|null
+     * @return array|null
      */
-    public function update(BookUpdateDto $bookUpdateDto): ?Book
+    public function update(BookUpdateDto $bookUpdateDto): ?array
     {
         $this->bookRepository->update($bookUpdateDto);
 

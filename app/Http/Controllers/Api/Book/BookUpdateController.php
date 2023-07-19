@@ -23,7 +23,7 @@ class BookUpdateController extends Controller
      */
     public function __invoke(BookUpdateRequest $bookUpdateRequest): JsonResponse
     {
-        $Book = $this->bookService->update($bookUpdateRequest->validatedDTO())?->toArray();
+        $Book = $this->bookService->update($bookUpdateRequest->validatedDTO());
 
         if (!$Book) {
             return $this->responseError([trans('api.general.failed')], 404);
