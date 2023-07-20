@@ -29,7 +29,7 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
      */
     public function store(AuthorStoreDto $authorStoreDto): Author
     {
-        return $this->model::create(array_merge($authorStoreDto->toArray(), ['user_id' => Auth::id()]));
+        return $this->model::create($authorStoreDto->toArray());
     }
 
     /**

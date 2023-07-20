@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AddUserIdToBody;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CORS;
 use App\Http\Middleware\EncryptCookies;
@@ -90,5 +91,6 @@ class Kernel extends HttpKernel
         'signed' => ValidateSignature::class,
         'throttle' => ThrottleRequests::class,
         'verified' => EnsureEmailIsVerified::class,
+        'addUserId' => AddUserIdToBody::class,
     ];
 }

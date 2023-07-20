@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Book\BookRemoveController;
 use App\Http\Controllers\Api\Book\BookStoreController;
 use App\Http\Controllers\Api\Book\BookUpdateController;
 use App\Http\Controllers\Api\Import\ImportBookController;
+use App\Http\Middleware\AddUserIdToBody;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +31,7 @@ Route::middleware('auth:sanctum')->namespace('api')->group(function () {
     // Author
     Route::prefix('/author')->group(function () {
         Route::get('/list',     [AuthorListController::class, '__invoke'])->name('author.list');
-        Route::post('/store',   [AuthorStoreController::class, '__invoke'])->name('author.store');
+        Route::post('/store',   [AuthorStoreController::class, '__invoke'])->middleware('addUserId')->name('author.store');
         Route::post('/update',  [AuthorUpdateController::class, '__invoke'])->name('author.update');
         Route::post('/remove',  [AuthorRemoveController::class, '__invoke'])->name('author.remove');
         Route::get('/{id}',     [AuthorGetController::class, '__invoke'])->name('author.get');

@@ -27,6 +27,7 @@ class AuthorStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'user_id' => 'required|numeric',
             'firstname' => 'required|string|min:3',
             'lastname' => 'required|string|min:3',
         ];
@@ -38,6 +39,7 @@ class AuthorStoreRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'user_id.required' => trans('api.general.failed'),
             'firstname.required' => trans('api.field.required'),
             'firstname.min' => trans('api.firstname.min'),
             'lastname.required' => trans('api.field.required'),
