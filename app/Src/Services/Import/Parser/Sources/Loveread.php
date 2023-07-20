@@ -79,22 +79,35 @@ final class Loveread implements SourceInterface
             );
 
         foreach ($crawler->run() as $result) {
+            // Отримую рядок з даними у вигляді :
+            // "Автор: Джеймс Клир Название: Атомные привычки. Как приобрести хорошие привычки и избавиться от плохих Издательство: Питер Год: 2020 ISBN: 978-5-4461-1216-6 Страниц: 304 Формат: 70x100/16 Перевод книги: К. Шашкова, Юлия Чекмарева Язык: Русский"
             $allInfo = $result->toArray()['bookData'][0];
 
+            // Беру массив в якому перераховано по максимуму все що можно
+            // зустріти в рядку allInfo і шукаю по черзі в рядку кожен елемент массиву
             foreach ($this->needleData as $key => &$item) {
+
+                // Для кожної ітерації роблю копію рядка з якою потім і працюю (для того щоб орігінал був не змінним)
                 $stringForSearch = $allInfo;
                 if (mb_stripos($allInfo, $item['word']) !== false) {
+
+                    // Поділяю рядок на 2 частини - до і після поточного item
                     $separated = str_ireplace($item['word'], '|', $stringForSearch);
                     $item['string'] = trim(explode('|', $separated)[1]);
                 } else {
+
+                    // Якщо поточне слово не знайдено в рядку, то просто видаляю це слово з массива
                     unset($this->needleData[$key]);
                 }
             }
 
+            // Сортую массив $this->needleData по довжині поділеного рядка (поле string)
             uasort($this->needleData, function ($a, $b) {
                 return strlen($a['string']) - strlen($b['string']);
             });
 
+            // Далі, методом накладання одного куска обрізанного рядка на інший, вирізаю потрібні поточні значення
+            // #Чорна магія. В домашніх умовах не повторювати
             $split = '';
             foreach ($this->needleData as $itemForFill) {
                 match ($itemForFill['word']) {
@@ -115,6 +128,7 @@ final class Loveread implements SourceInterface
     }
 
     /**
+     * Метод в якому рядок вигляда "Мария Кардакова, Анча Баранова" перетворюється на массив авторів певного формата
      * @param string $authors
      * @return array
      */

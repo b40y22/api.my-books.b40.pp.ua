@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Src\Services\Import\ContextLocation;
 
-use App\Events\CreateMessageAfterStoreBookContextEvent;
 use App\Exceptions\ApiArgumentsException;
 use App\Exceptions\ExternalServiceException;
 use App\Src\Common\Books\Builder\ReadBook;
@@ -64,16 +63,9 @@ class Db implements ContextLocationInterface
             new AuthorRepository()
         ))->store($BookStoreDto);
 
-        $saveBookContextAction = $this->bookContextRepository->store(
+        $this->bookContextRepository->store(
             $this->ReadBook->getContext(),
             $Book->toArray()['id']
         );
-
-        $this->ReadBook->setContext([]);
-        if ($saveBookContextAction) {
-            event(new CreateMessageAfterStoreBookContextEvent($this->ReadBook));
-        } else {
-            event(new CreateMessageAfterStoreBookContextEvent($this->ReadBook, false));
-        }
     }
 }

@@ -2,18 +2,18 @@
 
 namespace App\Events;
 
-use App\Src\Common\Books\Builder\BuilderBookInterface;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CreateMessageAfterStoreBookContextEvent
+class PostBookCreateEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public function __construct(
-        protected BuilderBookInterface $readBook,
+        protected Model $readBook,
         protected bool $success = true,
     ) {}
 

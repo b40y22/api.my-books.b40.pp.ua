@@ -9,6 +9,7 @@ use App\Jobs\Import\ImportBookJob;
 use App\Src\Services\Import\Parser\ImportServiceInterface;
 use App\Src\Traits\HttpTrait;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class ImportBookController extends Controller
 {
@@ -26,10 +27,13 @@ class ImportBookController extends Controller
      */
     public function __invoke(ImportBookRequest $importBookRequest): JsonResponse
     {
+        $ImportBookDto = $importBookRequest->validatedDTO();
+        $ImportBookDto->setUserId(Auth::id());
+
         dispatch((
             new ImportBookJob(
                 $this->importService,
-                $importBookRequest->validatedDTO()
+                $ImportBookDto
             )
         )->onQueue('import'));
 
