@@ -96,7 +96,7 @@ final class Loveread implements SourceInterface
             });
 
             $split = '';
-            foreach ($this->needleData as &$itemForFill) {
+            foreach ($this->needleData as $itemForFill) {
                 match ($itemForFill['word']) {
                     'Автор: ' => $this->ReadBook->setAuthors(
                         $this->explodeAuthors(trim(str_replace($split, '', $itemForFill['string'])))
@@ -123,14 +123,16 @@ final class Loveread implements SourceInterface
         $result = [];
         $authorsArray = explode(',', $authors);
         foreach ($authorsArray as $rawAuthor) {
+            $fullNameAuthor = explode(' ', $rawAuthor);
             $result[] = [
                 'id' => 0,
-                'new' => false,
-                ''
+                'new' => true,
+                'firstname' => $fullNameAuthor[0],
+                'lastname' => $fullNameAuthor[1],
             ];
         }
 
-        return [];
+        return $result;
     }
 
     /**

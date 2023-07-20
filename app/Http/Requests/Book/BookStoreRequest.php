@@ -3,14 +3,14 @@
 namespace App\Http\Requests\Book;
 
 use App\Src\Dto\Book\BookStoreDto;
-use App\Src\Traits\ValidationJsonResponseTrait;
+use App\Src\Traits\ErrorResponseTrait;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
 class BookStoreRequest extends FormRequest
 {
-    use ValidationJsonResponseTrait;
+    use ErrorResponseTrait;
 
     /**
      * @return bool

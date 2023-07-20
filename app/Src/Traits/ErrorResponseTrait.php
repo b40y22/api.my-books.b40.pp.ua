@@ -6,7 +6,7 @@ namespace App\Src\Traits;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 
-trait ValidationJsonResponseTrait
+trait ErrorResponseTrait
 {
     /**
      * @param Validator $validator

@@ -4,14 +4,14 @@ declare(strict_types=1);
 namespace App\Http\Requests\Auth;
 
 use App\Src\Dto\Auth\LoginDto;
-use App\Src\Traits\ValidationJsonResponseTrait;
+use App\Src\Traits\ErrorResponseTrait;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
 {
-    use ValidationJsonResponseTrait;
+    use ErrorResponseTrait;
 
     /**
      * @return bool

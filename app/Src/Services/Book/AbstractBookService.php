@@ -21,7 +21,7 @@ abstract class AbstractBookService
             if ($Author->isNew()) {
                 $authors[] = $this->authorRepository->store($Author)->toArray();
             } else {
-                if ($Author->getId() < 1) {
+                if ($Author->getId() < 1 && $Author->isNew() === false) {
                     Log::error('Author ID cannot be less than 1', $Author->toArray());
 
                     throw new ApiArgumentsException(trans('api.general.failed'), 400);

@@ -8,7 +8,7 @@ interface ImportServiceInterface
 {
     /**
      * @param ImportBookDto $importBookDto
-     * @return mixed
+     * @return bool
      */
-    public function importBook(ImportBookDto $importBookDto): mixed;
+    public function importBook(ImportBookDto $importBookDto): bool;
 }
