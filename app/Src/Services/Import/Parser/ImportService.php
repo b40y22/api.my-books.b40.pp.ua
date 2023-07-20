@@ -14,9 +14,9 @@ final class ImportService implements ImportServiceInterface
 
     /**
      * @param ImportBookDto $importBookDto
-     * @return mixed
+     * @return bool
      */
-    public function importBook(ImportBookDto $importBookDto): mixed
+    public function importBook(ImportBookDto $importBookDto): bool
     {
         $link = $importBookDto->getLinkArray()['link'];
         $type = $importBookDto->getLinkArray()['type'];
@@ -29,6 +29,7 @@ final class ImportService implements ImportServiceInterface
         $Type = 'App\Src\Services\Import\ContextLocation\\' . ucfirst($type);
 
         $Book = (new $Parser($link))->handle();
-        return (new $Type($Book))->handle();
+
+        return (new $Type($Book, $importBookDto->getUserId()))->handle();
     }
 }
