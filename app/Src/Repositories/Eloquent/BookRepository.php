@@ -29,7 +29,7 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
      */
     public function store(BookStoreDto $bookStoreDto): Book
     {
-        return $this->model::create(array_merge($bookStoreDto->toArray(), ['user_id' => Auth::id()]));
+        return $this->model::create($bookStoreDto->toArray());
      }
 
     /**
@@ -39,15 +39,20 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
      */
     public function get(int $id, array $options = []): ?array
     {
-         if (isset($options['with'])) {
-             $Book = $this->model::where(['id' => $id, 'user_id' => Auth::id()])->with($options['with'])?->first()->toArray();
+        if (isset($options['with'])) {
+         $Book = $this->model::where(['id' => $id, 'user_id' => Auth::id()])->with($options['with'])->first();
+        } else {
+         $Book = $this->model::where(['id' => $id, 'user_id' => Auth::id()])->first();
+        }
 
-             ksort($Book);
+        if ($Book) {
+            $Book = $Book->toArray();
+            ksort($Book);
 
-             return $Book;
-         } else {
-             return $this->model::where(['id' => $id, 'user_id' => Auth::id()])->first()->toArray() ?? null;
-         }
+            return $Book;
+        }
+
+        return null;
     }
 
     /**

@@ -8,16 +8,44 @@ use App\Src\Dto\Book\Author\AuthorFromBookDto;
 
 class BookStoreDto extends AbstractDto
 {
+    /**
+     * @var int
+     */
+    protected int $user_id;
+
+    /**
+     * @var array
+     */
     protected array $authors = [];
+
+    /**
+     * @var string|mixed|null
+     */
     protected ?string $description;
+
+    /**
+     * @var string|mixed
+     */
     protected string $title;
+
+    /**
+     * @var int|null
+     */
     protected ?int $pages;
+
+    /**
+     * @var int|null
+     */
     protected ?int $year;
 
+    /**
+     * @param array $book
+     */
     public function __construct(array $book)
     {
+        $this->user_id = $book['user_id'];
         foreach ($book['authors'] as $author) {
-            $this->authors[] = new AuthorFromBookDto($author);
+            $this->authors[] = new AuthorFromBookDto(array_merge($author, ['user_id' => $book['user_id']]));
         }
         $this->description = $book['description'] ?? null;
         $this->title = $book['title'];
@@ -25,26 +53,41 @@ class BookStoreDto extends AbstractDto
         $this->year = isset($book['year']) ? (int) $book['year'] : null;
     }
 
+    /**
+     * @return array
+     */
     public function getAuthors(): array
     {
         return $this->authors;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @return string
+     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPages(): ?string
     {
         return $this->pages;
     }
 
+    /**
+     * @return string|null
+     */
     public function getYear(): ?string
     {
         return $this->year;

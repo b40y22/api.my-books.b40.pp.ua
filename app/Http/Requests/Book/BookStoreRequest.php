@@ -26,6 +26,7 @@ class BookStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'user_id' => 'required|numeric',
             'authors' => 'required|array',
             'description' => 'nullable|string',
             'title' => 'required|string|min:2',
@@ -40,6 +41,7 @@ class BookStoreRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'user_id.required' => trans('api.general.failed'),
             'authors.required' => trans('api.field.required'),
         ];
     }

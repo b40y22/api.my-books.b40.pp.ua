@@ -23,10 +23,10 @@ class BookStoreService extends AbstractBookService implements BookStoreServiceIn
 
     /**
      * @param BookStoreDto $bookStoreDto
-     * @return Book|null
+     * @return Book
      * @throws ApiArgumentsException
      */
-    public function store(BookStoreDto $bookStoreDto): ?Book
+    public function store(BookStoreDto $bookStoreDto): Book
     {
         $Book = $this->bookRepository->store($bookStoreDto);
 

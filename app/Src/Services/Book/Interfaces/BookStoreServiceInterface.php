@@ -10,7 +10,7 @@ interface BookStoreServiceInterface
 {
     /**
      * @param BookStoreDto $bookStoreDto
-     * @return Book|null
+     * @return Book
      */
-    public function store(BookStoreDto $bookStoreDto): ?Book;
+    public function store(BookStoreDto $bookStoreDto): Book;
 }

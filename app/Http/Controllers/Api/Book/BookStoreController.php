@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\BookStoreRequest;
 use App\Src\Services\Book\Interfaces\BookStoreServiceInterface;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class BookStoreController extends Controller
 {
@@ -23,7 +24,7 @@ class BookStoreController extends Controller
      */
     public function __invoke(BookStoreRequest $bookStoreRequest): JsonResponse
     {
-        $Book = $this->bookService->store($bookStoreRequest->validatedDTO())?->toArray();
+        $Book = $this->bookService->store($bookStoreRequest->validatedDTO())->toArray();
 
         if (!$Book) {
             return $this->responseError([trans('api.general.failed')]);

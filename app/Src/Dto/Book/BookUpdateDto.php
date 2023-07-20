@@ -13,6 +13,11 @@ class BookUpdateDto extends AbstractDto
     protected int $id;
 
     /**
+     * @var int
+     */
+    protected int $user_id;
+
+    /**
      * @var string|mixed|null
      */
     protected ?string $description;
@@ -82,5 +87,21 @@ class BookUpdateDto extends AbstractDto
     public function getYear(): ?string
     {
         return $this->year;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * @param int $user_id
+     */
+    public function setUserId(int $user_id): void
+    {
+        $this->user_id = $user_id;
     }
 }
