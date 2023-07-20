@@ -5,7 +5,7 @@ namespace App\Src\Common\Books\Builder;
 
 use App\Src\Common\File;
 
-class ReadBook
+class ReadBook implements BuilderBookInterface
 {
     /**
      * @var array
