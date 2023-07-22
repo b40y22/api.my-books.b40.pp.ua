@@ -10,6 +10,9 @@ use Illuminate\Http\JsonResponse;
 
 class RegisterController extends Controller
 {
+    /**
+     * @param UserRepositoryInterface $userRepository
+     */
     public function __construct(
         protected UserRepositoryInterface $userRepository
     ) {}

@@ -29,11 +29,9 @@ class BookStoreService extends AbstractBookService implements BookStoreServiceIn
     public function store(BookStoreDto $bookStoreDto): Book
     {
         $Book = $this->bookRepository->store($bookStoreDto);
-
         $authors = $this->formatAuthorsArray($bookStoreDto->getAuthors());
 
         $Book->authors()->attach(array_column($authors, 'id'));
-
         $Book['authors'] = $authors;
 
         return $Book;

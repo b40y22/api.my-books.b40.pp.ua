@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 class ImportBookController extends Controller
 {
     use HttpTrait;
+
     /**
      * @param ImportServiceInterface $importService
      */

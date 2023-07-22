@@ -5,7 +5,6 @@ namespace App\Http\Requests\Book;
 
 use App\Src\Dto\Book\BookRemoveDto;
 use App\Src\Traits\ErrorResponseTrait;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;

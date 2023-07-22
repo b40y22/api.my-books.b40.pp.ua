@@ -107,6 +107,8 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
         // OrderBy
         if (isset($request['orderBy'])) {
             try {
+
+                // Request format "&orderBy=firstname,desc"
                 $orderByArray = explode(',', $request['orderBy']);
                 $pagination->orderBy = [
                     'column' => $orderByArray[0],

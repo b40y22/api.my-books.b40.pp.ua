@@ -6,10 +6,14 @@ namespace App\Src\Services\Auth;
 use App\Models\User;
 use App\Src\Dto\Auth\LoginDto;
 use App\Src\Repositories\Interfaces\UserRepositoryInterface;
+use App\Src\Services\Auth\Interfaces\AuthServiceInterface;
 use Illuminate\Support\Facades\Hash;
 
 class LoginService implements AuthServiceInterface
 {
+    /**
+     * @param UserRepositoryInterface $userRepository
+     */
     public function __construct(
         protected UserRepositoryInterface $userRepository
     ) {}

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Src\Services\Auth\AuthServiceInterface;
+use App\Src\Services\Auth\Interfaces\AuthServiceInterface;
 use App\Src\Services\Auth\LoginService;
 use App\Src\Services\Author\AuthorListService;
 use App\Src\Services\Author\Interfaces\AuthorListServiceInterface;

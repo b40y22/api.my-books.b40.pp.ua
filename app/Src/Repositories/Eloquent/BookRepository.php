@@ -40,9 +40,9 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
     public function get(int $id, array $options = []): ?array
     {
         if (isset($options['with'])) {
-         $Book = $this->model::where(['id' => $id, 'user_id' => Auth::id()])->with($options['with'])->first();
+            $Book = $this->model::where(['id' => $id, 'user_id' => Auth::id()])->with($options['with'])->first();
         } else {
-         $Book = $this->model::where(['id' => $id, 'user_id' => Auth::id()])->first();
+            $Book = $this->model::where(['id' => $id, 'user_id' => Auth::id()])->first();
         }
 
         if ($Book) {

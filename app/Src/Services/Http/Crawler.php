@@ -10,12 +10,17 @@ use Psr\Log\LoggerInterface;
 
 class Crawler extends HttpCrawler
 {
+    /**
+     * @return LoggerInterface
+     */
     protected function logger(): LoggerInterface
     {
         return new Logger('MyLogger');
     }
 
-    // user agent...
+    /**
+     * @return UserAgentInterface
+     */
     protected function userAgent(): UserAgentInterface
     {
         return new UserAgent(
