@@ -24,6 +24,7 @@ class Book extends Model
      */
     protected $fillable = [
         'user_id',
+        'files',
         'description',
         'pages',
         'title',

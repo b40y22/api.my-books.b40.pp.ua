@@ -5,7 +5,7 @@ namespace App\Src\Services\Import\ContextLocation;
 
 use App\Exceptions\ApiArgumentsException;
 use App\Exceptions\ExternalServiceException;
-use App\Src\Common\Books\Builder\ReadBook;
+use App\Src\Common\Books\Builder\BuilderBookInterface;
 use App\Src\Dto\Book\BookStoreDto;
 use App\Src\Repositories\Eloquent\AuthorRepository;
 use App\Src\Repositories\Eloquent\BookContextRepository;
@@ -21,11 +21,11 @@ class Db implements ContextLocationInterface
     protected BookContextRepositoryInterface $bookContextRepository;
 
     /**
-     * @param ReadBook $ReadBook
+     * @param BuilderBookInterface $BookForStore
      * @param int $userId
      */
     public function __construct(
-        protected ReadBook $ReadBook,
+        protected BuilderBookInterface $BookForStore,
         protected int $userId
     ) {
         $this->bookContextRepository = new BookContextRepository();
@@ -51,11 +51,11 @@ class Db implements ContextLocationInterface
     {
         $BookStoreDto = new BookStoreDto([
             'user_id' => $this->userId,
-            'authors' => $this->ReadBook->getAuthors(),
-            'description' => $this->ReadBook->getDescription(),
-            'title' => $this->ReadBook->getTitle(),
-            'pages' => $this->ReadBook->getPages(),
-            'year' => $this->ReadBook->getYear(),
+            'authors' => $this->BookForStore->getAuthors(),
+            'description' => $this->BookForStore->getDescription(),
+            'title' => $this->BookForStore->getTitle(),
+            'pages' => $this->BookForStore->getPages(),
+            'year' => $this->BookForStore->getYear(),
         ]);
 
         $Book = (new BookStoreService(
@@ -64,7 +64,7 @@ class Db implements ContextLocationInterface
         ))->store($BookStoreDto);
 
         $this->bookContextRepository->store(
-            $this->ReadBook->getContext(),
+            $this->BookForStore->getContext(),
             $Book->toArray()['id']
         );
     }

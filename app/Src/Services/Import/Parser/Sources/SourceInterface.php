@@ -2,12 +2,12 @@
 
 namespace App\Src\Services\Import\Parser\Sources;
 
-use App\Src\Common\Books\Builder\ReadBook;
+use App\Src\Common\Books\Builder\BuilderBookInterface;
 
 interface SourceInterface
 {
     /**
-     * @return ReadBook
+     * @return BuilderBookInterface
      */
-    public function handle(): ReadBook;
+    public function handle(): BuilderBookInterface;
 }

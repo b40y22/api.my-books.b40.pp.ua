@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Src\Services\Import\Parser\Sources;
 
+use App\Src\Common\Books\Builder\BuilderBookInterface;
 use App\Src\Common\Books\Builder\ReadBook;
 use App\Src\Services\Http\Crawler;
 use Crwlr\Crawler\Exceptions\UnknownLoaderKeyException;
@@ -44,10 +45,10 @@ final class Loveread implements SourceInterface
     }
 
     /**
-     * @return ReadBook
+     * @return BuilderBookInterface
      * @throws UnknownLoaderKeyException
      */
-    public function handle(): ReadBook
+    public function handle(): BuilderBookInterface
     {
         $this->getBookInformation();
         $this->getBookContext();
