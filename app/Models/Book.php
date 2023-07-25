@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Events\PostBookCreateEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,13 +37,6 @@ class Book extends Model
         'user_id',
         'pivot',
     ];
-
-    protected static function booted()
-    {
-        static::created(function ($model) {
-            event(new PostBookCreateEvent($model));
-        });
-    }
 
     /**
      * @return BelongsToMany

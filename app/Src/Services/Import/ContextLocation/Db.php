@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Src\Services\Import\ContextLocation;
 
+use App\Events\PostBookCreateEvent;
 use App\Exceptions\ApiArgumentsException;
 use App\Exceptions\ExternalServiceException;
 use App\Src\Common\Books\Builder\BuilderBookInterface;
@@ -62,6 +63,9 @@ class Db implements ContextLocationInterface
             new BookRepository(),
             new AuthorRepository()
         ))->store($BookStoreDto);
+
+        // For create new message about new book
+        event(new PostBookCreateEvent($Book));
 
         $this->bookContextRepository->store(
             $this->BookForStore->getContext(),

@@ -3,23 +3,28 @@
 namespace App\Listeners;
 
 use App\Events\PostBookCreateEvent;
+use App\Src\Repositories\Interfaces\MessageRepositoryInterface;
 
 class PostBookCreateListener
 {
     /**
      * Create the event listener.
      */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(
+        protected MessageRepositoryInterface $messageRepository
+    ) {}
 
     /**
      * Handle the event.
      */
     public function handle(PostBookCreateEvent $event): void
     {
-        // TODO: потрібно створити міграцію, модел, репозіторій для таблиці messages
-        // Звідси буду дергати метод який буде записувати нову книжку до таблиці messages
+        $messageArrayData = $event->getMessageArray();
+
+        $this->messageRepository->store([
+            'message' => $messageArrayData,
+            'action' => 'newBook',
+            'read' => false
+        ]);
     }
 }

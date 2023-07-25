@@ -2,28 +2,42 @@
 
 namespace App\Events;
 
+use App\Models\Book;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PostBookCreateEvent
+class PostBookCreateEvent implements BookEventInterface
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public function __construct(
-        protected Model $readBook,
+        protected Book $Book,
         protected bool $success = true,
     ) {}
 
     /**
-     * @return PrivateChannel[]
+     * @return array
      */
-    public function broadcastOn(): array
+    public function getMessageArray(): array
     {
-        return [
-            new PrivateChannel('messages'),
+        $book = $this->Book->toArray();
+
+        $result = [
+            'id' => $book['id'],
+            'title' => $book['title'],
+            'pages' => $book['pages'],
+            'year' => $book['year'],
         ];
+
+        foreach ($book['authors'] as $item) {
+            $result['authors'][] = [
+                'id' => $item['id'],
+                'firstname' => $item['firstname'],
+                'lastname' => $item['lastname'],
+            ];
+        }
+
+        return $result;
     }
 }

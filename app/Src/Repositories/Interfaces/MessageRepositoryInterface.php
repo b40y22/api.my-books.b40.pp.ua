@@ -10,5 +10,5 @@ use App\Src\Dto\Author\AuthorUpdateDto;
 
 interface MessageRepositoryInterface extends AbstractRepositoryInterface
 {
-
+    public function store(array $message);
 }

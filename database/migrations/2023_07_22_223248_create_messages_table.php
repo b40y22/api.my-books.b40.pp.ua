@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->integer('book_id');
             $table->json('message');
             $table->string('action');
             $table->tinyInteger('read');

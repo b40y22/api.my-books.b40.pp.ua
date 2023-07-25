@@ -19,10 +19,13 @@ class Message extends Model
      * @var string[]
      */
     protected $fillable = [
-        'book_id',
         'message',
         'action',
         'read',
+    ];
+
+    protected $casts = [
+        'message' => 'json',
     ];
 
     /**
