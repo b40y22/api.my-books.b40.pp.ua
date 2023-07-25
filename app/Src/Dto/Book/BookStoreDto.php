@@ -60,36 +60,4 @@ class BookStoreDto extends AbstractDto
     {
         return $this->authors;
     }
-
-    /**
-     * @return string|null
-     */
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getPages(): ?string
-    {
-        return $this->pages;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getYear(): ?string
-    {
-        return $this->year;
-    }
 }

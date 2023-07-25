@@ -39,20 +39,4 @@ class AuthorUpdateDto extends AbstractDto
     {
         return $this->id;
     }
-
-    /**
-     * @return string
-     */
-    public function getFirstname(): string
-    {
-        return $this->firstname;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastname(): string
-    {
-        return $this->lastname;
-    }
 }
