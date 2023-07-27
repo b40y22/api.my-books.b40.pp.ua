@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Listeners;
 
@@ -8,14 +9,15 @@ use App\Src\Repositories\Interfaces\MessageRepositoryInterface;
 class PostBookCreateListener
 {
     /**
-     * Create the event listener.
+     * @param MessageRepositoryInterface $messageRepository
      */
     public function __construct(
         protected MessageRepositoryInterface $messageRepository
     ) {}
 
     /**
-     * Handle the event.
+     * @param PostBookCreateEvent $event
+     * @return void
      */
     public function handle(PostBookCreateEvent $event): void
     {

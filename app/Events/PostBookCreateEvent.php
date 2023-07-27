@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Events;
 
@@ -11,6 +12,10 @@ class PostBookCreateEvent implements BookEventInterface
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    /**
+     * @param Book $Book
+     * @param bool $success
+     */
     public function __construct(
         protected Book $Book,
         protected bool $success = true,

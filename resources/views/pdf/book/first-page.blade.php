@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{$title}}</title>
+    <title>{{$book['title']}}</title>
 
     <style>
         @font-face {
@@ -43,28 +43,39 @@
             font-size: 16px;
             margin-top: 660px;
         }
+        .left {
+            text-align: left;
+        }
     </style>
 
 </head>
 <body>
     <div class="container">
         <div class="title center">
-            {{$title}}
+            {{$book['title']}}
         </div>
 
         <div class="authors center">
-            @foreach($authors as $author)
-                {{$author}}
+            @foreach($book['authors'] as $author)
+                {{$author['firstname'] . ' '. $author['lastname']}}
             @endforeach
         </div>
 
         <div class="cover center">
-            <img class="cover-image" src="{{$cover}}" alt="">
+            <img class="cover-image" src="{{$book['cover']}}" alt="">
         </div>
 
         <div class="year center">
-            {{$year}} г.
+            {{$book['year']}} г.
         </div>
+    </div>
+
+    <div class="container left">
+        @foreach($book['context'] as $page)
+            @foreach($page as $line)
+                {{$line}}
+            @endforeach
+        @endforeach
     </div>
 </body>
 </html>
