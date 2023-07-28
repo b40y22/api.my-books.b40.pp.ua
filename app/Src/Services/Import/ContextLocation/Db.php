@@ -39,17 +39,6 @@ class Db implements ContextLocationInterface
      */
     public function handle(): bool
     {
-        $this->storeBookInformation();
-
-        return true;
-    }
-
-    /**
-     * @throws ApiArgumentsException
-     * @throws ExternalServiceException
-     */
-    private function storeBookInformation(): void
-    {
         $BookStoreDto = new BookStoreDto([
             'user_id' => $this->userId,
             'authors' => $this->BookForStore->getAuthors(),
@@ -71,5 +60,7 @@ class Db implements ContextLocationInterface
             $this->BookForStore->getContext(),
             $Book->toArray()['id']
         );
+
+        return true;
     }
 }
