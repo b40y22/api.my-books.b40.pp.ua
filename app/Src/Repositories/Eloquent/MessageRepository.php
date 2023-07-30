@@ -17,7 +17,7 @@ class MessageRepository extends AbstractRepository implements MessageRepositoryI
      * @param array $message
      * @return mixed
      */
-    public function store(array $message)
+    public function store(array $message): mixed
     {
         return $this->model::create($message);
     }

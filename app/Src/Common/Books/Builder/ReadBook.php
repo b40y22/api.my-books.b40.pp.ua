@@ -122,30 +122,6 @@ class ReadBook implements BuilderBookInterface
     }
 
     /**
-     * @return File|null
-     */
-    public function getFile(): ?File
-    {
-        return $this->file;
-    }
-
-    /**
-     * @param File $file
-     */
-    public function setFile(File $file): void
-    {
-        $this->file = $file;
-    }
-
-    /**
-     * @return string
-     */
-    public function getImage(): string
-    {
-        return $this->image;
-    }
-
-    /**
      * @param string $image
      */
     public function setImage(string $image): void
@@ -215,14 +191,5 @@ class ReadBook implements BuilderBookInterface
     public function setYear(int $year): void
     {
         $this->year = $year;
-    }
-
-    /**
-     * @param array $context
-     * @return void
-     */
-    public function addToContext(array $context): void
-    {
-        $this->context[] = $context;
     }
 }
