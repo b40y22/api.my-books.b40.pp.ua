@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Src\Services\Book\Interfaces;
 
-use App\Models\Book;
 use App\Src\Dto\Book\BookUpdateDto;
 
 interface BookUpdateServiceInterface
