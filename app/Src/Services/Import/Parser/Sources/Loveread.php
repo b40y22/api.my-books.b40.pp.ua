@@ -11,6 +11,7 @@ use Crwlr\Crawler\Steps\Dom;
 use Crwlr\Crawler\Steps\Html;
 use Crwlr\Crawler\Steps\Loading\Http;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 final class Loveread implements SourceInterface
 {
@@ -47,9 +48,13 @@ final class Loveread implements SourceInterface
     /**
      * @return BuilderBookInterface
      * @throws UnknownLoaderKeyException
+     * @throws Exception
      */
     public function handle(): BuilderBookInterface
     {
+        if (!$this->link) {
+            throw new Exception('Link can`t be empty');
+        }
         $this->getBookInformation();
         $this->getBookContext();
 
@@ -64,7 +69,7 @@ final class Loveread implements SourceInterface
     private function getBookInformation(): void
     {
         // Book id
-        $this->ReadBook->setBookIdOnLoveread((int) str_replace(env('LOVEREAD_HOST') . 'view_global.php?id=', '', $this->link));
+        $this->ReadBook->setBookId($this->extractBookIdFromLink());
 
         $crawler = new Crawler();
         $crawler
@@ -129,6 +134,20 @@ final class Loveread implements SourceInterface
     }
 
     /**
+     * @throws Exception
+     */
+    private function extractBookIdFromLink(): int
+    {
+        $bookId = str_replace(env('LOVEREAD_HOST') . 'view_global.php?id=', '', $this->link);
+        if (!$bookId) {
+            Log::error('Can`t get bookId from link', ['link' => $this->link]);
+            throw new Exception('Can`t get bookId from link');
+        }
+
+        return (int) $bookId;
+    }
+
+    /**
      * Метод в якому рядок вигляда "Мария Кардакова, Анча Баранова" перетворюється на массив авторів певного формата
      * @param string $authors
      * @return array
@@ -163,7 +182,7 @@ final class Loveread implements SourceInterface
         );
 
         for ($p = 1; $p <= $this->ReadBook->getPages(); $p++) {
-            $result[] = $this->getCurrentPageContext(env('LOVEREAD_HOST') . 'read_book.php?id=' . $this->ReadBook->getBookIdOnLoveread() . '&p=' . $p);
+            $result[] = $this->getCurrentPageContext(env('LOVEREAD_HOST') . 'read_book.php?id=' . $this->ReadBook->getBookId() . '&p=' . $p);
         }
 
         $this->ReadBook->setContext($result);

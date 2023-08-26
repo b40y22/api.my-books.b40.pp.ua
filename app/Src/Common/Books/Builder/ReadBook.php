@@ -15,7 +15,7 @@ class ReadBook implements BuilderBookInterface
     /**
      * @var int
      */
-    private int $bookIdOnLoveread;
+    private int $bookId;
 
     /**
      * @var array
@@ -76,17 +76,17 @@ class ReadBook implements BuilderBookInterface
     /**
      * @return int
      */
-    public function getBookIdOnLoveread(): int
+    public function getBookId(): int
     {
-        return $this->bookIdOnLoveread;
+        return $this->bookId;
     }
 
     /**
-     * @param int $bookIdOnLoveread
+     * @param int $bookId
      */
-    public function setBookIdOnLoveread(int $bookIdOnLoveread): void
+    public function setBookId(int $bookId): void
     {
-        $this->bookIdOnLoveread = $bookIdOnLoveread;
+        $this->bookId = $bookId;
     }
 
     /**
