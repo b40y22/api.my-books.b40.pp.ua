@@ -15,7 +15,9 @@ trait HttpTrait
             $urlComponents = parse_url($url);
             $hostName = str_replace('www', '', $urlComponents['host']);
 
-            return explode('.', $hostName)[0];
+            return implode('', array_map(function ($item) {
+                return ucwords($item);
+            }, explode('.', $hostName)));
         }
 
         return '';

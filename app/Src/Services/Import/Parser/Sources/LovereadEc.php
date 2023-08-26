@@ -7,13 +7,14 @@ use App\Src\Common\Books\Builder\BuilderBookInterface;
 use App\Src\Common\Books\Builder\ReadBook;
 use App\Src\Services\Http\Crawler;
 use Crwlr\Crawler\Exceptions\UnknownLoaderKeyException;
+use Crwlr\Crawler\Loader\Http\Exceptions\LoadingException;
 use Crwlr\Crawler\Steps\Dom;
 use Crwlr\Crawler\Steps\Html;
 use Crwlr\Crawler\Steps\Loading\Http;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
-final class Loveread implements SourceInterface
+final class LovereadEc implements SourceInterface
 {
     /**
      * Here MUST be all variants information about book
@@ -63,7 +64,7 @@ final class Loveread implements SourceInterface
 
     /**
      * @return void
-     * @throws UnknownLoaderKeyException
+     * @throws LoadingException
      * @throws Exception
      */
     private function getBookInformation(): void
@@ -71,65 +72,70 @@ final class Loveread implements SourceInterface
         // Book id
         $this->ReadBook->setBookId($this->extractBookIdFromLink());
 
-        $crawler = new Crawler();
-        $crawler
-            ->input($this->link)
-            ->addStep(Http::get())
-            ->addStep(
-                Html::root()
-                    ->extract([
-                        'imageLink' => Dom::cssSelector('img.margin-right_8')->attribute('src')->toAbsoluteUrl(),
-                        'bookLink' => Dom::cssSelector('tr.td_center_color:nth-child(3) > td:nth-child(1) > p:nth-child(2) > a:nth-child(1)')->attribute('href')->toAbsoluteUrl(),
-                        'bookData' => Dom::xPath('//tr[@class=\'td_center_color\']')
-                    ])->addToResult()
-            );
+        try {
 
-        foreach ($crawler->run() as $result) {
-            // Отримую рядок з даними у вигляді :
-            // "Автор: Джеймс Клир Название: Атомные привычки. Как приобрести хорошие привычки и избавиться от плохих Издательство: Питер Год: 2020 ISBN: 978-5-4461-1216-6 Страниц: 304 Формат: 70x100/16 Перевод книги: К. Шашкова, Юлия Чекмарева Язык: Русский"
-            $allInfo = $result->toArray()['bookData'][0];
+            $crawler = new Crawler();
+            $crawler
+                ->input($this->link)
+                ->addStep(Http::get()->stopOnErrorResponse())
+                ->addStep(
+                    Html::root()
+                        ->extract([
+                            'imageLink' => Dom::cssSelector('img.margin-right_8')->attribute('src')->toAbsoluteUrl(),
+                            'bookLink' => Dom::cssSelector('tr.td_center_color:nth-child(3) > td:nth-child(1) > p:nth-child(2) > a:nth-child(1)')->attribute('href')->toAbsoluteUrl(),
+                            'bookData' => Dom::xPath('//tr[@class=\'td_center_color\']')
+                        ])->addToResult()
+                );
 
-            // Беру массив в якому перераховано по максимуму все що можно
-            // зустріти в рядку allInfo і шукаю по черзі в рядку кожен елемент массиву
-            foreach ($this->needleData as $key => &$item) {
+            foreach ($crawler->run() as $result) {
+                // Отримую рядок з даними у вигляді :
+                // "Автор: Джеймс Клир Название: Атомные привычки. Как приобрести хорошие привычки и избавиться от плохих Издательство: Питер Год: 2020 ISBN: 978-5-4461-1216-6 Страниц: 304 Формат: 70x100/16 Перевод книги: К. Шашкова, Юлия Чекмарева Язык: Русский"
+                $allInfo = $result->toArray()['bookData'][0];
 
-                // Для кожної ітерації роблю копію рядка з якою потім і працюю (для того щоб орігінал був не змінним)
-                $stringForSearch = $allInfo;
-                if (mb_stripos($allInfo, $item['word']) !== false) {
+                // Беру массив в якому перераховано по максимуму все що можно
+                // зустріти в рядку allInfo і шукаю по черзі в рядку кожен елемент массиву
+                foreach ($this->needleData as $key => &$item) {
 
-                    // Поділяю рядок на 2 частини - до і після поточного item
-                    $separated = str_ireplace($item['word'], '|', $stringForSearch);
-                    $item['string'] = trim(explode('|', $separated)[1]);
-                } else {
+                    // Для кожної ітерації роблю копію рядка з якою потім і працюю (для того щоб орігінал був не змінним)
+                    $stringForSearch = $allInfo;
+                    if (mb_stripos($allInfo, $item['word']) !== false) {
 
-                    // Якщо поточне слово не знайдено в рядку, то просто видаляю це слово з массива
-                    unset($this->needleData[$key]);
+                        // Поділяю рядок на 2 частини - до і після поточного item
+                        $separated = str_ireplace($item['word'], '|', $stringForSearch);
+                        $item['string'] = trim(explode('|', $separated)[1]);
+                    } else {
+
+                        // Якщо поточне слово не знайдено в рядку, то просто видаляю це слово з массива
+                        unset($this->needleData[$key]);
+                    }
                 }
+
+                // Сортую массив $this->needleData по довжині поділеного рядка (поле string)
+                uasort($this->needleData, function ($a, $b) {
+                    return strlen($a['string']) - strlen($b['string']);
+                });
+
+                // Далі, методом накладання одного куска обрізанного рядка на інший, вирізаю потрібні поточні значення
+                // #Чорна магія. В домашніх умовах не повторювати
+                $split = '';
+                foreach ($this->needleData as $itemForFill) {
+                    match ($itemForFill['word']) {
+                        'Автор: ' => $this->ReadBook->setAuthors(
+                            $this->explodeAuthors(trim(str_replace($split, '', $itemForFill['string'])))
+                        ),
+                        'Название: ' => $this->ReadBook->setTitle(trim(str_replace($split, '', $itemForFill['string']))),
+                        'Год: ' => $this->ReadBook->setYear((int)trim(str_replace($split, '', $itemForFill['string']))),
+                        default => ''
+                    };
+                    $split = $itemForFill['word'] . $itemForFill['string'];
+                }
+
+                $this->ReadBook->setImage($result->get('imageLink'));
+                $this->ReadBook->setDescription($result->get('bookData')[1]);
+                $this->ReadBook->setLinkToContext($result->get('bookLink'));
             }
-
-            // Сортую массив $this->needleData по довжині поділеного рядка (поле string)
-            uasort($this->needleData, function ($a, $b) {
-                return strlen($a['string']) - strlen($b['string']);
-            });
-
-            // Далі, методом накладання одного куска обрізанного рядка на інший, вирізаю потрібні поточні значення
-            // #Чорна магія. В домашніх умовах не повторювати
-            $split = '';
-            foreach ($this->needleData as $itemForFill) {
-                match ($itemForFill['word']) {
-                    'Автор: ' => $this->ReadBook->setAuthors(
-                        $this->explodeAuthors(trim(str_replace($split, '', $itemForFill['string'])))
-                    ),
-                    'Название: ' => $this->ReadBook->setTitle(trim(str_replace($split, '', $itemForFill['string']))),
-                    'Год: ' => $this->ReadBook->setYear((int) trim(str_replace($split, '', $itemForFill['string']))),
-                    default => ''
-                };
-                $split = $itemForFill['word'] . $itemForFill['string'];
-            }
-
-            $this->ReadBook->setImage($result->get('imageLink'));
-            $this->ReadBook->setDescription($result->get('bookData')[1]);
-            $this->ReadBook->setLinkToContext($result->get('bookLink'));
+        } catch (Exception $e) {
+            throw new LoadingException($e->getMessage());
         }
     }
 
@@ -141,6 +147,7 @@ final class Loveread implements SourceInterface
         $bookId = str_replace(env('LOVEREAD_HOST') . 'view_global.php?id=', '', $this->link);
         if (!$bookId) {
             Log::error('Can`t get bookId from link', ['link' => $this->link]);
+
             throw new Exception('Can`t get bookId from link');
         }
 
