@@ -6,10 +6,10 @@ namespace App\Http\Controllers\Api\Import;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Import\ImportBookRequest;
 use App\Jobs\Import\ImportBookJob;
+use App\Src\Dto\Import\ImportBookDto;
 use App\Src\Services\Import\Parser\ImportServiceInterface;
 use App\Src\Traits\HttpTrait;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 class ImportBookController extends Controller
 {
@@ -28,8 +28,9 @@ class ImportBookController extends Controller
      */
     public function __invoke(ImportBookRequest $importBookRequest): JsonResponse
     {
-        $ImportBookDto = $importBookRequest->validatedDTO();
-        $ImportBookDto->setUserId(Auth::id());
+        $ImportBookDto = new ImportBookDto(
+            $importBookRequest->validatedDTO()->toArray()
+        );
 
         dispatch((
             new ImportBookJob(

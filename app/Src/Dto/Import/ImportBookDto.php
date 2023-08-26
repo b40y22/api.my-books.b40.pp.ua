@@ -4,27 +4,47 @@ declare(strict_types=1);
 namespace App\Src\Dto\Import;
 
 use App\Src\Dto\AbstractDto;
+use Illuminate\Support\Facades\Auth;
 
 class ImportBookDto extends AbstractDto
 {
     /**
      * @var int
      */
-    protected int $user_id;
+    protected int $userId;
 
     /**
-     * @param array $linkArray
+     * @var string
      */
-    public function __construct(
-        protected array $linkArray
-    ) {}
+    protected string $link;
 
     /**
-     * @return array
+     * @var string
      */
-    public function getLinkArray(): array
+    protected string $type;
+
+    public function __construct(array $requestForImport)
     {
-        return $this->linkArray;
+        $this->link = $requestForImport['link'];
+        $this->type = $requestForImport['type'];
+        $this->userId = Auth::id();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getLink(): string
+    {
+        return $this->link;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
     }
 
     /**
@@ -32,14 +52,6 @@ class ImportBookDto extends AbstractDto
      */
     public function getUserId(): int
     {
-        return $this->user_id;
-    }
-
-    /**
-     * @param int $user_id
-     */
-    public function setUserId(int $user_id): void
-    {
-        $this->user_id = $user_id;
+        return $this->userId;
     }
 }
