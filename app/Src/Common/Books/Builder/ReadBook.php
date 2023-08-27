@@ -10,22 +10,22 @@ class ReadBook implements BuilderBookInterface
     /**
      * @var array
      */
-    private array $authors;
+    private array $authors = [];
 
     /**
      * @var int
      */
-    private int $bookId;
+    private int $bookId = 0;
 
     /**
      * @var array
      */
-    private array $context;
+    private array $context = [];
 
     /**
      * @var string
      */
-    private string $description;
+    private string $description = '';
 
     /**
      * @var File
@@ -35,27 +35,27 @@ class ReadBook implements BuilderBookInterface
     /**
      * @var string
      */
-    private string $image;
+    private string $image = '';
 
     /**
      * @var string
      */
-    private string $linkToContext;
+    private string $linkToContext = '';
 
     /**
      * @var int
      */
-    private int $pages;
+    private int $pages = 0;
 
     /**
      * @var string
      */
-    private string $title;
+    private string $title = '';
 
     /**
      * @var int
      */
-    private int $year;
+    private int $year = 0;
 
     /**
      * @return array

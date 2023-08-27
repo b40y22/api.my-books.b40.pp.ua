@@ -73,7 +73,6 @@ final class LovereadEc implements SourceInterface
         $this->ReadBook->setBookId($this->extractBookIdFromLink());
 
         try {
-
             $crawler = new Crawler();
             $crawler
                 ->input($this->link)
@@ -130,8 +129,12 @@ final class LovereadEc implements SourceInterface
                     $split = $itemForFill['word'] . $itemForFill['string'];
                 }
 
-                $this->ReadBook->setImage($result->get('imageLink'));
-                $this->ReadBook->setDescription($result->get('bookData')[1]);
+                if ($result->get('imageLink')) {
+                    $this->ReadBook->setImage($result->get('imageLink'));
+                }
+                if ($result->get('bookData')[1]) {
+                    $this->ReadBook->setDescription($result->get('bookData')[1]);
+                }
                 $this->ReadBook->setLinkToContext($result->get('bookLink'));
             }
         } catch (Exception $e) {
@@ -144,7 +147,7 @@ final class LovereadEc implements SourceInterface
      */
     private function extractBookIdFromLink(): int
     {
-        $bookId = str_replace(env('LOVEREAD_HOST') . 'view_global.php?id=', '', $this->link);
+        $bookId = str_replace(env('LOVEREAD_EC_HOST') . 'view_global.php?id=', '', $this->link);
         if (!$bookId) {
             Log::error('Can`t get bookId from link', ['link' => $this->link]);
 
@@ -188,8 +191,8 @@ final class LovereadEc implements SourceInterface
             $this->getMaxPageFromPagination($this->ReadBook->getLinkToContext())
         );
 
-        for ($p = 1; $p <= $this->ReadBook->getPages(); $p++) {
-            $result[] = $this->getCurrentPageContext(env('LOVEREAD_HOST') . 'read_book.php?id=' . $this->ReadBook->getBookId() . '&p=' . $p);
+        for ($pageNumber = 1; $pageNumber <= $this->ReadBook->getPages(); $pageNumber++) {
+            $result[] = $this->getCurrentPageContext(env('LOVEREAD_EC_HOST') . 'read_book.php?id=' . $this->ReadBook->getBookId() . '&p=' . $pageNumber);
         }
 
         $this->ReadBook->setContext($result);
