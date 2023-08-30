@@ -13,8 +13,10 @@ use Crwlr\Crawler\Steps\Html;
 use Crwlr\Crawler\Steps\Loading\Http;
 use Exception;
 
-class LovereadInfo implements SourceInterface
+final class LovereadInfo extends AbstractParser implements SourceInterface
 {
+    // https://loveread.info/
+
     private array $linkComponents;
 
     /**
@@ -48,7 +50,7 @@ class LovereadInfo implements SourceInterface
     /**
      * @throws Exception
      */
-    private function getBookInformation()
+    private function getBookInformation(): void
     {
         // Book id
         $this->ReadBook->setBookId($this->extractBookIdFromLink());
@@ -89,45 +91,9 @@ class LovereadInfo implements SourceInterface
     }
 
     /**
-     * Метод в якому рядок вигляда "Мария Кардакова, Анча Баранова" перетворюється на массив авторів певного формата
-     * @param string $authors
-     * @return array
-     */
-    private function explodeAuthors(string $authors): array
-    {
-        $result = [];
-        $authorsArray = explode(',', $authors);
-        foreach ($authorsArray as $rawAuthor) {
-            $fullNameAuthor = explode(' ', $rawAuthor);
-            $result[] = [
-                'id' => 0,
-                'new' => true,
-                'firstname' => $fullNameAuthor[0],
-                'lastname' => $fullNameAuthor[1],
-            ];
-        }
-
-        return $result;
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function extractBookIdFromLink(): int
-    {
-        preg_match('/(\d+){4,}/', $this->link, $matches);
-
-        if (isset($matches[0])) {
-            return (int) $matches[0];
-        }
-
-        throw new Exception('Can`t get book id');
-    }
-
-    /**
      * @throws UnknownLoaderKeyException
      */
-    private function getBookContext()
+    private function getBookContext(): void
     {
         $result = [];
 
@@ -158,7 +124,7 @@ class LovereadInfo implements SourceInterface
         $crawler = new Crawler();
         $crawler
             ->input($this->link)
-            ->addStep(Http::get())
+            ->addStep(Http::get()->stopOnErrorResponse())
             ->addStep(
                 Html::root()
                     ->extract([
@@ -171,30 +137,6 @@ class LovereadInfo implements SourceInterface
         }
 
         return 0;
-    }
-
-    /**
-     * @throws UnknownLoaderKeyException
-     * @throws Exception
-     */
-    private function getCurrentPageContext(string $url): array
-    {
-        $crawler = new Crawler();
-        $crawler
-            ->input($url)
-            ->addStep(Http::get())
-            ->addStep(
-                Html::root()
-                    ->extract([
-                        'context' => Dom::cssSelector('#texts')->html()
-                    ])->addToResult()
-            );
-
-        foreach ($crawler->run() as $pageContext) {
-            return $pageContext->toArray();
-        }
-
-        return [];
     }
 
     /**

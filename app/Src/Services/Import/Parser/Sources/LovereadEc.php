@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Log;
 
 final class LovereadEc implements SourceInterface
 {
+    // https://loveread.ec/
+
     /**
      * Here MUST be all variants information about book
      * @var array|array[]
@@ -209,7 +211,7 @@ final class LovereadEc implements SourceInterface
         $crawler = new Crawler();
         $crawler
             ->input($url)
-            ->addStep(Http::get())
+            ->addStep(Http::get()->stopOnErrorResponse())
             ->addStep(
                 Html::first('.navigation')
                     ->extract([
@@ -235,7 +237,7 @@ final class LovereadEc implements SourceInterface
         $crawler = new Crawler();
         $crawler
             ->input($url)
-            ->addStep(Http::get())
+            ->addStep(Http::get()->stopOnErrorResponse())
             ->addStep(
                 Html::first('.MsoNormal')
                     ->extract([
