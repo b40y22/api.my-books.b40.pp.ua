@@ -9,4 +9,5 @@ return [
 
     'import.url' => 'Поле link мусить бути посиланням',
     'field.required' => ':attribute - обов\'язкове поле',
+    'field.unique' => ':attribute вже існує в БД',
 ];

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->smallInteger('active');
-            $table->string('url');
-            $table->string('class_name');
+            $table->string('url')->unique();
+            $table->string('class_name')->unique();
             $table->smallInteger('status')->nullable();
             $table->datetime('last_check_at')->nullable();
             $table->timestamps();

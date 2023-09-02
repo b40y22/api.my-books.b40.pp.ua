@@ -27,9 +27,9 @@ class ExternalSourceStoreRequest extends FormRequest
     {
         return [
             'active' => 'required|boolean',
-            'class_name' => 'required|string|min:3',
+            'class_name' => 'required|unique:external_sources|string|min:3',
             'title' => 'required|string|min:3',
-            'url' => 'required|url:http,https',
+            'url' => 'required|unique:external_sources|url:http,https',
         ];
     }
 
@@ -39,10 +39,12 @@ class ExternalSourceStoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.required' => trans('api.general.required'),
+            'title.required' => trans('api.field.required'),
             'title.min' => trans('api.general.failed'),
-            'url.required' => trans('api.general.required'),
-            'class_name.required' => trans('api.general.required'),
+            'url.required' => trans('api.field.required'),
+            'url.unique' => trans('api.field.unique'),
+            'class_name.required' => trans('api.field.required'),
+            'class_name.unique' => trans('api.field.unique'),
         ];
     }
 
