@@ -2,8 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\Monitoring\ExternalServicesMonitoringJob;
+use App\Src\Repositories\Eloquent\ExternalSourceRepository;
+use App\Src\Services\Monitoring\MonitoringService;
 use App\Src\Services\Monitoring\MonitoringServiceInterface;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class ExternalMonitoring extends Command
 {
@@ -32,6 +36,12 @@ class ExternalMonitoring extends Command
 
     public function handle(): void
     {
-        $this->monitoringService->handle();
+        $repo = new ExternalSourceRepository();
+        $service = new MonitoringService($repo);
+
+        dispatch(
+            (new ExternalServicesMonitoringJob($service))->onQueue('monitoring')
+        );
+        Log::info('Повідомлення для черги створено успішно');
     }
 }

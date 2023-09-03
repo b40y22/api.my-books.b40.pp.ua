@@ -21,6 +21,6 @@ class ExternalServicesMonitoringJob implements ShouldQueue
 
     public function handle(): void
     {
-        $this->monitoringService->handle('');
+        $this->monitoringService->handle();
     }
 }
