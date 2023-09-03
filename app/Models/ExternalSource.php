@@ -24,6 +24,6 @@ class ExternalSource extends Model
         'url',
         'class_name',
         'status',
-        'last_check_at',
+        'change_status_at',
     ];
 }

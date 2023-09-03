@@ -8,7 +8,7 @@ use App\Http\Requests\ExternalSource\ExternalSourceStoreRequest;
 use App\Src\Repositories\Interfaces\ExternalSourceRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
-class ExternalSourceStoreController extends Controller
+class ExternalSourceListController extends Controller
 {
     /**
      * @param ExternalSourceRepositoryInterface $externalSourceRepository
@@ -18,14 +18,13 @@ class ExternalSourceStoreController extends Controller
     ) {}
 
     /**
-     * @param ExternalSourceStoreRequest $externalSourceStoreRequest
      * @return JsonResponse
      */
-    public function __invoke(ExternalSourceStoreRequest $externalSourceStoreRequest): JsonResponse
+    public function __invoke(): JsonResponse
     {
         return response()->json([
             'data' => [
-                'externalSource' => $this->externalSourceRepository->store($externalSourceStoreRequest->validatedDTO())
+                'externalSources' => $this->externalSourceRepository->listAll()
             ],
             'errors' => []
         ], 201);

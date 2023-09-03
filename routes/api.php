@@ -12,9 +12,9 @@ use App\Http\Controllers\Api\Book\BookListController;
 use App\Http\Controllers\Api\Book\BookRemoveController;
 use App\Http\Controllers\Api\Book\BookStoreController;
 use App\Http\Controllers\Api\Book\BookUpdateController;
+use App\Http\Controllers\Api\ExternalSource\ExternalSourceListController;
 use App\Http\Controllers\Api\ExternalSource\ExternalSourceStoreController;
 use App\Http\Controllers\Api\Import\ImportBookController;
-use App\Http\Middleware\AddUserIdToBody;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -53,7 +53,8 @@ Route::middleware('auth:sanctum')->namespace('api')->group(function () {
     });
 
     // External source
-    Route::prefix('/monitoring')->group(function () {
+    Route::prefix('/external-source')->group(function () {
+        Route::get('/',         [ExternalSourceListController::class, '__invoke'])->name('external.source.list');
         Route::post('/',        [ExternalSourceStoreController::class, '__invoke'])->name('external.source.store');
     });
 

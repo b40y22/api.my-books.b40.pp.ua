@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('url')->unique();
             $table->string('class_name')->unique();
             $table->smallInteger('status')->nullable();
-            $table->datetime('last_check_at')->nullable();
+            $table->datetime('change_status_at')->nullable();
             $table->timestamps();
         });
     }
