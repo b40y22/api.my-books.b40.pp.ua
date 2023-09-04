@@ -22,7 +22,7 @@ final class ImportService implements ImportServiceInterface
         $type = $importBookDto->getType();
 
         // Parser name makes from part source site name
-        $Parser = 'App\Src\Services\Import\Parser\Sources\\' . $this->getDomain($link);
+        $Parser = 'App\Src\Services\Import\Parser\Sources\\' . $this->getParserClassNameFromDomain($link);
         if (!class_exists($Parser)) {
             throw new Exception('Class ' . $Parser . ' not found');
         }

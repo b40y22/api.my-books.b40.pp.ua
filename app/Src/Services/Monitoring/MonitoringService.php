@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace App\Src\Services\Monitoring;
 
 use App\Src\Repositories\Interfaces\ExternalSourceRepositoryInterface;
+use App\Src\Services\Import\Parser\Sources\Exceptions\LoadingException as ParserLoadingException;
+use Crwlr\Crawler\Loader\Http\Exceptions\LoadingException;
 use DateTime;
-use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 
@@ -19,6 +21,7 @@ class MonitoringService implements MonitoringServiceInterface
     /**
      * @return bool
      * @throws GuzzleException
+     * @throws ParserLoadingException
      */
     public function handle(): bool
     {
@@ -42,7 +45,7 @@ class MonitoringService implements MonitoringServiceInterface
                 }
 
                 $source->save();
-            } catch (Exception $e) {
+            } catch (LoadingException|ConnectException $e) {
                 if ($source->status !== 0) {
                     $source->status = 0;
                     $source->change_status_at = new DateTime();

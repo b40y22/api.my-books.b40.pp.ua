@@ -41,4 +41,13 @@ class ExternalSourceRepository extends AbstractRepository implements ExternalSou
     {
         return $this->model::where('active', 1)->get();
     }
+
+    /**
+     * @param string $className
+     * @return ExternalSource|null
+     */
+    public function getExternalSourceByClassName(string $className): ?ExternalSource
+    {
+        return $this->model::where('class_name', $className)->first();
+    }
 }

@@ -23,4 +23,10 @@ interface ExternalSourceRepositoryInterface
      * @return Collection|null
      */
     public function listOnlyActive(): ?Collection;
+
+    /**
+     * @param string $className
+     * @return ExternalSource|null
+     */
+    public function getExternalSourceByClassName(string $className): ?ExternalSource;
 }

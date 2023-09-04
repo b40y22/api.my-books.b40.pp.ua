@@ -6,8 +6,8 @@ namespace App\Src\Services\Import\Parser\Sources;
 use App\Src\Common\Books\Builder\BuilderBookInterface;
 use App\Src\Common\Books\Builder\ReadBook;
 use App\Src\Services\Http\Crawler;
+use App\Src\Services\Import\Parser\Sources\Exceptions\LoadingException;
 use Crwlr\Crawler\Exceptions\UnknownLoaderKeyException;
-use Crwlr\Crawler\Loader\Http\Exceptions\LoadingException;
 use Crwlr\Crawler\Steps\Dom;
 use Crwlr\Crawler\Steps\Html;
 use Crwlr\Crawler\Steps\Loading\Http;
@@ -140,7 +140,7 @@ final class LovereadEc implements SourceInterface
                 $this->ReadBook->setLinkToContext($result->get('bookLink'));
             }
         } catch (Exception $e) {
-            throw new LoadingException($e->getMessage());
+            throw new LoadingException($this->link, $e);
         }
     }
 

@@ -9,7 +9,7 @@ trait HttpTrait
      * @param string $url
      * @return string
      */
-    public function getDomain(string $url): string
+    public function getParserClassNameFromDomain(string $url): string
     {
         if (strlen($url) > 0) {
             $urlComponents = parse_url($url);
