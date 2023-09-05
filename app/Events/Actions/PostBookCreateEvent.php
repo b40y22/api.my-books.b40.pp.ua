@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Events;
+namespace App\Events\Actions;
 
+use App\Events\Interfaces\BookEventInterface;
 use App\Models\Book;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;

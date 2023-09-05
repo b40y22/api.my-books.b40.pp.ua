@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Import\ImportBookRequest;
 use App\Jobs\Import\ImportBookJob;
 use App\Src\Dto\Import\ImportBookDto;
+use App\Src\Repositories\Interfaces\ExternalSourceRepositoryInterface;
 use App\Src\Services\Import\Parser\ImportServiceInterface;
 use App\Src\Traits\HttpTrait;
 use Illuminate\Http\JsonResponse;
@@ -17,9 +18,11 @@ class ImportBookController extends Controller
 
     /**
      * @param ImportServiceInterface $importService
+     * @param ExternalSourceRepositoryInterface $externalSourceRepository
      */
     public function __construct(
-        protected ImportServiceInterface $importService
+        protected ImportServiceInterface $importService,
+        protected ExternalSourceRepositoryInterface $externalSourceRepository
     ) {}
 
     /**
@@ -28,20 +31,17 @@ class ImportBookController extends Controller
      */
     public function __invoke(ImportBookRequest $importBookRequest): JsonResponse
     {
-        $ImportBookDto = new ImportBookDto(
-            $importBookRequest->validatedDTO()->toArray()
-        );
+        $className = $this->getParserClassNameFromDomain($importBookRequest->get('link'));
+        $externalSource = $this->externalSourceRepository->getExternalSourceByClassName($className);
 
-        dispatch((
-            new ImportBookJob(
-                $this->importService,
-                $ImportBookDto
-            )
-        )->onQueue('import'));
+        if ($externalSource->status) {
+            $ImportBookDto = new ImportBookDto($importBookRequest->validatedDTO()->toArray());
 
-        return response()->json([
-            'data' => [trans('api.general.successfully')],
-            'errors' => []
-        ]);
+            dispatch((new ImportBookJob($this->importService, $ImportBookDto))->onQueue('import'));
+
+            return response()->json(['data' => [trans('api.general.successfully')], 'errors' => []]);
+        }
+
+        return response()->json(['data' => [], 'errors' => [trans('api.external.disabled')]]);
     }
 }

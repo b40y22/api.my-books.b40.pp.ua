@@ -15,6 +15,9 @@ use Illuminate\Notifications\Notifiable;
  * @method static orderBy(string $string, string $order)
  * @method static find(mixed $id)
  * @method static where(string $string, string $string1, string $string2)
+ * @property mixed $user_id
+ * @property mixed $firstname
+ * @property mixed $lastname
  */
 class Author extends Model
 {

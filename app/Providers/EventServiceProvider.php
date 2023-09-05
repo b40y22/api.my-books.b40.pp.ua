@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
-use App\Events\PostBookCreateEvent;
+use App\Events\Actions\LoadingExceptionEvent;
+use App\Events\Actions\PostBookCreateEvent;
+use App\Listeners\LoadingExceptionListener;
 use App\Listeners\PostBookCreateListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         PostBookCreateEvent::class => [
             PostBookCreateListener::class,
         ],
+        LoadingExceptionEvent::class => [
+            LoadingExceptionListener::class
+        ]
     ];
 
     /**

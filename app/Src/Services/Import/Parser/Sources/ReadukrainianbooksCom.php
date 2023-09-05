@@ -6,15 +6,18 @@ namespace App\Src\Services\Import\Parser\Sources;
 use App\Src\Common\Books\Builder\BuilderBookInterface;
 use App\Src\Common\Books\Builder\ReadBook;
 use App\Src\Services\Http\Crawler;
+use App\Src\Traits\ExternalSourceTrait;
 use Crwlr\Crawler\Exceptions\UnknownLoaderKeyException;
-use Crwlr\Crawler\Loader\Http\Exceptions\LoadingException;
 use Crwlr\Crawler\Steps\Dom;
 use Crwlr\Crawler\Steps\Html;
 use Crwlr\Crawler\Steps\Loading\Http;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 final class ReadukrainianbooksCom extends AbstractParser  implements SourceInterface
 {
+    use ExternalSourceTrait;
+
     // https://readukrainianbooks.com/
 
     private array $linkComponents;
@@ -89,7 +92,9 @@ final class ReadukrainianbooksCom extends AbstractParser  implements SourceInter
                 }
             }
         } catch (Exception $e) {
-            throw new LoadingException($e->getMessage());
+            $this->disableExternalSourceByUrl($this->link);
+
+            Log::error('ReadukrainianbooksCom', [$e->getCode() => $e->getMessage()]);
         }
     }
 

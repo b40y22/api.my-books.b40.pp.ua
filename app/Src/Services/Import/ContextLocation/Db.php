@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Src\Services\Import\ContextLocation;
 
-use App\Events\PostBookCreateEvent;
+use App\Events\Actions\PostBookCreateEvent;
 use App\Exceptions\ApiArgumentsException;
 use App\Exceptions\ExternalServiceException;
 use App\Src\Common\Books\Builder\BuilderBookInterface;

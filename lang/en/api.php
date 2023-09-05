@@ -10,4 +10,5 @@ return [
     'import.url' => 'Field link must be URL',
     'field.required' => ':attribute - is required',
     'field.unique' => ':attribute exist in database',
+    'external.disabled' => 'This external source has been disabled',
 ];

@@ -4,16 +4,16 @@ declare(strict_types=1);
 namespace App\Src\Services\Monitoring;
 
 use App\Src\Repositories\Interfaces\ExternalSourceRepositoryInterface;
-use App\Src\Services\Import\Parser\Sources\Exceptions\LoadingException as ParserLoadingException;
-use Crwlr\Crawler\Loader\Http\Exceptions\LoadingException;
-use DateTime;
+use App\Src\Traits\ExternalSourceTrait;
+use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 
 class MonitoringService implements MonitoringServiceInterface
 {
+    use ExternalSourceTrait;
+
     public function __construct(
         protected ExternalSourceRepositoryInterface $externalSourceRepository
     ) {}
@@ -21,7 +21,6 @@ class MonitoringService implements MonitoringServiceInterface
     /**
      * @return bool
      * @throws GuzzleException
-     * @throws ParserLoadingException
      */
     public function handle(): bool
     {
@@ -32,28 +31,13 @@ class MonitoringService implements MonitoringServiceInterface
             try {
                 $response = $client->get($source->url, ['connect_timeout' => 5, 'timeout' => 5]);
 
-                if (200 === $response->getStatusCode()) {
-                    if ($source->status !== 1) {
-                        $source->status = 1;
-                        $source->change_status_at = new DateTime();
-                    }
-                } else {
-                    if ($source->status !== 0) {
-                        $source->status = 0;
-                        $source->change_status_at = new DateTime();
-                    }
+                if (200 === $response->getStatusCode() && $source->status !== 1) {
+                    $this->enableExternalSource($source);
                 }
+            } catch (Exception $e) {
+                $this->disableExternalSource($source);
 
-                $source->save();
-            } catch (LoadingException|ConnectException $e) {
-                if ($source->status !== 0) {
-                    $source->status = 0;
-                    $source->change_status_at = new DateTime();
-
-                    $source->save();
-                }
-
-                Log::error(__CLASS__, [$source->class_name => $e->getMessage()]);
+                Log::error('MonitoringService', [$e->getCode() => $e->getMessage()]);
             }
         }
 

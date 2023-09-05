@@ -9,6 +9,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property mixed $user_id
+ * @property mixed $files
+ * @property mixed $description
+ * @property mixed $pages
+ * @property mixed $title
+ * @property mixed $year
+ */
 class Book extends Model
 {
     use HasFactory, Notifiable;

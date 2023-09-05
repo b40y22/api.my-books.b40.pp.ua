@@ -6,7 +6,7 @@ namespace App\Src\Services\Import\Parser\Sources;
 use App\Src\Common\Books\Builder\BuilderBookInterface;
 use App\Src\Common\Books\Builder\ReadBook;
 use App\Src\Services\Http\Crawler;
-use App\Src\Services\Import\Parser\Sources\Exceptions\LoadingException;
+use App\Src\Traits\ExternalSourceTrait;
 use Crwlr\Crawler\Exceptions\UnknownLoaderKeyException;
 use Crwlr\Crawler\Steps\Dom;
 use Crwlr\Crawler\Steps\Html;
@@ -14,8 +14,10 @@ use Crwlr\Crawler\Steps\Loading\Http;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
-final class LovereadEc implements SourceInterface
+final class LovereadEc extends AbstractParser implements SourceInterface
 {
+    use ExternalSourceTrait;
+
     // https://loveread.ec/
 
     /**
@@ -66,7 +68,6 @@ final class LovereadEc implements SourceInterface
 
     /**
      * @return void
-     * @throws LoadingException
      * @throws Exception
      */
     private function getBookInformation(): void
@@ -140,14 +141,16 @@ final class LovereadEc implements SourceInterface
                 $this->ReadBook->setLinkToContext($result->get('bookLink'));
             }
         } catch (Exception $e) {
-            throw new LoadingException($this->link, $e);
+            $this->disableExternalSourceByUrl($this->link);
+
+            Log::error('LovereadEc', [$e->getCode() => $e->getMessage()]);
         }
     }
 
     /**
      * @throws Exception
      */
-    private function extractBookIdFromLink(): int
+    protected function extractBookIdFromLink(): int
     {
         $bookId = str_replace(env('LOVEREAD_EC_HOST') . 'view_global.php?id=', '', $this->link);
         if (!$bookId) {
@@ -164,7 +167,7 @@ final class LovereadEc implements SourceInterface
      * @param string $authors
      * @return array
      */
-    private function explodeAuthors(string $authors): array
+    protected function explodeAuthors(string $authors): array
     {
         $result = [];
         $authorsArray = explode(',', $authors);
@@ -232,7 +235,7 @@ final class LovereadEc implements SourceInterface
      * @throws UnknownLoaderKeyException
      * @throws Exception
      */
-    private function getCurrentPageContext(string $url): array
+    protected function getCurrentPageContext(string $url): array
     {
         $crawler = new Crawler();
         $crawler
