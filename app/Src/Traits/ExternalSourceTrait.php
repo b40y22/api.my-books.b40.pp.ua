@@ -6,7 +6,6 @@ namespace App\Src\Traits;
 use App\Models\ExternalSource;
 use App\Src\Repositories\Eloquent\ExternalSourceRepository;
 use DateTime;
-use Illuminate\Support\Facades\Log;
 
 trait ExternalSourceTrait
 {
