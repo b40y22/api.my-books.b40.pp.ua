@@ -42,6 +42,6 @@ class ExternalMonitoring extends Command
         dispatch(
             (new ExternalServicesMonitoringJob($service))->onQueue('monitoring')
         );
-        Log::info('Повідомлення для черги створено успішно');
+        Log::info('The message for the queue was created successfully');
     }
 }

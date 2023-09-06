@@ -29,9 +29,7 @@ class AuthorGetController extends Controller
         }
 
         return response()->json([
-            'data' => [
-                'author' => $Author
-            ],
+            'data' => ['author' => $Author],
             'errors' => []
         ]);
     }

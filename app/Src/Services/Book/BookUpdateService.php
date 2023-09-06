@@ -7,7 +7,7 @@ use App\Src\Dto\Book\BookUpdateDto;
 use App\Src\Repositories\Interfaces\BookRepositoryInterface;
 use App\Src\Services\Book\Interfaces\BookUpdateServiceInterface;
 
-class BookUpdateService extends AbstractBookService implements BookUpdateServiceInterface
+class BookUpdateService implements BookUpdateServiceInterface
 {
     /**
      * @param BookRepositoryInterface $bookRepository

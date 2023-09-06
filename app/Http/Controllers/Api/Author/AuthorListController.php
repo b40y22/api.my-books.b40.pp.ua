@@ -24,9 +24,7 @@ class AuthorListController extends Controller
     public function __invoke(Request $request): JsonResponse
     {
         return response()->json([
-            'data' => [
-                'authors' => $this->authorListService->list($request->all())
-            ],
+            'data' => ['authors' => $this->authorListService->list($request->all())],
             'errors' => []
         ]);
     }

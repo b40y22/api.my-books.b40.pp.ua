@@ -30,9 +30,7 @@ class RegisterController extends Controller
         }
 
         return response()->json([
-            'data' => [
-                'token' => $User->createToken('authToken')->plainTextToken
-            ],
+            'data' => ['token' => $User->createToken('authToken')->plainTextToken],
             'errors' => []
         ], 201);
     }

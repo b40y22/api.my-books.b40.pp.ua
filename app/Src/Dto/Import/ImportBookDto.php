@@ -30,7 +30,6 @@ class ImportBookDto extends AbstractDto
         $this->userId = Auth::id();
     }
 
-
     /**
      * @return string
      */

@@ -30,9 +30,7 @@ class AuthorUpdateController extends Controller
         }
 
         return response()->json([
-            'data' => [
-                'author' => $authorUpdateRequest->validatedDTO()->toArray()
-            ],
+            'data' => ['author' => $authorUpdateRequest->validatedDTO()->toArray()],
             'errors' => []
         ]);
     }

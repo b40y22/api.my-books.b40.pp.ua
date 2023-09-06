@@ -30,9 +30,7 @@ class BookRemoveController extends Controller
         }
 
         return response()->json([
-            'data' => [
-                'book' => $Book
-            ],
+            'data' => ['book' => $Book],
             'errors' => []
         ]);
     }

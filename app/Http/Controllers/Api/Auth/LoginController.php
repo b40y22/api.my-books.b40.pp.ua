@@ -30,10 +30,8 @@ class LoginController extends Controller
         }
 
         return response()->json([
-            'data' => [
-                'token' => $User->createToken('Token')->plainTextToken
-            ],
-            'errors' => []
-        ]);
+            'data' => ['token' => $User->createToken('Token')->plainTextToken],
+            'errors' => []]
+        );
     }
 }

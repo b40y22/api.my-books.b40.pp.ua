@@ -32,9 +32,7 @@ class BookUpdateController extends Controller
         ksort($Book);
 
         return response()->json([
-            'data' => [
-                'book' => $Book
-            ],
+            'data' => ['book' => $Book],
             'errors' => []
         ]);
     }
