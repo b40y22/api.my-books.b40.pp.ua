@@ -14,10 +14,14 @@ use App\Src\Services\Book\BookUpdateService;
 use App\Src\Services\Book\Interfaces\BookListServiceInterface;
 use App\Src\Services\Book\Interfaces\BookStoreServiceInterface;
 use App\Src\Services\Book\Interfaces\BookUpdateServiceInterface;
+use App\Src\Services\Images\ImageService;
+use App\Src\Services\Images\Interfaces\ImageServiceInterface;
 use App\Src\Services\Import\Parser\ImportService;
 use App\Src\Services\Import\Parser\ImportServiceInterface;
 use App\Src\Services\Monitoring\MonitoringService;
 use App\Src\Services\Monitoring\MonitoringServiceInterface;
+use App\Src\Services\User\Interfaces\UserUpdateServiceInterface;
+use App\Src\Services\User\UserUpdateService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -35,6 +39,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ImportServiceInterface::class, ImportService::class);
         $this->app->bind(MonitoringServiceInterface::class, MonitoringService::class);
         $this->app->bind( ExternalSourceRepositoryInterface::class, ExternalSourceRepository::class);
+        $this->app->bind( UserUpdateServiceInterface::class, UserUpdateService::class);
+        $this->app->bind( ImageServiceInterface::class, ImageService::class);
     }
 
     /**

@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\Book\BookUpdateController;
 use App\Http\Controllers\Api\ExternalSource\ExternalSourceListController;
 use App\Http\Controllers\Api\ExternalSource\ExternalSourceStoreController;
 use App\Http\Controllers\Api\Import\ImportBookController;
+use App\Http\Controllers\Api\User\UserGetController;
+use App\Http\Controllers\Api\User\UserUpdateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -58,4 +60,9 @@ Route::middleware('auth:sanctum')->namespace('api')->group(function () {
         Route::post('/',        [ExternalSourceStoreController::class, '__invoke'])->name('external.source.store');
     });
 
+    // User
+    Route::prefix('/user')->group(function () {
+        Route::get('/',         [UserGetController::class, '__invoke'])->name('user.get');
+        Route::post('/',        [UserUpdateController::class, '__invoke'])->name('user.update');
+    });
 });

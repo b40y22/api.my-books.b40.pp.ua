@@ -5,9 +5,16 @@ namespace App\Src\Repositories\Interfaces;
 
 use App\Models\User;
 use App\Src\Dto\Auth\RegisterDto;
+use App\Src\Dto\User\UserUpdateDto;
 
 interface UserRepositoryInterface extends AbstractRepositoryInterface
 {
+    /**
+     * @param int $id
+     * @return array|null
+     */
+    public function get(int $id): ?array;
+
     /**
      * @param RegisterDto $registerDto
      * @return User|null
@@ -20,4 +27,10 @@ interface UserRepositoryInterface extends AbstractRepositoryInterface
      * @return mixed
      */
     public function getUserByColumn(string $column, string $values): mixed;
+
+    /**
+     * @param UserUpdateDto $userUpdateDto
+     * @return bool|null
+     */
+    public function update(UserUpdateDto $userUpdateDto): ?bool;
 }

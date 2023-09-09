@@ -11,12 +11,17 @@ class File
     public string $filename = '';
 
     /**
-     * @var int
-     */
-    public int $size = 0;
-
-    /**
      * @var string
      */
     public string $extension;
+
+    /**
+     * @var string|null
+     */
+    public ?string $pathSource = null;
+
+    /**
+     * @var string|null
+     */
+    public ?string $pathDestination = null;
 }
