@@ -25,7 +25,7 @@ class ExternalServiceException extends Exception
     {
         parent::__construct();
         $this->code = $code;
-        $this->message = strlen($message) > 0 ? $message : $this->message;
+        $this->message = $message ?? $this->message;
     }
 
     /**

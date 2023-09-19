@@ -12,6 +12,7 @@ use App\Src\Dto\Response\PaginationDto;
 use App\Src\Repositories\Interfaces\BookRepositoryInterface;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class BookRepository extends AbstractRepository implements BookRepositoryInterface
@@ -125,7 +126,7 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
                 ->with('authors')
                 ->paginate($pagination->perPage);
         }
-
+Log::info(Auth::id());
         $pagination->total = $value->total();
         $pagination->lastPage = $value->lastPage();
         $pagination->items = $value->items();

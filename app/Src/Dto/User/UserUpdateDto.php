@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Src\Dto\User;
 
-use App\Src\Common\File;
 use App\Src\Dto\AbstractDto;
 use App\Src\Traits\FileNameGenerate;
+use App\Src\ValueObjects\File\File;
 use Illuminate\Http\UploadedFile;
 
 class UserUpdateDto extends AbstractDto
@@ -46,10 +46,11 @@ class UserUpdateDto extends AbstractDto
         if (isset($user['image'])) {
             $File = new File();
             $File->extension = $user['image']->extension();
-            $File->pathSource = $user['image']->getPathname();
             $File->filename = $this->generateFilename();
-            $File->pathDestination = public_path('/images/users/' . $File->filename . '.' . $user['image']->extension());
             $this->image = $File;
+
+//            $File->pathSource = $user['image']->getPathname();
+//            $File->pathDestination = public_path('/images/users/' . $File->filename . '.' . $user['image']->extension());
         }
     }
 

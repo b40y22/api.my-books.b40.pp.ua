@@ -5,7 +5,7 @@ namespace App\Src\Services\User;
 
 use App\Src\Dto\User\UserUpdateDto;
 use App\Src\Repositories\Interfaces\UserRepositoryInterface;
-use App\Src\Services\Images\Interfaces\ImageServiceInterface;
+use App\Src\Services\Image\ImageServiceInterface;
 use App\Src\Services\User\Interfaces\UserUpdateServiceInterface;
 
 class UserUpdateService implements UserUpdateServiceInterface
@@ -19,7 +19,7 @@ class UserUpdateService implements UserUpdateServiceInterface
     {
         // TODO потрібно перед створенням нового зображення видаляти старе
         if ($userUpdateDto->getImage()) {
-            $this->imageService->uploadProfileImage($userUpdateDto->getImage());
+            $this->imageService->upload($userUpdateDto->getImage());
         }
 
         $this->userRepository->update($userUpdateDto);
