@@ -21,5 +21,5 @@ interface ImageServiceInterface
      * @param StorageManagerInterface $storageManager
      * @return bool
      */
-    public function download(File $image, StorageManagerInterface $storageManager): bool;
+    public function download(File $image, StorageManagerInterface $storageManager): string;
 }

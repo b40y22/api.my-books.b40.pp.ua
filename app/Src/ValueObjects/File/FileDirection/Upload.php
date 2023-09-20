@@ -6,4 +6,6 @@ namespace App\Src\ValueObjects\File\FileDirection;
 class Upload implements FileDirectionInterface
 {
     const DIRECTION = 'upload';
+
+    public ?string $destinationPath = null;
 }

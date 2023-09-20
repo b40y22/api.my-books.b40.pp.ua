@@ -20,12 +20,6 @@ class ImageService implements ImageServiceInterface
      */
     public function upload(File $image, StorageManagerInterface $storageManager): bool
     {
-        /*
-         * 1. Валідація
-         * 2. Отримання
-         * 3. Обробка
-         * 4. Збереження
-         */
         return true;
     }
 
@@ -33,10 +27,25 @@ class ImageService implements ImageServiceInterface
      * @param File $image
      * @param StorageManagerInterface $storageManager
      * @return bool
+     * @throws GuzzleException
+     * @throws Exception
      */
-    public function download(File $image, StorageManagerInterface $storageManager): bool
+    public function download(File $image, StorageManagerInterface $storageManager): string
     {
+        if ($image->direction->downloadLink) {
+            $response = (new Client())->request(
+                'GET',
+                $image->direction->downloadLink,
+                ['sink' => '/tmp/' . $image->getFullFilename()]
+            );
 
-        return true;
+            if (200 !== $response->getStatusCode()) {
+                throw new Exception('[ImageService:download] has response code not equal 200');
+            }
+
+            $storageManager->store($image);
+        }
+
+        return '';
     }
 }

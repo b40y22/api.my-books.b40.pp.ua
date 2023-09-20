@@ -12,6 +12,8 @@ class Download implements FileDirectionInterface
     const DIRECTION = 'download';
     public string $downloadLink = '';
 
+    public ?string $destinationPath = null;
+
     /**
      * @return $this
      * @throws Exception

@@ -34,7 +34,6 @@ class PostBookCreateEvent implements BookEventInterface
             'title' => $book['title'],
             'pages' => $book['pages'],
             'year' => $book['year'],
-            'files' => $book['files'],
         ];
 
         foreach ($book['authors'] as $item) {
@@ -42,7 +41,6 @@ class PostBookCreateEvent implements BookEventInterface
                 'id' => $item['id'],
                 'firstname' => $item['firstname'],
                 'lastname' => $item['lastname'],
-                'files' => $book['files'],
             ];
         }
 

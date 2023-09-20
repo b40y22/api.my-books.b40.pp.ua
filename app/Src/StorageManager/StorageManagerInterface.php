@@ -7,5 +7,5 @@ use App\Src\ValueObjects\File\File;
 
 interface StorageManagerInterface
 {
-    public function store();
+    public function store(File $image);
 }

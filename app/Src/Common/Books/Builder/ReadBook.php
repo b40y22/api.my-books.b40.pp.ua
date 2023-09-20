@@ -121,6 +121,11 @@ class ReadBook implements BuilderBookInterface
         $this->description = $description;
     }
 
+    public function getImage(): string
+    {
+        return $this->image;
+    }
+
     /**
      * @param string $image
      */
