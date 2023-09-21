@@ -23,9 +23,8 @@ class BookListController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        return response()->json([
-            'data' => ['books' => $this->bookRepository->list($request->all())],
-            'errors' => []
-        ]);
+        return $this->responseSuccess(
+            ['book' => $this->bookRepository->list($request->all())]
+        );
     }
 }

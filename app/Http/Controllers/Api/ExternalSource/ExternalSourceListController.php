@@ -21,9 +21,9 @@ class ExternalSourceListController extends Controller
      */
     public function __invoke(): JsonResponse
     {
-        return response()->json([
-            'data' => ['externalSources' => $this->externalSourceRepository->listAll()],
-            'errors' => []
-        ], 201);
+        return $this->responseSuccess(
+            ['externalSources' => $this->externalSourceRepository->listAll()],
+            201
+        );
     }
 }

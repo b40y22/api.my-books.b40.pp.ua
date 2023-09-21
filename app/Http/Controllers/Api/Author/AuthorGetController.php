@@ -28,9 +28,6 @@ class AuthorGetController extends Controller
             return $this->responseError([trans('api.general.notFound')], 404);
         }
 
-        return response()->json([
-            'data' => ['author' => $Author],
-            'errors' => []
-        ]);
+        return $this->responseSuccess(['author' => $Author]);
     }
 }

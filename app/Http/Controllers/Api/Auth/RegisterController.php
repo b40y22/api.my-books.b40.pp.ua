@@ -29,9 +29,9 @@ class RegisterController extends Controller
             return $this->responseError([trans('auth.register.failed')]);
         }
 
-        return response()->json([
-            'data' => ['token' => $User->createToken('authToken')->plainTextToken],
-            'errors' => []
-        ], 201);
+        return $this->responseSuccess(
+            ['token' => $User->createToken('authToken')->plainTextToken],
+            201
+        );
     }
 }

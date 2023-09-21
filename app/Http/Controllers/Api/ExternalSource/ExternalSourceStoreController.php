@@ -23,9 +23,8 @@ class ExternalSourceStoreController extends Controller
      */
     public function __invoke(ExternalSourceStoreRequest $externalSourceStoreRequest): JsonResponse
     {
-        return response()->json([
-            'data' => ['externalSource' => $this->externalSourceRepository->store($externalSourceStoreRequest->validatedDTO())],
-            'errors' => []
-        ], 201);
+        return $this->responseSuccess(
+            ['externalSource' => $this->externalSourceRepository->store($externalSourceStoreRequest->validatedDTO())]
+        );
     }
 }

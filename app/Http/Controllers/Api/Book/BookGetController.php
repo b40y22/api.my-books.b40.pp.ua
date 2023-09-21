@@ -28,9 +28,6 @@ class BookGetController extends Controller
             return $this->responseError([trans('api.general.notFound')], 404);
         }
 
-        return response()->json([
-            'data' => ['book' => $Book],
-            'errors' => []
-        ]);
+        return $this->responseSuccess(['book' => $Book]);
     }
 }

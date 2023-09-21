@@ -29,9 +29,6 @@ class BookRemoveController extends Controller
             return $this->responseError([trans('api.general.failed')]);
         }
 
-        return response()->json([
-            'data' => ['book' => $Book],
-            'errors' => []
-        ]);
+        return $this->responseSuccess(['book' => $Book]);
     }
 }

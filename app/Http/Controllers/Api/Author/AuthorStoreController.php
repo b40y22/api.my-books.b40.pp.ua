@@ -23,9 +23,9 @@ class AuthorStoreController extends Controller
      */
     public function __invoke(AuthorStoreRequest $authorStoreRequest): JsonResponse
     {
-        return response()->json([
-            'data' => ['author' => $this->authorRepository->store($authorStoreRequest->validatedDTO())],
-            'errors' => []
-        ], 201);
+        return $this->responseSuccess(
+            ['author' => $this->authorRepository->store($authorStoreRequest->validatedDTO())],
+            201
+        );
     }
 }

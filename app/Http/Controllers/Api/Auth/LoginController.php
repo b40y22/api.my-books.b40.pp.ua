@@ -29,9 +29,8 @@ class LoginController extends Controller
             return $this->responseError([trans('auth.login.failed')]);
         }
 
-        return response()->json([
-            'data' => ['token' => $User->createToken('Token')->plainTextToken],
-            'errors' => []]
+        return $this->responseSuccess(
+            ['token' => $User->createToken('authToken')->plainTextToken]
         );
     }
 }

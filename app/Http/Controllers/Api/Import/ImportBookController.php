@@ -39,9 +39,13 @@ class ImportBookController extends Controller
 
             dispatch((new ImportBookJob($this->importService, $ImportBookDto))->onQueue('import'));
 
-            return response()->json(['data' => [trans('api.general.successfully')], 'errors' => []]);
+            return $this->responseSuccess(
+                ['data' => trans('api.general.successfully')]
+            );
         }
 
-        return response()->json(['data' => [], 'errors' => [trans('api.external.disabled')]]);
+        return $this->responseError(
+            ['data' => trans('api.external.disabled')]
+        );
     }
 }

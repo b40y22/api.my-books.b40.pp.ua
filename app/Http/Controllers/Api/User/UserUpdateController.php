@@ -23,9 +23,8 @@ class UserUpdateController extends Controller
      */
     public function __invoke(UserUpdateRequest $userUpdateRequest): JsonResponse
     {
-        return response()->json([
-            'data' => ['user' => $this->userUpdateService->update($userUpdateRequest->validatedDTO())],
-            'errors' => []
-        ]);
+        return $this->responseSuccess(
+            ['user' => $this->userUpdateService->update($userUpdateRequest->validatedDTO())]
+        );
     }
 }

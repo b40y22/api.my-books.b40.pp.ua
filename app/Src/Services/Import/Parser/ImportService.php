@@ -3,12 +3,13 @@ declare(strict_types=1);
 
 namespace App\Src\Services\Import\Parser;
 
+use App\Src\Common\Books\Builder\ReadBook;
 use App\Src\Dto\Import\ImportBookDto;
-use App\Src\Services\Image\ImageService;
+use App\Src\Services\File\FileService;
 use App\Src\Services\Import\ContextLocation\ContextLocationInterface;
-use App\Src\StorageManager\LocalManager;
+use App\Src\Storages\LocalStorage;
 use App\Src\Traits\HttpTrait;
-use App\Src\ValueObjects\File\FileDirection\Download;
+use App\Src\ValueObjects\File\Direction\Download;
 use App\Src\ValueObjects\File\Image\Image;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
@@ -36,28 +37,30 @@ final class ImportService implements ImportServiceInterface
 
         /** @var ContextLocationInterface $Type **/
         $Type = 'App\Src\Services\Import\ContextLocation\\' . ucfirst($type);
-
-        $Book = (new $Parser($link))->handle(); // TODO перевірка на наявність класа
-        $this->storeBookCover($Book->getImage());
+        $Book = (new $Parser($link))->handle();
+        $this->makeBookCover($Book);
 
         return (new $Type($Book, $importBookDto->getUserId()))->handle();
     }
 
     /**
-     * @throws Exception
      * @throws GuzzleException
+     * @throws Exception
      */
-    protected function storeBookCover(string $imageLink): void
+    protected function makeBookCover(ReadBook $book): void
     {
-        $direction = new Download();
-        $direction->downloadLink = $imageLink;
-        $direction->destinationPath = public_path('/images/books/');
+        $direction = (new Download())->setDownloadLink($book->getImage());
 
-        $image = new Image();
-        $image->newFilename();
-        $image->direction = $direction;
-        $image->extension = pathinfo($direction->downloadLink, PATHINFO_EXTENSION);
+        $image = (new Image())
+            ->newFilename()
+            ->setExtension(pathinfo($direction->getDownloadLink(), PATHINFO_EXTENSION))
+            ->setSourcePath('/tmp')
+            ->setDestinationPath('/images/books')
+            ->setWidth(200)
+            ->setHeight(300)
+            ->setDirection($direction);
 
-        $downloadResult = (new ImageService())->download($image, new LocalManager());
+        (new FileService())
+            ->download($image, new LocalStorage());
     }
 }

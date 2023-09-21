@@ -29,9 +29,8 @@ class AuthorUpdateController extends Controller
             return $this->responseError([trans('api.general.notFound')]);
         }
 
-        return response()->json([
-            'data' => ['author' => $authorUpdateRequest->validatedDTO()->toArray()],
-            'errors' => []
-        ]);
+        return $this->responseSuccess(
+            ['author' => $authorUpdateRequest->validatedDTO()->toArray()]
+        );
     }
 }

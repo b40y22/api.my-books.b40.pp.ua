@@ -31,9 +31,6 @@ class BookStoreController extends Controller
 
         ksort($Book);
 
-        return response()->json([
-            'data' => ['book' => $Book],
-            'errors' => []
-        ], 201);
+        return $this->responseSuccess(['book' => $Book], 201);
     }
 }

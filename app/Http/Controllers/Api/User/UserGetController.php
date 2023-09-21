@@ -19,9 +19,8 @@ class UserGetController extends Controller
      */
     public function __invoke(): JsonResponse
     {
-        return response()->json([
-            'data' => ['user' => $this->userRepository->get(Auth::id())],
-            'errors' => []
-        ]);
+        return $this->responseSuccess(
+            ['user' => $this->userRepository->get(Auth::id())]
+        );
     }
 }

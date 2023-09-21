@@ -29,9 +29,6 @@ class AuthorRemoveController extends Controller
             return $this->responseError([trans('api.general.failed')]);
         }
 
-        return response()->json([
-            'data' => ['author' => $Author],
-            'errors' => []
-        ]);
+        return $this->responseSuccess(['author' => $Author]);
     }
 }

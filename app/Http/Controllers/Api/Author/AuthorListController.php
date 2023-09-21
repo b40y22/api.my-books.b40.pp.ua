@@ -4,17 +4,17 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Author;
 
 use App\Http\Controllers\Controller;
-use App\Src\Services\Author\Interfaces\AuthorListServiceInterface;
+use App\Src\Repositories\Interfaces\AuthorRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AuthorListController extends Controller
 {
     /**
-     * @param AuthorListServiceInterface $authorListService
+     * @param AuthorRepositoryInterface $authorRepository
      */
     public function __construct(
-        protected AuthorListServiceInterface $authorListService
+        protected AuthorRepositoryInterface $authorRepository
     ) {}
 
     /**
@@ -23,9 +23,6 @@ class AuthorListController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        return response()->json([
-            'data' => ['authors' => $this->authorListService->list($request->all())],
-            'errors' => []
-        ]);
+        return $this->responseSuccess(['author' => $this->authorRepository->list($request->all())]);
     }
 }
