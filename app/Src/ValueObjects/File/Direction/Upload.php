@@ -5,5 +5,5 @@ namespace App\Src\ValueObjects\File\Direction;
 
 class Upload implements DirectionInterface
 {
-
+    //
 }

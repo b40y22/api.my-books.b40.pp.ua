@@ -7,5 +7,5 @@ use App\Src\ValueObjects\File\File;
 
 class Pdf extends File
 {
-
+    //
 }
