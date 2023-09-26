@@ -6,7 +6,7 @@ namespace App\Src\Services\File;
 use App\Src\Storages\StorageInterface;
 use App\Src\ValueObjects\File\File;
 
-interface FileInterface
+interface FileServiceInterface
 {
     /**
      * @param File $file

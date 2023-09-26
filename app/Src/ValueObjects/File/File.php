@@ -7,7 +7,7 @@ use App\Src\Traits\FileNameGenerate;
 use App\Src\ValueObjects\File\Direction\DirectionInterface;
 use Exception;
 
-abstract class File
+class File
 {
     use FileNameGenerate;
 
@@ -85,7 +85,7 @@ abstract class File
      * @return $this
      * @throws Exception
      */
-    public function setSourcePath(string $sourcePath): self
+    public function setSourcePath(string $sourcePath = '/tmp'): self
     {
         if (!$this->filename) {
             throw new Exception('[File:setSourcePath] param filename must be initialization before use');
@@ -94,7 +94,9 @@ abstract class File
             throw new Exception('[File:setSourcePath] param extension must be initialization before use');
         }
 
-        $this->sourcePath = $sourcePath . DIRECTORY_SEPARATOR . $this->filename . '.' . $this->extension;
+        $this->sourcePath = $sourcePath === '/tmp'
+            ? $sourcePath . DIRECTORY_SEPARATOR . $this->filename . '.' . $this->extension
+            : $sourcePath;
 
         return $this;
     }
@@ -188,5 +190,31 @@ abstract class File
     public function setFileUrl(?string $fileUrl): void
     {
         $this->fileUrl = $fileUrl;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getFullFilename(): string
+    {
+        if (!$this->filename) {
+            throw new Exception('[File:setDestinationPath] param filename must be initialization before use');
+        }
+        if (!$this->extension) {
+            throw new Exception('[File:setSourcePath] param extension must be initialization before use');
+        }
+
+        return $this->filename . '.' . $this->extension;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function toArray(): array
+    {
+        return [
+            'fileUrl' => $this->getFileUrl(),
+            'filename' => $this->getFullFilename()
+        ];
     }
 }

@@ -26,23 +26,10 @@ class UserUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            'id' => 'required|numeric',
+        return [
+            'name' => 'sometimes|string|max:255',
+            'email' => 'sometimes|email|max:255',
         ];
-
-        if (isset($this->name)) {
-            $rules['name'] = 'string|min:3';
-        }
-
-        if (isset($this->email)) {
-            $rules['email'] = 'email|min:3';
-        }
-
-        if (isset($this->image)) {
-            $rules['image'] = 'required|image|mimes:jpeg,png,jpg,gif';
-        }
-
-        return $rules;
     }
 
     /**
@@ -51,13 +38,9 @@ class UserUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id.required' => trans('api.field.required'),
             'name.min' => trans('api.field.min'),
             'email.email' => trans('api.field.email'),
             'email.min' => trans('api.field.min'),
-            'image.image' => trans('api.field.image'),
-            'image.mimes' => trans('api.field.image.mimes'),
-            'image.max' => trans('api.field.image.max')
         ];
     }
 
@@ -76,7 +59,7 @@ class UserUpdateRequest extends FormRequest
      */
     public function validatedDTO(): UserUpdateDto
     {
-        return new UserUpdateDto($this->validated());
+        return new UserUpdateDto($this->all());
     }
 
     /**
@@ -85,9 +68,8 @@ class UserUpdateRequest extends FormRequest
      */
     public function withValidator($validator): void
     {
-        // Додайте кастомне правило для перевірки ідентифікатора користувача
         $validator->after(function ($validator) {
-            if ($this->input('id') != auth()->id()) {
+            if ($this->route()->parameter('id') != auth()->id()) {
                 $validator->errors()->add('id', trans('api.access.denied'));
             }
         });

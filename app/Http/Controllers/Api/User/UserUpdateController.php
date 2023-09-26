@@ -8,6 +8,7 @@ use App\Http\Requests\User\UserUpdateRequest;
 use App\Src\Services\User\Interfaces\UserUpdateServiceInterface;
 use Illuminate\Http\JsonResponse;
 
+
 class UserUpdateController extends Controller
 {
     /**
@@ -17,14 +18,13 @@ class UserUpdateController extends Controller
         protected UserUpdateServiceInterface $userUpdateService
     ) {}
 
-    /**
-     * @param UserUpdateRequest $userUpdateRequest
-     * @return JsonResponse
-     */
-    public function __invoke(UserUpdateRequest $userUpdateRequest): JsonResponse
+    public function __invoke(UserUpdateRequest $userUpdateRequest, int $userId): JsonResponse
     {
+        $userUpdateDto = $userUpdateRequest->validatedDTO();
+        $userUpdateDto->setId($userId);
+
         return $this->responseSuccess(
-            ['user' => $this->userUpdateService->update($userUpdateRequest->validatedDTO())]
+            ['user' => $this->userUpdateService->update($userUpdateDto)]
         );
     }
 }

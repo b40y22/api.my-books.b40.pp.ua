@@ -5,12 +5,12 @@ namespace App\Src\Dto\User;
 
 use App\Src\Dto\AbstractDto;
 use App\Src\Traits\FileNameGenerate;
-use App\Src\ValueObjects\File\File;
-use Illuminate\Http\UploadedFile;
+use App\Src\ValueObjects\File\Image\Image;
 
 class UserUpdateDto extends AbstractDto
 {
     use FileNameGenerate;
+
     /**
      * @var int
      */
@@ -27,16 +27,18 @@ class UserUpdateDto extends AbstractDto
     protected ?string $email = null;
 
     /**
-     * @var File|null
+     * @var string|null
      */
-    protected ?File $image = null ;
+    readonly public ?string $image;
 
     /**
      * @param array $user
      */
     public function __construct(array $user)
     {
-        $this->id = (int) $user['id'];
+        if (isset($user['id'])) {
+            $this->id = (int) $user['id'];
+        }
         if (isset($user['name'])) {
             $this->name = $user['name'];
         }
@@ -44,13 +46,7 @@ class UserUpdateDto extends AbstractDto
             $this->email = $user['email'];
         }
         if (isset($user['image'])) {
-            $File = new File();
-            $File->extension = $user['image']->extension();
-            $File->filename = $this->generateFilename();
-            $this->image = $File;
-
-//            $File->pathSource = $user['image']->getPathname();
-//            $File->pathDestination = public_path('/images/users/' . $File->filename . '.' . $user['image']->extension());
+            $this->image = $user['image'];
         }
     }
 
@@ -78,11 +74,26 @@ class UserUpdateDto extends AbstractDto
         return $this->email;
     }
 
-    /**
-     * @return File|null
-     */
-    public function getImage(): ?File
+    public function setId(int $userId): void
     {
-        return $this->image;
+        $this->id = $userId;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArrayNotNullFields(): array
+    {
+        $properties = get_object_vars($this);
+
+        $filteredProperties = [];
+
+        foreach ($properties as $key => $value) {
+            if ($value !== null) {
+                $filteredProperties[$key] = $value;
+            }
+        }
+
+        return $filteredProperties;
     }
 }

@@ -83,17 +83,8 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
             return null;
         }
 
-        $dataForStore = [];
-        if ($userUpdateDto->getName() !== null) {
-            $dataForStore['name'] = $userUpdateDto->getName();
-        }
-        if ($userUpdateDto->getEmail() !== null) {
-            $dataForStore['email'] = $userUpdateDto->getEmail();
-        }
-        if ($userUpdateDto->getImage() !== null) {
-            $dataForStore['image'] = $userUpdateDto->getImage()->filename . '.' . $userUpdateDto->getImage()->extension;
-        }
-
-        return $User->update($dataForStore);
+        return $User->update(
+            $userUpdateDto->toArrayNotNullFields()
+        );
     }
 }

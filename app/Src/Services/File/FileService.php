@@ -9,10 +9,9 @@ use App\Src\ValueObjects\File\Image\Image as VOImage;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
 
-class FileService implements FileInterface
+class FileService implements FileServiceInterface
 {
     /**
      * @param File $file
@@ -54,6 +53,16 @@ class FileService implements FileInterface
      */
     public function upload(File $file, StorageInterface $storage): mixed
     {
-        // TODO: Implement upload() method.
+        if ($file instanceof VOImage) {
+            $manager = new ImageManager(['driver' => 'imagick']);
+            $file->setContext(
+                $manager->make($file->getSourcePath())
+                    ->resize($file->getWidth(), $file->getHeight())
+            );
+        }
+
+        $storage->store($file);
+
+        return $file;
     }
 }
