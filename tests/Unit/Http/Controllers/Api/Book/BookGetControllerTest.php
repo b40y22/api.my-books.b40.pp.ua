@@ -30,12 +30,14 @@ class BookGetControllerTest extends TestCase
 
     public function testBookGetValid(): void
     {
-        $response = $this->getJson(route("book.get", [
-            'id' => $this->Book->id,
-        ]), [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->getJson(route("book.get", [
+                'id' => $this->Book->id,
+            ]));
         $response->assertStatus(200);
 
         $content = json_decode($response->getContent(), true);
@@ -50,13 +52,13 @@ class BookGetControllerTest extends TestCase
 
     public function testBookGetWithIdInvalid(): void
     {
-        $response = $this->getJson(route("book.get", [
-            'id' => 100500,
-        ]), [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
-//dd($response->getContent());
+        ];
+        $response = $this->withHeaders($headers)
+            ->getJson(route("book.get", ['id' => 100500]));
+
         $response->assertStatus(404);
     }
 }

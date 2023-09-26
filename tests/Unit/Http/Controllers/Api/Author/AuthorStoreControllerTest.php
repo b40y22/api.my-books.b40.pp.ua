@@ -4,8 +4,6 @@ namespace Unit\Http\Controllers\Api\Author;
 
 use App\Models\Author;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Tests\TestCase;
 
 class AuthorStoreControllerTest extends TestCase
@@ -31,16 +29,17 @@ class AuthorStoreControllerTest extends TestCase
 
     public function testAuthorStoreValid(): void
     {
-        $response = $this->postJson(route('author.store'), [
-            'firstname' => $this->Author->firstname,
-            'lastname' => $this->Author->lastname
-        ], [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->postJson(route('author.store'), [
+                'firstname' => $this->Author->firstname,
+                'lastname' => $this->Author->lastname
+            ]);
 
         $response->assertStatus(201);
-
         $content = json_decode($response->getContent(), true);
         $this->assertEquals($content['data']['author']['firstname'], $this->Author->firstname);
         $this->assertEquals($content['data']['author']['lastname'], $this->Author->lastname);
@@ -48,12 +47,15 @@ class AuthorStoreControllerTest extends TestCase
 
     public function testAuthorStoreWithoutFirstname(): void
     {
-        $response = $this->postJson(route('author.store'), [
-            'lastname' => $this->Author->lastname
-        ], [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->postJson(route('author.store'), [
+                'lastname' => $this->Author->lastname
+            ]);
+
         $response->assertStatus(422);
         $content = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('errors', $content);

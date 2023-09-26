@@ -11,12 +11,10 @@ class LoginControllerTest extends TestCase
     public function testLoginWithValidData()
     {
         $user = User::factory()->create();
-
-        $response = $this->post(route('auth.login'), [
+        $headers = ['Accept' => 'application/json'];
+        $response = $this->withHeaders($headers)->post(route('auth.login'), [
             'email' => $user->email,
             'password' => "password",
-        ], [
-            'Accept' => 'application/json',
         ]);
 
         $response->assertStatus(200);
@@ -27,10 +25,9 @@ class LoginControllerTest extends TestCase
 
     public function testLoginWithoutEmail()
     {
-        $response = $this->post(route('auth.login'), [
+        $headers = ['Accept' => 'application/json'];
+        $response = $this->withHeaders($headers)->post(route('auth.login'), [
             'password' => "password",
-        ], [
-            'Accept' => 'application/json',
         ]);
 
         $response->assertStatus(422);
@@ -43,11 +40,10 @@ class LoginControllerTest extends TestCase
     public function testLoginWithoutPassword()
     {
         $user = User::factory()->create();
+        $headers = ['Accept' => 'application/json'];
 
-        $response = $this->post(route('auth.login'), [
+        $response = $this->withHeaders($headers)->post(route('auth.login'), [
             'email' => $user->email
-        ], [
-            'Accept' => 'application/json',
         ]);
 
         $response->assertStatus(422);

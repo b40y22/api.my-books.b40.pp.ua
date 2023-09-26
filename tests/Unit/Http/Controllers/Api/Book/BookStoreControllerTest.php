@@ -62,11 +62,12 @@ class BookStoreControllerTest extends TestCase
             'pages' => $this->Book->pages,
             'year' => $this->Book->year,
         ];
-
-        $response = $this->postJson(route('book.store'), $data, [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->postJson(route('book.store'), $data);
 
         $response->assertStatus(201);
 
@@ -91,11 +92,12 @@ class BookStoreControllerTest extends TestCase
             ],
             'title' => $this->Book->title,
         ];
-
-        $response = $this->postJson(route('book.store'), $data, [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->postJson(route('book.store'), $data);
         $response->assertStatus(201);
     }
 

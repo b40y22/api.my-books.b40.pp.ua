@@ -30,12 +30,14 @@ class AuthorGetControllerTest extends TestCase
 
     public function testAuthorGetValid(): void
     {
-        $response = $this->getJson(route("author.get", [
-            'id' => $this->Author->id,
-        ]), [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->getJson(route("author.get", [
+                'id' => $this->Author->id,
+            ]));
 
         $response->assertStatus(200);
 
@@ -50,12 +52,14 @@ class AuthorGetControllerTest extends TestCase
 
     public function testAuthorGetWithIdInvalid(): void
     {
-        $response = $this->getJson(route("author.get", [
-            'id' => 100500,
-        ]), [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->getJson(route("author.get", [
+                'id' => 100500,
+            ]));
 
         $response->assertStatus(404);
 

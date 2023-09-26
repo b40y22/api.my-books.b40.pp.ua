@@ -27,15 +27,19 @@ class AuthorListControllerTest extends TestCase
         ]);
     }
 
+    /**
+     * @return void
+     */
     public function testAuthorListValid(): void
     {
-        $response = $this->getJson(route("author.list", [
-            'perPage' => 3,
-            'orderBy' => 'id,desc'
-        ]), [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)->getJson(route("author.list", [
+            'perPage' => 3,
+            'orderBy' => 'id,desc'
+        ]));
 
         $response->assertStatus(200);
 
@@ -60,13 +64,15 @@ class AuthorListControllerTest extends TestCase
      */
     public function testAuthorListWithPerPageInvalid(int $perPage): void
     {
-        $response = $this->getJson(route('author.list', [
-            'perPage' => $perPage,
-            'orderBy' => "desc"
-        ]), [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->getJson(route('author.list', [
+                'perPage' => $perPage,
+                'orderBy' => "desc"
+            ]));
 
         $response->assertStatus(400);
 
@@ -75,14 +81,19 @@ class AuthorListControllerTest extends TestCase
         $this->assertArrayHasKey('errors', $content);
     }
 
+    /**
+     * @return void
+     */
     public function testAuthorListWithoutPerPage(): void
     {
-        $response = $this->getJson(route('author.list', [
-            'orderBy' => "id,desc"
-        ]), [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->getJson(route('author.list', [
+                'orderBy' => "id,desc"
+            ]));
         $response->assertStatus(200);
 
         $content = json_decode($response->getContent(), true);
@@ -91,14 +102,19 @@ class AuthorListControllerTest extends TestCase
         $this->assertCount(6, $content['data']['authors']);
     }
 
+    /**
+     * @return void
+     */
     public function testAuthorListWithoutOrderBy(): void
     {
-        $response = $this->getJson(route('author.list', [
-            'perPage' => 1,
-        ]), [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->getJson(route('author.list', [
+                'perPage' => 1,
+            ]));
         $response->assertStatus(200);
 
         $content = json_decode($response->getContent(), true);
@@ -107,15 +123,20 @@ class AuthorListControllerTest extends TestCase
         $this->assertCount(1, $content['data']);
     }
 
+    /**
+     * @return void
+     */
     public function testAuthorListWithCurrentPageInvalid(): void
     {
-        $response = $this->getJson(route('author.list', [
-            'perPage' => 1,
-            'currentPage' => 100500
-        ]), [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->getJson(route('author.list', [
+                'perPage' => 1,
+                'currentPage' => 100500
+            ]));
         $response->assertStatus(200);
 
         $content = json_decode($response->getContent(), true);

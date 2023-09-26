@@ -30,15 +30,14 @@ class AuthorRemoveControllerTest extends TestCase
 
     public function testAuthorRemoveValid(): void
     {
-        $response = $this->postJson(route('author.remove'), [
-            'id' => $this->Author->id,
-        ], [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->deleteJson(route('author.delete', ['id' => $this->Author->id]));
 
         $response->assertStatus(200);
-
         $content = json_decode($response->getContent(), true);
 
         $this->assertArrayHasKey('data', $content);
@@ -49,21 +48,12 @@ class AuthorRemoveControllerTest extends TestCase
 
     public function testAuthorRemoveWithoutId(): void
     {
-        $response = $this->postJson(route('author.remove'), [], [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
-        $response->assertStatus(422);
-    }
-
-    public function testAuthorRemoveWithEmptyId(): void
-    {
-        $response = $this->postJson(route('author.remove'), [
-            'id' => '',
-        ], [
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
-        $response->assertStatus(422);
+        ];
+        $response = $this->withHeaders($headers)
+            ->deleteJson(route('author.delete', ['id' => 0]));
+        $response->assertStatus(500);
     }
 }

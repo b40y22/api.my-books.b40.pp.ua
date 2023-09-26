@@ -30,14 +30,15 @@ class AuthorUpdateControllerTest extends TestCase
 
     public function testAuthorUpdateWithValidData(): void
     {
-        $response = $this->postJson(route("author.update"), [
-            'id' => $this->Author->id,
-            'firstname' => $this->Author->firstname . 'Test',
-            'lastname' => $this->Author->lastname . 'Test'
-        ], [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->putJson(route("author.update", ['id' => $this->Author->id]), [
+                'firstname' => $this->Author->firstname . 'Test',
+                'lastname' => $this->Author->lastname . 'Test'
+            ]);
 
         $response->assertStatus(200);
 
@@ -52,14 +53,15 @@ class AuthorUpdateControllerTest extends TestCase
 
     public function testAuthorUpdateWithInvalidId()
     {
-        $response = $this->postJson(route("author.update"), [
-            'id' => 100500,
-            'firstname' => $this->Author->firstname . 'Test',
-            'lastname' => $this->Author->lastname . 'Test'
-        ], [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->putJson(route("author.update", ['id' => 100500]), [
+                'firstname' => $this->Author->firstname . 'Test',
+                'lastname' => $this->Author->lastname . 'Test'
+            ]);
 
         $response->assertStatus(500);
 

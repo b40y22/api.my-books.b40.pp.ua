@@ -30,12 +30,12 @@ class BookRemoveControllerTest extends TestCase
 
     public function testBookRemoveValid(): void
     {
-        $response = $this->postJson(route('book.remove'), [
-            'id' => $this->Book->id,
-        ], [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->deleteJson(route('book.delete', ['id' => $this->Book->id]));
 
         $response->assertStatus(200);
 
@@ -43,26 +43,28 @@ class BookRemoveControllerTest extends TestCase
         $this->assertArrayHasKey('data', $content);
     }
 
-    public function testBookRemoveWithoutId(): void
+    public function testBookRemoveDoNotExistId(): void
     {
-        $response = $this->postJson(route('book.remove'), [], [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
-        $response->assertStatus(422);
+        ];
+        $response = $this->withHeaders($headers)
+            ->deleteJson(route('book.delete', ['id' => 100500]), []);
+        $response->assertStatus(500);
         $content = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('errors', $content);
     }
 
-    public function testBookRemoveWithEmptyId(): void
+    public function testBookRemoveWithZeroId(): void
     {
-        $response = $this->postJson(route('book.remove'), [
-            'id' => '',
-        ], [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
-        $response->assertStatus(422);
+        ];
+        $response = $this->withHeaders($headers)
+            ->deleteJson(route('book.delete', ['id' => 0]));
+        $response->assertStatus(500);
         $content = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('errors', $content);
     }

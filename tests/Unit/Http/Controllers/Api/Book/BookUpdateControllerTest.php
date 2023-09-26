@@ -39,13 +39,14 @@ class BookUpdateControllerTest extends TestCase
 
     public function testBookUpdateWithValidData(): void
     {
-        $response = $this->postJson(route("book.update"), [
-            'id' => $this->Book->id,
-            'title' => $this->Book->title . 'Test',
-        ], [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->putJson(route("book.update", ['id' => $this->Book->id]), [
+                'title' => $this->Book->title . 'Test',
+            ]);
 
         $response->assertStatus(200);
 
@@ -59,13 +60,14 @@ class BookUpdateControllerTest extends TestCase
 
     public function testBookUpdateWithInvalidId()
     {
-        $response = $this->postJson(route("book.update"), [
-            'id' => 100500,
-            'title' => $this->Book->title . 'Test'
-        ], [
+        $headers = [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->User->createToken('Token')->plainTextToken
-        ]);
+        ];
+        $response = $this->withHeaders($headers)
+            ->putJson(route("book.update", ['id' => 100500]), [
+                'title' => $this->Book->title . 'Test'
+            ]);
 
         $response->assertStatus(404);
 
