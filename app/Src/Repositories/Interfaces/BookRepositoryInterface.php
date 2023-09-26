@@ -30,10 +30,10 @@ interface BookRepositoryInterface extends AbstractRepositoryInterface
     public function update(BookUpdateDto $bookUpdateDto): ?bool;
 
     /**
-     * @param BookRemoveDto $bookRemoveDto
+     * @param int $bookId
      * @return Book|null
      */
-    public function remove(BookRemoveDto $bookRemoveDto): ?Book;
+    public function remove(int $bookId): ?Book;
 
     /**
      * @param array $request

@@ -27,7 +27,6 @@ class AuthorUpdateDto extends AbstractDto
      */
     public function __construct(array $author)
     {
-        $this->id = $author['id'];
         $this->firstname = $author['firstname'];
         $this->lastname = $author['lastname'];
     }
@@ -38,5 +37,10 @@ class AuthorUpdateDto extends AbstractDto
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 }

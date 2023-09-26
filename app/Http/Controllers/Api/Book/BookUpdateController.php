@@ -19,11 +19,15 @@ class BookUpdateController extends Controller
 
     /**
      * @param BookUpdateRequest $bookUpdateRequest
+     * @param int $bookId
      * @return JsonResponse
      */
-    public function __invoke(BookUpdateRequest $bookUpdateRequest): JsonResponse
+    public function __invoke(BookUpdateRequest $bookUpdateRequest, int $bookId): JsonResponse
     {
-        $Book = $this->bookService->update($bookUpdateRequest->validatedDTO());
+        $bookUpdateDto = $bookUpdateRequest->validatedDTO();
+        $bookUpdateDto->setId($bookId);
+
+        $Book = $this->bookService->update($bookUpdateDto);
 
         if (!$Book) {
             return $this->responseError([trans('api.general.failed')], 404);

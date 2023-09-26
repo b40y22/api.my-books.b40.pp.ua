@@ -42,18 +42,19 @@ class BookUpdateDto extends AbstractDto
      */
     public function __construct(array $book)
     {
-        $this->id = $book['id'];
         $this->description = $book['description'] ?? null;
         $this->title = $book['title'];
         $this->pages = $book['pages'] ?? null;
         $this->year = $book['year'] ?? null;
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 }

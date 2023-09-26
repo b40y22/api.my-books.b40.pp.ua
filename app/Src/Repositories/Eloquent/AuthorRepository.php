@@ -48,12 +48,12 @@ class AuthorRepository extends AbstractRepository implements AuthorRepositoryInt
     }
 
     /**
-     * @param AuthorRemoveDto $authorRemoveDto
+     * @param int $authorId
      * @return Author|null
      */
-    public function remove(AuthorRemoveDto $authorRemoveDto): ?Author
+    public function remove(int $authorId): ?Author
     {
-        $Author = $this->model::where(['id' => $authorRemoveDto->getId(), 'user_id' => Auth::id()])->first();
+        $Author = $this->model::where(['id' => $authorId, 'user_id' => Auth::id()])->first();
 
         if (!$Author) {
             return null;

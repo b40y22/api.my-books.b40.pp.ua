@@ -72,12 +72,12 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
     }
 
     /**
-     * @param BookRemoveDto $bookRemoveDto
+     * @param int $bookId
      * @return Book|null
      */
-    public function remove(BookRemoveDto $bookRemoveDto): ?Book
+    public function remove(int $bookId): ?Book
     {
-        $Book = $this->model::where(['id' => $bookRemoveDto->getId(), 'user_id' => Auth::id()])->first();
+        $Book = $this->model::where(['id' => $bookId, 'user_id' => Auth::id()])->first();
 
         if (!$Book) {
             return null;

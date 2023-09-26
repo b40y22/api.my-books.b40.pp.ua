@@ -19,11 +19,15 @@ class AuthorUpdateController extends Controller
 
     /**
      * @param AuthorUpdateRequest $authorUpdateRequest
+     * @param int $authorId
      * @return JsonResponse
      */
-    public function __invoke(AuthorUpdateRequest $authorUpdateRequest): JsonResponse
+    public function __invoke(AuthorUpdateRequest $authorUpdateRequest, int $authorId): JsonResponse
     {
-        $Author = $this->authorRepository->update($authorUpdateRequest->validatedDTO());
+        $authorDto = $authorUpdateRequest->validatedDTO();
+        $authorDto->setId($authorId);
+
+        $Author = $this->authorRepository->update($authorDto);
 
         if (!$Author) {
             return $this->responseError([trans('api.general.notFound')]);

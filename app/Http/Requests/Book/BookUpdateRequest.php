@@ -26,7 +26,6 @@ class BookUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|numeric',
             'description' => 'nullable|string',
             'title' => 'required|string|min:2',
             'pages' => 'nullable|integer',
@@ -40,7 +39,6 @@ class BookUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id.required' => trans('api.field.required'),
             'firstname.required' => trans('api.field.required'),
             'firstname.min' => trans('api.firstname.min'),
             'lastname.required' => trans('api.field.required'),

@@ -29,10 +29,10 @@ interface AuthorRepositoryInterface extends AbstractRepositoryInterface
     public function update(AuthorUpdateDto $authorUpdateDto): ?bool;
 
     /**
-     * @param AuthorRemoveDto $authorRemoveDto
+     * @param int $authorId
      * @return Author|null
      */
-    public function remove(AuthorRemoveDto $authorRemoveDto): ?Author;
+    public function remove(int $authorId): ?Author;
 
     /**
      * @param AuthorStoreDto $authorStoreDto

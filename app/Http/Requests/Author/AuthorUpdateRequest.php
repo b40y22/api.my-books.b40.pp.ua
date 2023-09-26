@@ -27,7 +27,6 @@ class AuthorUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|numeric',
             'firstname' => 'required|string|min:3',
             'lastname' => 'required|string|min:3',
         ];
@@ -39,7 +38,6 @@ class AuthorUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id.required' => trans('api.field.required'),
             'firstname.required' => trans('api.field.required'),
             'firstname.min' => trans('api.firstname.min'),
             'lastname.required' => trans('api.field.required'),
