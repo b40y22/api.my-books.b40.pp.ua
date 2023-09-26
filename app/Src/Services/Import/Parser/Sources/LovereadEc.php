@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Src\Services\Import\Parser\Sources;
 
-use App\Src\Common\Books\Builder\BuilderBookInterface;
-use App\Src\Common\Books\Builder\ReadBook;
 use App\Src\Services\Http\Crawler;
 use App\Src\Traits\ExternalSourceTrait;
+use App\Src\ValueObjects\Book\BuilderBookInterface;
+use App\Src\ValueObjects\Book\ReadBook;
 use Crwlr\Crawler\Exceptions\UnknownLoaderKeyException;
 use Crwlr\Crawler\Steps\Dom;
 use Crwlr\Crawler\Steps\Html;
@@ -152,7 +152,7 @@ final class LovereadEc extends AbstractParser implements SourceInterface
      */
     protected function extractBookIdFromLink(): int
     {
-        $bookId = str_replace(env('LOVEREAD_EC_HOST') . 'view_global.php?id=', '', $this->link);
+        $bookId = str_replace('http://loveread.ec/view_global.php?id=', '', $this->link);
         if (!$bookId) {
             Log::error('Can`t get bookId from link', ['link' => $this->link]);
 
@@ -197,7 +197,7 @@ final class LovereadEc extends AbstractParser implements SourceInterface
         );
 
         for ($pageNumber = 1; $pageNumber <= $this->ReadBook->getPages(); $pageNumber++) {
-            $result[] = $this->getCurrentPageContext(env('LOVEREAD_EC_HOST') . 'read_book.php?id=' . $this->ReadBook->getBookId() . '&p=' . $pageNumber);
+            $result[] = $this->getCurrentPageContext('http://loveread.ec/read_book.php?id=' . $this->ReadBook->getBookId() . '&p=' . $pageNumber);
         }
 
         $this->ReadBook->setContext($result);

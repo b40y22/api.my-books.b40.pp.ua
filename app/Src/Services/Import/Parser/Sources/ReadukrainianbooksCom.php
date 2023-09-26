@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Src\Services\Import\Parser\Sources;
 
-use App\Src\Common\Books\Builder\BuilderBookInterface;
-use App\Src\Common\Books\Builder\ReadBook;
 use App\Src\Services\Http\Crawler;
 use App\Src\Traits\ExternalSourceTrait;
+use App\Src\ValueObjects\Book\BuilderBookInterface;
+use App\Src\ValueObjects\Book\ReadBook;
 use Crwlr\Crawler\Exceptions\UnknownLoaderKeyException;
 use Crwlr\Crawler\Steps\Dom;
 use Crwlr\Crawler\Steps\Html;

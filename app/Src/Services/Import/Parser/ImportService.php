@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace App\Src\Services\Import\Parser;
 
-use App\Src\Common\Books\Builder\ReadBook;
 use App\Src\Dto\Import\ImportBookDto;
 use App\Src\Services\File\FileService;
 use App\Src\Services\Import\ContextLocation\ContextLocationInterface;
 use App\Src\Storages\LocalStorage;
 use App\Src\Traits\HttpTrait;
+use App\Src\ValueObjects\Book\ReadBook;
 use App\Src\ValueObjects\File\Direction\Download;
 use App\Src\ValueObjects\File\Image\Image;
 use Exception;

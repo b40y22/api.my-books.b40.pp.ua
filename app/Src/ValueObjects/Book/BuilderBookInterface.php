@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Src\Common\Books\Builder;
+namespace App\Src\ValueObjects\Book;
 
 interface BuilderBookInterface
 {

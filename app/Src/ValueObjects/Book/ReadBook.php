@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Src\Common\Books\Builder;
+namespace App\Src\ValueObjects\Book;
 
 use App\Src\ValueObjects\File\File;
 

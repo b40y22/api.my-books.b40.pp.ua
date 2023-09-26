@@ -8,7 +8,10 @@ use App\Src\ValueObjects\File\Image\Image;
 
 class LocalStorage implements StorageInterface
 {
-
+    /**
+     * @param File $file
+     * @return void
+     */
     public function store(File $file): void
     {
         if ($file instanceof Image) {

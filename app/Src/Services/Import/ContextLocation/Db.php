@@ -6,7 +6,6 @@ namespace App\Src\Services\Import\ContextLocation;
 use App\Events\Actions\PostBookCreateEvent;
 use App\Exceptions\ApiArgumentsException;
 use App\Exceptions\ExternalServiceException;
-use App\Src\Common\Books\Builder\BuilderBookInterface;
 use App\Src\Dto\Book\BookStoreDto;
 use App\Src\Repositories\Eloquent\AuthorRepository;
 use App\Src\Repositories\Eloquent\BookContextRepository;
@@ -14,6 +13,7 @@ use App\Src\Repositories\Eloquent\BookRepository;
 use App\Src\Repositories\Interfaces\BookContextRepositoryInterface;
 use App\Src\Services\Book\BookStoreService;
 use App\Src\Traits\FileNameGenerate;
+use App\Src\ValueObjects\Book\BuilderBookInterface;
 
 class Db implements ContextLocationInterface
 {
