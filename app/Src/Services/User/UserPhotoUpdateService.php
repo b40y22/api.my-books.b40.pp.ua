@@ -23,16 +23,18 @@ class UserPhotoUpdateService implements UserPhotoUpdateServiceInterface
     ) {}
 
     /**
+     * TODO - При оновленні аватара користувача старе зображення потрібно видалити
      * @throws Exception
      */
     public function upload(Request $userUpdateRequest): array
     {
         $direction = new Upload();
+        $photo = $userUpdateRequest->file('photo');
 
         $image = new Image();
         $image->newFilename();
-        $image->setExtension($userUpdateRequest->file('photo')->getClientOriginalExtension());
-        $image->setSourcePath($userUpdateRequest->file('photo')->getRealPath());
+        $image->setExtension($photo->getClientOriginalExtension());
+        $image->setSourcePath($photo->getRealPath());
         $image->setDestinationPath('/images/users');
         $image->setHeight(100);
         $image->setWidth(100);

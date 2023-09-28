@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Src\Services\Import\Parser\Sources;
 
 use App\Src\Services\Http\Crawler;
+use App\Src\ValueObjects\File\Direction\Download;
+use App\Src\ValueObjects\File\Image\Image;
 use Crwlr\Crawler\Exceptions\UnknownLoaderKeyException;
 use Crwlr\Crawler\Steps\Dom;
 use Crwlr\Crawler\Steps\Html;
@@ -70,5 +72,26 @@ abstract class AbstractParser
         }
 
         return [];
+    }
+
+    /**
+     * @param string $imageLink
+     * @return Image
+     * @throws Exception
+     */
+    protected function createImageObjectForDownload(string $imageLink): Image
+    {
+        $direction = (new Download())->setDownloadLink($imageLink);
+
+        return (new Image())
+            ->newFilename()
+            ->setExtension(
+                pathinfo($direction->getDownloadLink(), PATHINFO_EXTENSION)
+            )
+            ->setSourcePath()
+            ->setDestinationPath('/images/books')
+            ->setWidth(200)
+            ->setHeight(300)
+            ->setDirection($direction);
     }
 }

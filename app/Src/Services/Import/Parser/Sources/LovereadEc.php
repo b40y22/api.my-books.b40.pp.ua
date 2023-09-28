@@ -133,7 +133,9 @@ final class LovereadEc extends AbstractParser implements SourceInterface
                 }
 
                 if ($result->get('imageLink')) {
-                    $this->ReadBook->setImage($result->get('imageLink'));
+                    $this->ReadBook->setFiles(
+                        ['image' => $this->createImageObjectForDownload($result->get('imageLink'))]
+                    );
                 }
                 if ($result->get('bookData')[1]) {
                     $this->ReadBook->setDescription($result->get('bookData')[1]);

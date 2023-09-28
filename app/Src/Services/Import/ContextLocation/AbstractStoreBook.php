@@ -9,6 +9,9 @@ use App\Src\Repositories\Eloquent\AuthorRepository;
 use App\Src\Repositories\Eloquent\BookRepository;
 use App\Src\Services\Book\BookStoreService;
 use App\Src\ValueObjects\Book\ReadBookInterface;
+use App\Src\ValueObjects\File\Direction\Create;
+use App\Src\ValueObjects\File\Pdf\Pdf as PdfFile;
+use Exception;
 use Illuminate\Support\Facades\Log;
 
 abstract class AbstractStoreBook
@@ -29,7 +32,7 @@ abstract class AbstractStoreBook
                 'year' => $readBook->getYear(),
 
                 'user_id' => $additionalInformation['user_id'] ?? null,
-                'files' => $additionalInformation['files'] ?? null,
+                'files' => $readBook->getFilesAsArray() ?? null,
             ]);
 
             return (new BookStoreService(
@@ -42,5 +45,22 @@ abstract class AbstractStoreBook
         }
 
         return null;
+    }
+
+    /**
+     * @param string $filename
+     * @return PdfFile
+     * @throws Exception
+     */
+    protected function createPdfObject(string $filename): PdfFile
+    {
+        $direction = (new Create())->setPath('/books/' . PdfFile::makeFullFilename($filename));
+
+        return (new PdfFile())
+            ->setFilename($filename)
+            ->setExtension(PdfFile::EXTENSION)
+            ->setSourcePath()
+            ->setDestinationPath('/books')
+            ->setDirection($direction);
     }
 }

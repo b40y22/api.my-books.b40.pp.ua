@@ -85,7 +85,9 @@ final class ReadukrainianbooksCom extends AbstractParser  implements SourceInter
                 ); // TODO: тут тонке місце - авторів може трапитись більше. Але не знайшов на сайті приклада
 
                 if ($allInfo['imageLink']) {
-                    $this->ReadBook->setImage($allInfo['imageLink']);
+                    $this->ReadBook->setFiles(
+                        ['image' => $this->createImageObjectForDownload($allInfo['imageLink'])]
+                    );
                 }
                 if ($allInfo['description']) {
                     $this->ReadBook->setDescription($allInfo['description']);
@@ -99,6 +101,7 @@ final class ReadukrainianbooksCom extends AbstractParser  implements SourceInter
     }
 
     /**
+     * TODO - необхідно привести до одного стандарта контекст книжок які парсю. PDF тут не працює
      * @throws UnknownLoaderKeyException
      */
     private function getBookContext(): void

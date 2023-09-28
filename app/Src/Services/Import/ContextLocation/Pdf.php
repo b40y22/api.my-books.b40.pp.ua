@@ -12,7 +12,6 @@ use App\Src\ValueObjects\Book\ReadBookInterface;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Mpdf\Mpdf;
-use Mpdf\MpdfException;
 
 class Pdf extends AbstractStoreBook implements ContextLocationInterface
 {
@@ -45,8 +44,7 @@ class Pdf extends AbstractStoreBook implements ContextLocationInterface
      */
     protected function createPdf(): bool
     {
-        try {
-
+       try {
             $mpdf = new Mpdf([
                 'tempDir' => __DIR__ . '/tmp',
                 'default_font_size' => 10,
@@ -59,9 +57,10 @@ class Pdf extends AbstractStoreBook implements ContextLocationInterface
 
             $allText = [];
             foreach ($this->BookForStore->getContext() as $page) {
+                dump($page);
                 $allText = array_merge($allText, $page);
             }
-
+//dd($allText);
             foreach ($allText as $index => $line) {
                 if ($index === 0) {
                     $mpdf->WriteHTML('<p style="align-content: center; font-size: 16px; font-style: oblique; vertical-align: center">'
@@ -76,13 +75,17 @@ class Pdf extends AbstractStoreBook implements ContextLocationInterface
             $path = public_path(sprintf("/books/%s.pdf", $filename));
             $mpdf->Output($path, 'F');
 
-            $Book = $this->saveBook($filename);
+            $this->BookForStore->addToFiles(
+                ['pdf' => $this->createPdfObject($filename)]
+            );
 
-            if (!$Book) {
+            $BookInDatabase = $this->saveBookToDatabase();
+
+            if (!$BookInDatabase) {
                 throw new Exception('[Pdf:createPdf] can`t store book to database');
             }
 
-            $this->postCreateBook($Book);
+            $this->postCreateBook($BookInDatabase);
 
         } catch (Exception $e) {
             Log::error('[Pdf:createPdf]', ['create and save PDF document is wrong']);
@@ -94,17 +97,13 @@ class Pdf extends AbstractStoreBook implements ContextLocationInterface
     }
 
     /**
-     * @param string $filename
      * @return Book|null
      */
-    private function saveBook(string $filename): ?Book
+    private function saveBookToDatabase(): ?Book
     {
         return $this->basicStoreBook(
             $this->BookForStore,
-            [
-                'user_id' => $this->userId,
-                'files' => ['pdf' => $filename . '.pdf']
-            ]
+            ['user_id' => $this->userId]
         );
     }
 

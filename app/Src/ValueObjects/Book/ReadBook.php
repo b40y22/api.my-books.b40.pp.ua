@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Src\ValueObjects\Book;
 
+use App\Src\ValueObjects\File\File;
+use Exception;
+
 class ReadBook implements ReadBookInterface
 {
     /**
@@ -26,9 +29,9 @@ class ReadBook implements ReadBookInterface
     private string $description = '';
 
     /**
-     * @var string
+     * @var array
      */
-    private string $image = '';
+    private array $files;
 
     /**
      * @var string
@@ -114,17 +117,14 @@ class ReadBook implements ReadBookInterface
         $this->description = $description;
     }
 
-    public function getImage(): string
+    public function getFiles(): array
     {
-        return $this->image;
+        return $this->files;
     }
 
-    /**
-     * @param string $image
-     */
-    public function setImage(string $image): void
+    public function setFiles(array $files): void
     {
-        $this->image = $image;
+        $this->files = $files;
     }
 
     /**
@@ -189,5 +189,25 @@ class ReadBook implements ReadBookInterface
     public function setYear(int $year): void
     {
         $this->year = $year;
+    }
+
+    public function addToFiles(array $newFile): void
+    {
+        $this->files = array_merge($this->files, $newFile);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getFilesAsArray(): array
+    {
+        $result = [];
+
+        foreach ($this->files as $extension => $file) {
+            /** @var File $file */
+            $result[$extension] = $file->getFullFilename();
+        }
+
+        return $result;
     }
 }

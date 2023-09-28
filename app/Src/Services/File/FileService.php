@@ -16,13 +16,12 @@ class FileService implements FileServiceInterface
     /**
      * @param File $file
      * @param StorageInterface $storage
-     * @return mixed
+     * @return File
      * @throws GuzzleException
      * @throws Exception
      */
-    public function download(File $file, StorageInterface $storage): mixed
+    public function download(File $file, StorageInterface $storage): File
     {
-
         $response = (new Client())->request(
             'GET',
             $file->getDirection()->getDownloadLink(),
