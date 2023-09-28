@@ -26,10 +26,10 @@ class ImportBookJob implements ShouldQueue
     ) {}
 
     /**
-     * @return void
+     * @return bool
      */
-    public function handle(): void
+    public function handle(): bool
     {
-        $this->importService->importBook($this->bookDto);
+        return $this->importService->importBook($this->bookDto);
     }
 }

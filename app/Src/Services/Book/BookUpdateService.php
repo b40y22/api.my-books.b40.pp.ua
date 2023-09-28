@@ -24,6 +24,6 @@ class BookUpdateService implements BookUpdateServiceInterface
     {
         $this->bookRepository->update($bookUpdateDto);
 
-        return $this->bookRepository->get($bookUpdateDto->getId());
+        return $this->bookRepository->get($bookUpdateDto->id);
     }
 }

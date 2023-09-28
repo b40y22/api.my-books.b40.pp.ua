@@ -39,6 +39,11 @@ class BookStoreDto extends AbstractDto
     protected ?int $year;
 
     /**
+     * @var array|mixed|null
+     */
+    readonly public ?array $files;
+
+    /**
      * @param array $book
      */
     public function __construct(array $book)
@@ -51,6 +56,7 @@ class BookStoreDto extends AbstractDto
         $this->title = $book['title'];
         $this->pages = isset($book['pages']) ? (int) $book['pages'] : null;
         $this->year = isset($book['year']) ? (int) $book['year'] : null;
+        $this->files = $book['files'] ?? null;
     }
 
     /**

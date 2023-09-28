@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace App\Src\ValueObjects\Book;
 
-use App\Src\ValueObjects\File\File;
-
-class ReadBook implements BuilderBookInterface
+class ReadBook implements ReadBookInterface
 {
     /**
      * @var array
@@ -26,11 +24,6 @@ class ReadBook implements BuilderBookInterface
      * @var string
      */
     private string $description = '';
-
-    /**
-     * @var File
-     */
-    private File $file;
 
     /**
      * @var string
@@ -196,15 +189,5 @@ class ReadBook implements BuilderBookInterface
     public function setYear(int $year): void
     {
         $this->year = $year;
-    }
-
-    public function getFile(): File
-    {
-        return $this->file;
-    }
-
-    public function setFile(File $file): void
-    {
-        $this->file = $file;
     }
 }

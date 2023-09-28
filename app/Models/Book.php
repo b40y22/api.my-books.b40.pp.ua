@@ -46,6 +46,10 @@ class Book extends Model
         'pivot',
     ];
 
+    protected $casts = [
+        'files' => 'json',
+    ];
+
     /**
      * @return BelongsToMany
      */

@@ -13,20 +13,20 @@ use App\Src\Repositories\Eloquent\BookRepository;
 use App\Src\Repositories\Interfaces\BookContextRepositoryInterface;
 use App\Src\Services\Book\BookStoreService;
 use App\Src\Traits\FileNameGenerate;
-use App\Src\ValueObjects\Book\BuilderBookInterface;
+use App\Src\ValueObjects\Book\ReadBookInterface;
 
-class Db implements ContextLocationInterface
+class Db extends AbstractStoreBook implements ContextLocationInterface
 {
     use FileNameGenerate;
 
     protected BookContextRepositoryInterface $bookContextRepository;
 
     /**
-     * @param BuilderBookInterface $BookForStore
+     * @param ReadBookInterface $BookForStore
      * @param int $userId
      */
     public function __construct(
-        protected BuilderBookInterface $BookForStore,
+        protected ReadBookInterface $BookForStore,
         protected int $userId
     ) {
         $this->bookContextRepository = new BookContextRepository();
@@ -34,24 +34,14 @@ class Db implements ContextLocationInterface
 
     /**
      * @return bool
-     * @throws ApiArgumentsException
      * @throws ExternalServiceException
      */
     public function handle(): bool
     {
-        $BookStoreDto = new BookStoreDto([
-            'user_id' => $this->userId,
-            'authors' => $this->BookForStore->getAuthors(),
-            'description' => $this->BookForStore->getDescription(),
-            'title' => $this->BookForStore->getTitle(),
-            'pages' => $this->BookForStore->getPages(),
-            'year' => $this->BookForStore->getYear(),
-        ]);
-
-        $Book = (new BookStoreService(
-            new BookRepository(),
-            new AuthorRepository()
-        ))->store($BookStoreDto);
+        $Book = $this->basicStoreBook(
+            $this->BookForStore,
+            ['user_id' => $this->userId]
+        );
 
         // For create new message about new book
         event(new PostBookCreateEvent($Book));

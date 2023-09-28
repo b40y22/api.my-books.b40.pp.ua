@@ -5,7 +5,7 @@ namespace App\Src\Services\Import\Parser\Sources;
 
 use App\Src\Services\Http\Crawler;
 use App\Src\Traits\ExternalSourceTrait;
-use App\Src\ValueObjects\Book\BuilderBookInterface;
+use App\Src\ValueObjects\Book\ReadBookInterface;
 use App\Src\ValueObjects\Book\ReadBook;
 use Crwlr\Crawler\Exceptions\UnknownLoaderKeyException;
 use Crwlr\Crawler\Steps\Dom;
@@ -39,7 +39,7 @@ final class ReadukrainianbooksCom extends AbstractParser  implements SourceInter
     /**
      * @throws Exception
      */
-    public function handle(): BuilderBookInterface
+    public function handle(): ReadBookInterface
     {
         if (!$this->link) {
             throw new Exception('Link can`t be empty');

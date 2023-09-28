@@ -62,7 +62,10 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
      */
     public function update(BookUpdateDto $bookUpdateDto): ?bool
     {
-        $Book = $this->model::where(['id' => $bookUpdateDto->getId(), 'user_id' => Auth::id()])->first();
+        $Book = $this->model::where([
+            'id' => $bookUpdateDto->id,
+            'user_id' => Auth::id()
+        ])->first();
 
         if (!$Book) {
             return null;
@@ -126,7 +129,7 @@ class BookRepository extends AbstractRepository implements BookRepositoryInterfa
                 ->with('authors')
                 ->paginate($pagination->perPage);
         }
-Log::info(Auth::id());
+
         $pagination->total = $value->total();
         $pagination->lastPage = $value->lastPage();
         $pagination->items = $value->items();

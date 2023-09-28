@@ -53,7 +53,9 @@ final class ImportService implements ImportServiceInterface
 
         $image = (new Image())
             ->newFilename()
-            ->setExtension(pathinfo($direction->getDownloadLink(), PATHINFO_EXTENSION))
+            ->setExtension(
+                pathinfo($direction->getDownloadLink(), PATHINFO_EXTENSION)
+            )
             ->setSourcePath()
             ->setDestinationPath('/images/books')
             ->setWidth(200)

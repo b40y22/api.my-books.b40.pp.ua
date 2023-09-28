@@ -10,7 +10,7 @@ class BookUpdateDto extends AbstractDto
     /**
      * @var int
      */
-    protected int $id;
+    readonly public int $id;
 
     /**
      * @var int
@@ -38,6 +38,11 @@ class BookUpdateDto extends AbstractDto
     protected ?int $year;
 
     /**
+     * @var array
+     */
+    readonly public array $files;
+
+    /**
      * @param array $book
      */
     public function __construct(array $book)
@@ -46,12 +51,9 @@ class BookUpdateDto extends AbstractDto
         $this->title = $book['title'];
         $this->pages = $book['pages'] ?? null;
         $this->year = $book['year'] ?? null;
+        $this->files = $book['$files'] ?? null;
     }
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
 
     public function setId(int $id): void
     {

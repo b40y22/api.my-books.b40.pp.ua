@@ -31,17 +31,17 @@
         }
         .authors {
             font-size: 16px;
-            margin: 40px auto;
+            margin: 40px auto 0 auto;
         }
         .cover {
-            margin-top: 20px;
+            margin-top:20px;
         }
         .cover-image {
             height: 200px;
         }
         .year {
             font-size: 16px;
-            margin-top: 660px;
+            margin-top: 600px;
         }
         .left {
             text-align: left;
@@ -62,20 +62,12 @@
         </div>
 
         <div class="cover center">
-            <img class="cover-image" src="{{$book['cover']}}" alt="">
+            <img class="cover-image" src="{{$book['image']}}" alt="">
         </div>
 
         <div class="year center">
             {{$book['year']}} г.
         </div>
-    </div>
-
-    <div class="container left">
-        @foreach($book['context'] as $page)
-            @foreach($page as $line)
-                {{$line}}
-            @endforeach
-        @endforeach
     </div>
 </body>
 </html>
