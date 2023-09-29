@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Jobs\Import;
 
-use App\Src\Dto\Import\ImportBookDto;
-use App\Src\Services\Import\Parser\ImportServiceInterface;
-use App\Src\Traits\HttpTrait;
+use App\Dto\Import\ImportBookDto;
+use App\Services\Import\Parser\ImportServiceInterface;
+use App\Traits\HttpTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

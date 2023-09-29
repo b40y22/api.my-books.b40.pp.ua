@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Author;
 
 use App\Http\Controllers\Controller;
-use App\Src\Repositories\Interfaces\AuthorRepositoryInterface;
+use App\Repositories\Interfaces\AuthorRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
 class AuthorRemoveController extends Controller

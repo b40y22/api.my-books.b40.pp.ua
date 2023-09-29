@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Jobs\Monitoring;
 
-use App\Src\Services\Monitoring\MonitoringServiceInterface;
-use App\Src\Traits\HttpTrait;
+use App\Services\Monitoring\MonitoringServiceInterface;
+use App\Traits\HttpTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

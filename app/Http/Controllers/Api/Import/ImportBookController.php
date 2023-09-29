@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Import;
 
+use App\Dto\Import\ImportBookDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Import\ImportBookRequest;
 use App\Jobs\Import\ImportBookJob;
-use App\Src\Dto\Import\ImportBookDto;
-use App\Src\Repositories\Interfaces\ExternalSourceRepositoryInterface;
-use App\Src\Services\Import\Parser\ImportServiceInterface;
-use App\Src\Traits\HttpTrait;
+use App\Repositories\Interfaces\ExternalSourceRepositoryInterface;
+use App\Services\Import\Parser\ImportServiceInterface;
+use App\Traits\HttpTrait;
 use Illuminate\Http\JsonResponse;
 
 class ImportBookController extends Controller

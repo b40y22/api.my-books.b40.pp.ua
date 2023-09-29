@@ -2,14 +2,14 @@
 
 namespace App\Providers;
 
-use App\Src\Repositories\Eloquent\AuthorRepository;
-use App\Src\Repositories\Eloquent\BookRepository;
-use App\Src\Repositories\Eloquent\MessageRepository;
-use App\Src\Repositories\Eloquent\UserRepository;
-use App\Src\Repositories\Interfaces\AuthorRepositoryInterface;
-use App\Src\Repositories\Interfaces\BookRepositoryInterface;
-use App\Src\Repositories\Interfaces\MessageRepositoryInterface;
-use App\Src\Repositories\Interfaces\UserRepositoryInterface;
+use App\Repositories\Eloquent\AuthorRepository;
+use App\Repositories\Eloquent\BookRepository;
+use App\Repositories\Eloquent\MessageRepository;
+use App\Repositories\Eloquent\UserRepository;
+use App\Repositories\Interfaces\AuthorRepositoryInterface;
+use App\Repositories\Interfaces\BookRepositoryInterface;
+use App\Repositories\Interfaces\MessageRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider

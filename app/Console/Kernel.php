@@ -2,8 +2,6 @@
 
 namespace App\Console;
 
-use App\Console\Commands\ExternalMonitoring;
-use App\Src\Services\Monitoring\MonitoringService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 

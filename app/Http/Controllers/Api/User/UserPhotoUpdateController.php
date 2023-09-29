@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
-use App\Src\Services\User\Interfaces\UserPhotoUpdateServiceInterface;
+use App\Services\User\Interfaces\UserPhotoUpdateServiceInterface;
 use Illuminate\Http\Request;
 
 class UserPhotoUpdateController extends Controller

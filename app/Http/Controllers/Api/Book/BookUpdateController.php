@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Book;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\BookUpdateRequest;
-use App\Src\Services\Book\Interfaces\BookUpdateServiceInterface;
+use App\Services\Book\Interfaces\BookUpdateServiceInterface;
 use Illuminate\Http\JsonResponse;
 
 class BookUpdateController extends Controller

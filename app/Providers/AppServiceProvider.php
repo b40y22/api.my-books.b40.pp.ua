@@ -2,26 +2,26 @@
 
 namespace App\Providers;
 
-use App\Src\Repositories\Eloquent\ExternalSourceRepository;
-use App\Src\Repositories\Interfaces\ExternalSourceRepositoryInterface;
-use App\Src\Services\Auth\Interfaces\AuthServiceInterface;
-use App\Src\Services\Auth\LoginService;
-use App\Src\Services\Book\BookListService;
-use App\Src\Services\Book\BookStoreService;
-use App\Src\Services\Book\BookUpdateService;
-use App\Src\Services\Book\Interfaces\BookListServiceInterface;
-use App\Src\Services\Book\Interfaces\BookStoreServiceInterface;
-use App\Src\Services\Book\Interfaces\BookUpdateServiceInterface;
-use App\Src\Services\File\FileService;
-use App\Src\Services\File\FileServiceInterface;
-use App\Src\Services\Import\Parser\ImportService;
-use App\Src\Services\Import\Parser\ImportServiceInterface;
-use App\Src\Services\Monitoring\MonitoringService;
-use App\Src\Services\Monitoring\MonitoringServiceInterface;
-use App\Src\Services\User\Interfaces\UserPhotoUpdateServiceInterface;
-use App\Src\Services\User\Interfaces\UserUpdateServiceInterface;
-use App\Src\Services\User\UserPhotoUpdateService;
-use App\Src\Services\User\UserUpdateService;
+use App\Repositories\Eloquent\ExternalSourceRepository;
+use App\Repositories\Interfaces\ExternalSourceRepositoryInterface;
+use App\Services\Auth\Interfaces\AuthServiceInterface;
+use App\Services\Auth\LoginService;
+use App\Services\Book\BookListService;
+use App\Services\Book\BookStoreService;
+use App\Services\Book\BookUpdateService;
+use App\Services\Book\Interfaces\BookListServiceInterface;
+use App\Services\Book\Interfaces\BookStoreServiceInterface;
+use App\Services\Book\Interfaces\BookUpdateServiceInterface;
+use App\Services\File\FileService;
+use App\Services\File\FileServiceInterface;
+use App\Services\Import\Parser\ImportService;
+use App\Services\Import\Parser\ImportServiceInterface;
+use App\Services\Monitoring\MonitoringService;
+use App\Services\Monitoring\MonitoringServiceInterface;
+use App\Services\User\Interfaces\UserPhotoUpdateServiceInterface;
+use App\Services\User\Interfaces\UserUpdateServiceInterface;
+use App\Services\User\UserPhotoUpdateService;
+use App\Services\User\UserUpdateService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

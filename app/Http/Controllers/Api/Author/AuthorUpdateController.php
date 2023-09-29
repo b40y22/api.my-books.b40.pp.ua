@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Author;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Author\AuthorUpdateRequest;
-use App\Src\Repositories\Interfaces\AuthorRepositoryInterface;
+use App\Repositories\Interfaces\AuthorRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
 class AuthorUpdateController extends Controller

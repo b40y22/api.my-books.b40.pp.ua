@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Src\Services\Auth\Interfaces\AuthServiceInterface;
+use App\Services\Auth\Interfaces\AuthServiceInterface;
 use Illuminate\Http\JsonResponse;
 
 class LoginController extends Controller

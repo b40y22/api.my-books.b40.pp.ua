@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use App\Events\Actions\PostBookCreateEvent;
-use App\Src\Repositories\Interfaces\MessageRepositoryInterface;
+use App\Repositories\Interfaces\MessageRepositoryInterface;
 
 class PostBookCreateListener
 {

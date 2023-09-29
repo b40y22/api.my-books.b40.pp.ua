@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Book;
 
 use App\Http\Controllers\Controller;
-use App\Src\Repositories\Interfaces\BookRepositoryInterface;
+use App\Repositories\Interfaces\BookRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 

@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\ExternalSource;
 
-use App\Src\Dto\ExternalSource\ExternalSourceStoreDto;
-use App\Src\Traits\ErrorResponseTrait;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Dto\ExternalSource\ExternalSourceStoreDto;
+use App\Traits\ErrorResponseTrait;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
 class ExternalSourceStoreRequest extends FormRequest

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserUpdateRequest;
-use App\Src\Services\User\Interfaces\UserUpdateServiceInterface;
+use App\Services\User\Interfaces\UserUpdateServiceInterface;
 use Illuminate\Http\JsonResponse;
 
 

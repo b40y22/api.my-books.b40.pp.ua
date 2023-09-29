@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\ExternalSource;
 
 use App\Http\Controllers\Controller;
-use App\Src\Repositories\Interfaces\ExternalSourceRepositoryInterface;
+use App\Repositories\Interfaces\ExternalSourceRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
 class ExternalSourceListController extends Controller
