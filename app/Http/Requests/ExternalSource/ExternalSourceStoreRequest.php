@@ -30,6 +30,7 @@ class ExternalSourceStoreRequest extends FormRequest
             'class_name' => 'required|unique:external_sources|string|min:3',
             'title' => 'required|string|min:3',
             'url' => 'required|unique:external_sources|url:http,https',
+            'status' => 'required|boolean',
         ];
     }
 
@@ -45,6 +46,7 @@ class ExternalSourceStoreRequest extends FormRequest
             'url.unique' => trans('api.field.unique'),
             'class_name.required' => trans('api.field.required'),
             'class_name.unique' => trans('api.field.unique'),
+            'status.required' => trans('api.field.required'),
         ];
     }
 

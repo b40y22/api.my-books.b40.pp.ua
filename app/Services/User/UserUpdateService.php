@@ -6,6 +6,8 @@ namespace App\Services\User;
 use App\Dto\User\UserUpdateDto;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Services\User\Interfaces\UserUpdateServiceInterface;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class UserUpdateService implements UserUpdateServiceInterface
 {
@@ -15,8 +17,14 @@ class UserUpdateService implements UserUpdateServiceInterface
 
     public function update(UserUpdateDto $userUpdateDto): ?array
     {
-        $this->userRepository->update($userUpdateDto);
+        try {
+            $this->userRepository->update($userUpdateDto);
 
-        return $this->userRepository->get($userUpdateDto->getId());
+            return $this->userRepository->get($userUpdateDto->getId());
+        } catch (Exception $e) {
+            Log::error('[UserUpdateService:update]', ['update action was wrong']);
+        }
+
+        return null;
     }
 }

@@ -34,7 +34,7 @@ class ImportBookController extends Controller
         $className = $this->getParserClassNameFromDomain($importBookRequest->get('link'));
         $externalSource = $this->externalSourceRepository->getExternalSourceByClassName($className);
 
-        if ($externalSource->status) {
+        if ($externalSource && $externalSource->status) {
             $ImportBookDto = new ImportBookDto($importBookRequest->validatedDTO()->toArray());
 
             dispatch((new ImportBookJob($this->importService, $ImportBookDto))->onQueue('import'));

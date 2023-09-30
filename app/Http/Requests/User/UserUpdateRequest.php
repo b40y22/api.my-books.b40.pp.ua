@@ -27,8 +27,8 @@ class UserUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|email|max:255',
+            'name' => 'string|max:255',
+            'email' => 'email|max:255',
         ];
     }
 
@@ -59,7 +59,7 @@ class UserUpdateRequest extends FormRequest
      */
     public function validatedDTO(): UserUpdateDto
     {
-        return new UserUpdateDto($this->all());
+        return new UserUpdateDto($this->validated());
     }
 
     /**

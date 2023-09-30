@@ -37,6 +37,6 @@ class ExternalSourceStoreDto extends AbstractDto
         $this->class_name = $source['class_name'];
         $this->title = $source['title'];
         $this->url = $source['url'];
-        $this->status = null;
+        $this->status = $source['status'];
     }
 }
